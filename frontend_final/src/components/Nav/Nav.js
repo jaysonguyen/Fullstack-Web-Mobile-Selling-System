@@ -1,19 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Nav.css";
-import { getAllMobilePhone } from "../../Services/mobileService";
+import { getAllMobilePhone, createMobilePhone, deleteMobilePhone } from "../../Services/mobileService";
 
 function Nav(props) {
   const [mobile, setMobile] = useState([]);
 
   useEffect(() => {
     getAllMB();
+    createMB();
   }, []);
+
+
+  const handleClickDelete = () => {
+    deleteMB();
+    console.log("Clicked!")
+  }
 
   const getAllMB = async () => {
     let response = await getAllMobilePhone();
     setMobile(response.DT);
   };
+
+  const createMB = async () => {
+    await createMobilePhone({
+      MaMB: '22',
+      nameMB: 'Nguyen MB',
+    });
+  }
+
+  const deleteMB = async () => {
+    await deleteMobilePhone('22');
+  }
 
   return (
     <div>
@@ -29,6 +47,7 @@ function Nav(props) {
       <Link className="nav-link" to="/services">
         services
       </Link>
+      <button onClick={() => handleClickDelete()}>DELETE</button>
 
       <ul>
         {mobile.map((item, index) => {
