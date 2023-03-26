@@ -30,6 +30,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //app.use(errorHandler);
 
 app.use("/api/mobile/", require("./src/routes/mobileApi"));
+app.use("/api/customer/", require("./src/routes/customerApi"));
+
 
 app.listen(PORT, () => {
   console.log("App running on port: " + PORT);
