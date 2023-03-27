@@ -187,6 +187,10 @@ section .main_btn:hover i{
        
       
     }
+    .status{
+      width: 100px;
+      position: relative;
+    }
   }
 /* ------------------------------------- */
   /* --card dien thoai */
@@ -254,7 +258,6 @@ section .main_btn:hover i{
   }
 
   .status{
-    position: absolute;
     border-radius: 5px;
     border: 1px solid;
     width: 115px;
