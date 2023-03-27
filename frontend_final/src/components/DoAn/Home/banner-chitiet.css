@@ -1,0 +1,38 @@
+.main-banner{
+    height: 75vh;
+    width: 76%;
+    z-index: -23;
+}
+.wrapper
+,slide{
+    width: 100%;
+    height: 100%;
+}
+.slide .img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+
+}
+.slide::before{
+    content: "";
+    position: absolute;
+    height: 100%;
+    z-index: 10;
+    background-color: rgba(0,0,0);
+}
+
+@media  (max-width:1090px)  {
+.main-banner {
+        height: 400px;
+        transition: all .50s ease;
+    }
+    .m
+}
+@media  (max-width:720px)  {
+    .main-banner {
+        width: 800px;
+
+            transition: all .50s ease;
+        }
+    }

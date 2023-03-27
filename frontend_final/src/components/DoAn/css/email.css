@@ -1,0 +1,46 @@
+.email{
+    margin: auto;
+    width: 60%;
+    text-align: center;
+    color: #1D1D1F;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+.email p{
+    color: #515154;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.email input{
+    width: 600px;
+    height: 40px;
+    border-radius: 20px;
+    right: 0;
+    position: relative;
+    border: 0px;
+    padding-left: 50px;
+    font-size: 18px;
+}
+
+.sub button{
+    border-radius: 20px;
+    height: 40px;
+    width: 120px;
+    position: absolute;
+    right: 0;
+    border: 0px;
+    background-color:#0066CC;
+    color: white;
+    
+}
+.sub ::placeholder{
+    font-size: 18px;
+}
+
+.sub{
+width: 600px;
+margin: auto;
+position: relative;
+display: flex ;
+
+}

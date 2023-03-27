@@ -1,0 +1,316 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+section{
+    width: 100%;
+    height: 100vh;
+}
+
+section nav{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: fixed;
+    right: 0;
+    left: 0;
+    background: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    z-index: 1000;
+}
+
+section nav .logo img{
+    width: 100px;
+    cursor: pointer;
+    margin: 7px 0;
+}
+
+section nav ul{
+    list-style: none;
+}
+
+section nav ul li{
+    display: inline-block;
+    margin: 0 15px;
+}
+
+section nav ul li a{
+    text-decoration: none;
+    color: #000;
+    font-weight: 500;
+    font-size: 17px;
+    transition: 0.1s;
+}
+
+section nav ul li a::after{
+    content: '';
+    width: 0;
+    height: 2px;
+    background: #fac031;
+    display: block;
+    transition: 0.2s linear;
+}
+
+section nav ul li a:hover::after{
+    width: 100%;
+}
+
+section nav ul li a:hover{
+    color: #fac031;
+}
+
+section nav .icon i{
+    font-size: 18px;
+    color: #000;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+section nav .icon i:hover{
+    color: #fac031;
+}
+
+section .main{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    position: relative;
+    top: 130px;
+}
+
+section .main .men_text h1{
+    font-size: 60px;
+    position: relative;
+    top: -90px;
+    left: 20px;
+}
+
+section .main .men_text h1 span{
+    margin-left: 15px;
+    color: #fac031;
+    font-family: mv boli;
+    line-height: 22px;
+    font-size: 70px;
+}
+
+section .main .main_image img{
+    width: 700px;
+    position: relative;
+    left: 70px;
+}
+
+section p{
+    width: 650px;
+    text-align: justify;
+    position: relative;
+    left: 123px;
+    bottom: 120px;
+    line-height: 22px;
+}
+
+section .main_btn{
+    background: #fac031;
+    position: relative;
+    left: 123px;
+    bottom: 30px;
+    width: 150px;
+    cursor: pointer;
+    padding: 12px 25px;
+}
+
+section .main_btn a{
+    color: #fff;
+    margin-right: 5px;
+    text-decoration: none;
+}
+
+section .main_btn i{
+    color: #fff;
+    transition: 0.3s;
+}
+
+section .main_btn:hover i{
+    transform: translateX(7px);
+}
+
+.link{
+    position: relative;
+    height: 50px;
+    background-color: white;
+    color: #515154;
+    margin-top: 70px;
+    
+}
+.link-link{
+    position: relative;
+    height: 50px;
+    background-color: white;
+    color: #515154;
+    margin-top: 70px;
+    width: 76%;
+    margin: auto;
+
+}
+.link-link ul{
+    display: flex;
+
+}
+.link-link li,span{
+    padding-left: 10px;
+    margin-top: 15px;
+}
+.link-link a{
+    text-decoration: none;
+    color: #515154;
+}
+
+.loai{
+    margin: auto;
+    width: 76%;
+}
+.loai ul{
+    display: flex;
+
+}
+.loai li {
+    padding-right: 30px;
+    margin-top: 20px;
+}
+.loai a{
+    text-decoration: none;
+    color: #515154;
+}
+
+
+
+
+
+.cateName{
+    margin-top: 20px;
+    color: black;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+
+
+
+
+/* --product */
+.column {
+    margin-top: 30px;
+    float: left;
+    width: 25%;
+    padding: 0 10px;
+  }
+  
+  /* Remove extra left and right margins, due to padding */
+  .row {
+    margin-top: 40px;
+    width: 80%;
+    margin: auto;
+    
+}
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  /* Responsive columns */
+  @media screen and (max-width: 1090px) {
+    .column {
+      width: 300px;
+      display: block;
+      margin-bottom: 20px;
+      transition: all .50s ease;
+    }
+    .row{
+        margin-top: 50px;
+       
+      
+    }
+  }
+/* ------------------------------------- */
+  /* --card dien thoai */
+  .card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    margin: auto;
+    text-align: center;
+    font-family: arial;
+    margin-bottom: 50px;
+    background-color: white;
+    text-align: left;
+    transition: all .50s ease;
+
+  }
+  .imgPhone{
+    margin-top: 30px;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  
+  .price {
+    color: grey;
+    font-size: 22px;
+    margin-left: 20px;
+    font-weight: bold;
+    font-size: 18px;
+   padding-bottom: 10px;
+  color: #0066CC;
+
+  }
+  .NamePhone{
+    color: #000;
+    text-align: left;
+    margin-left: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    font-size: 18px;
+   
+  }
+/* ------------------------------- */
+  
+ 
+  /* --Category */
+  .cate{
+    color: #000;
+    text-align: center;
+    padding-top: 30px;
+  }
+  .btn-all{
+    text-align: center;
+  }
+
+  .btn-all button{
+    background-color: rgb(242, 242, 245);
+    height: 30px;
+    width: 250px;
+    border: 0px;
+    font-size: 15px;
+    color: #0066CC;
+  }
+  .btn-all button:hover{
+    background-color: #0066CC;
+    color: white;
+    border-color: white;
+    border: 1px;
+    border-radius: 20px;
+    
+  }
+  .row .card:hover{
+    transform: translateY(-20px);
+    transition: all .50s ease;
+  }
