@@ -1,0 +1,519 @@
+﻿CREATE TABLE PRODUCT(
+	ID_PRODUCT INT NOT NULL PRIMARY KEY,
+	PRODUCT_NAME NVARCHAR(1000) NOT NULL,
+	PRICE INT NOT NULL,
+	PRODUCT_DESC NVARCHAR(1000),
+	ID_TYPE_PRODUCT INT FOREIGN KEY REFERENCES PRODUCT_TYPE(ID_PRODUCT_TYPE),
+	PRODUCT_MODEL_NO VARCHAR(20),
+	BRAND nvarchar(100),
+	BASE_HARDWARE_CONFIGURATION VARCHAR(10)
+);
+
+
+
+EXEC sp_rename 'PRODUCT.BASE_HARDWARE_CONFIGURATION', 'BASE_HARDWARE_CONFIGURATION';
+
+CREATE TABLE IMAGE_PRODUCT (
+	ID_IMAGE INT PRIMARY KEY,
+	IMAGE_LINK TEXT,
+);
+
+
+
+CREATE TABLE PRODUC_IMAGE_DETAIL(
+	ID_IMAGE INT FOREIGN KEY REFERENCES IMAGE_PRODUCT(ID_IMAGE),
+	ID_PRODUCT INT FOREIGN KEY REFERENCES PRODUCT(ID_PRODUCT),
+	IMAGE_DESC TEXT
+);
+
+
+
+
+--OK
+CREATE TABLE COLOR(
+	ID_COLOR INT PRIMARY KEY NOT NULL,
+	COLOR_NAME VARCHAR(100),
+	COLOR_HEXA_CODE VARCHAR(8),
+);
+
+alter table COLOR
+add is_valid bit
+
+--OK
+CREATE TABLE COLOR_PRODUCT(
+	ID_COLOR INT FOREIGN KEY REFERENCES COLOR(ID_COLOR),
+	ID_PRODUCT INT FOREIGN KEY REFERENCES PRODUCT(ID_PRODUCT),
+);
+
+
+
+-- OKE
+CREATE TABLE PRODUCT_TYPE(
+	ID_PRODUCT_TYPE INT PRIMARY KEY,
+	NAME_PRODUCT_TYPE NVARCHAR(1000) NOT NULL,
+	PRODUCT_TYPE_DESC NVARCHAR(1000),
+);
+
+--OK
+CREATE TABLE CART(
+	ID_CART INT NOT NULL PRIMARY KEY,
+	QUANTITY SMALLINT,
+	SUBTOTAL INT,
+	ORDER_TOTAL INT,
+);
+
+--OK
+CREATE TABLE CART_PRODUCT(
+	ID_CART INT FOREIGN KEY REFERENCES CART(ID_CART),
+	ID_PRODUCT INT FOREIGN KEY REFERENCES PRODUCT(ID_PRODUCT),
+	CREATE_AT DATETIME,
+	UPDATE_AT DATETIME,
+);
+
+
+--OK
+CREATE TABLE HARDWARE_CONFIGURATION(
+	ID_HARDWARE_CONFIGURATION INT PRIMARY KEY NOT NULL,
+	CPU NVARCHAR(100),
+	STORAGE NVARCHAR(100),
+	PRODUCT_EXTENSION NVARCHAR(1000),
+	PRODUCT_CONNECT NVARCHAR(1000),
+	PRODUCT_SCREEN NVARCHAR(1000),
+	ID_PRODUCT INT CONSTRAINT FK_PRODUCT_HARDWARE FOREIGN KEY REFERENCES PRODUCT(ID_PRODUCT),
+);
+
+
+drop table HARDWARE_CONFIGURATION
+
+--OK
+CREATE TABLE TAG(
+	ID_TAG INT PRIMARY KEY,
+	TAG_NAME NVARCHAR(1000),
+);
+
+
+--OK
+CREATE TABLE TAG_PRODUCT(
+	ID_PRODUCT INT FOREIGN KEY REFERENCES PRODUCT(ID_PRODUCT),
+	ID_TAG INT FOREIGN KEY REFERENCES PRODUCT(ID_PRODUCT),
+);
+
+--OK
+CREATE TABLE VOUCHER(
+	ID_VOUCHER INT PRIMARY KEY NOT NULL,
+	VOUCHER_CODE VARCHAR(10),
+	VOUCHER_COST SMALLINT,
+	IS_VALID BIT,
+	EXP_DATE DATETIME,
+	QUANTITY SMALLINT
+);
+
+--OK
+CREATE TABLE PRODUCT_VOUCHER(
+	ID_PRODUCT INT FOREIGN KEY REFERENCES PRODUCT(ID_PRODUCT),
+	ID_VOUCHER INT FOREIGN KEY REFERENCES VOUCHER(ID_VOUCHER),
+);
+
+--OK
+CREATE TABLE PROMOTION(
+	ID_PROMOTION INT PRIMARY KEY NOT NULL,
+	PROMOTION_NAME NVARCHAR(1000),
+	EXP_DATE DATETIME,
+	START_TIME DATETIME,
+	PROMOTION_CONTENT TEXT,
+	PROMOTION_COST SMALLINT,
+	IS_VALID BIT
+);
+
+--OK
+CREATE TABLE PROMOTION_PRODUCT(
+	ID_PROMOTION INT FOREIGN KEY REFERENCES PROMOTION(ID_PROMOTION),
+	ID_PRODUCT INT FOREIGN KEY REFERENCES PRODUCT(ID_PRODUCT),
+);
+--OK
+CREATE TABLE ACCESSORY(
+	ID_ACCESSORY INT PRIMARY KEY NOT NULL,
+	PRICE INT,
+	ACCESSORY_NAME NVARCHAR(100),
+);
+--15.OK
+CREATE TABLE ACCESSORY_PRODUCT(
+	ID_ACCESSORY INT FOREIGN KEY REFERENCES ACCESSORY(ID_ACCESSORY),
+	ID_PRODUCT INT FOREIGN KEY REFERENCES PRODUCT(ID_PRODUCT),
+);
+
+--OK
+CREATE TABLE RATING(
+	ID_RATING INT PRIMARY KEY,
+	RATING_POINT TINYINT,
+	RATING_COMMENT NVARCHAR(1000),
+	ID_PRODUCT INT FOREIGN KEY REFERENCES PRODUCT(ID_PRODUCT),
+);
+--OK
+CREATE TABLE WARE_HOUSE(
+	ID_WARE_HOUSE INT PRIMARY KEY,
+	IMPORT_DATE DATETIME,
+	EXPORT_DATE DATETIME,
+	WARE_HOUSE_ADDRESS NVARCHAR(1000),
+);
+--OK
+CREATE TABLE PRODUCT_WAREHOUSE(
+	ID_WAREHOUSE INT FOREIGN KEY REFERENCES WARE_HOUSE(ID_WARE_HOUSE),
+	ID_PRODUCT INT FOREIGN KEY REFERENCES PRODUCT(ID_PRODUCT),
+	QUANTITY_PRODUCT INT,
+);
+--OK
+CREATE TABLE INVOCE_PRODUCT(
+	ID_INVOCE INT FOREIGN KEY REFERENCES INVOCE(ID_INVOCE),
+	PRODUCT_QUANTITY SMALLINT,
+	AMOUNT INT,
+	IT_PRODUCT INT FOREIGN KEY REFERENCES PRODUCT(ID_PRODUCT),
+);
+
+CREATE TABLE INVOCE(
+	ID_INVOCE INT PRIMARY KEY NOT NULL,
+	TOTAL INT,
+	STORE_ADDRESS NVARCHAR(1000),
+	ID_EMPLOYEE INT FOREIGN KEY REFERENCES EMPLOYEE(ID_EMPLOYEE),
+	ID_CUSTOMER INT FOREIGN KEY REFERENCES CUSTOMER(ID_CUSTOMER),
+);
+
+--OK
+CREATE TABLE EMPLOYEE(
+	ID_EMPLOYEE INT PRIMARY KEY,
+	EMPLOYEE_NAME NVARCHAR(1000),
+	PHONE_NUMBER VARCHAR(15),
+	EMPLOYEE_ADDRESS NVARCHAR(1000),
+	PERSON_ID VARCHAR(15),
+	EMAIL VARCHAR(1000),
+);
+
+--OK
+CREATE TABLE CUSTOMER(
+	ID_CUSTOMER INT PRIMARY KEY NOT NULL,
+	CUSTOMER_NAME NVARCHAR(1000) NOT NULL,
+	PHONE_NUMBER VARCHAR(15),
+	IS_VALID BIT,
+	DATE_OF_BIRTH DATETIME,
+	CUSTOMER_PASSWORD VARCHAR(10),
+	EMAIL VARCHAR(15),
+);
+
+alter table customer 
+alter column email varchar(100)
+--OK	
+CREATE TABLE PAYING(
+	ID_PAYING INT PRIMARY KEY,
+	PAY_METHOD NVARCHAR(100) NOT NULL,
+	PAYING_STATUS BIT,
+	ID_CUSTOMER INT FOREIGN KEY REFERENCES CUSTOMER(ID_CUSTOMER),
+);
+
+CREATE TABLE ORDER_PRODUCT(
+	ID_ORDER VARCHAR(10) PRIMARY KEY,
+	METHOD_RECEIVE NVARCHAR(100),
+	STORE_ADDRESS NVARCHAR(100),
+	OTHER_DEMAIND NVARCHAR(100),
+	ID_CART INT FOREIGN KEY REFERENCES CART(ID_CART),
+	ID_VOUCHER INT FOREIGN KEY REFERENCES VOUCHER(ID_VOUCHER),
+);
+
+ALTER TABLE ORDER_PRODUCT
+ADD ORDER_STATUS NVARCHAR(30)
+
+--OK
+CREATE TABLE SLIDER(
+	ID_SLIDER INT PRIMARY KEY,
+	IMAGE_LINK TEXT,
+	NAME_IMAGE NVARCHAR(100),
+	IMAGE_STATUS BIT,
+);
+
+
+
+-- TEST
+CREATE TABLE IMAGE_PRODUCT (
+	ID_IMAGE INT PRIMARY KEY,
+	IMAGE_LINK TEXT,
+	IMAGE_DESC text,
+);
+
+
+
+CREATE TABLE PRODUC_IMAGE_DETAIL(
+	ID_IMAGE INT FOREIGN KEY REFERENCES IMAGE_PRODUCT(ID_IMAGE),
+	ID_PRODUCT INT FOREIGN KEY REFERENCES PRODUCT(ID_PRODUCT),
+);
+
+
+
+-- INSERT TYPE PRODUCT
+ALTER PROC sp_insert_type_product 
+(
+@name_type nvarchar(25), 
+@type_desc nvarchar(30))
+as
+begin
+	declare @type_id int;
+	set @type_id = 1;
+	while exists (select ID_PRODUCT_TYPE from PRODUCT_TYPE where ID_PRODUCT_TYPE = @type_id)
+		set @type_id = @type_id + 1
+	if exists (select* 
+				from PRODUCT_TYPE
+				where NAME_PRODUCT_TYPE like @name_type
+				)
+					Raiserror('Type of product is exsits', 16, 1);
+	else 
+		insert into product_type(ID_PRODUCT_TYPE, NAME_PRODUCT_TYPE, PRODUCT_TYPE_DESC)
+						values(@type_id, @name_type, @type_desc);
+end
+
+exec sp_insert_type_product N'Đồng hồ',  N'Các dòng đồng hồ thông minh, hoặc đồng hồ điện tử, đồng hồ cơ'
+
+
+-- INSERT COLOR
+ALTER PROC sp_insert_color
+(
+@color_name varchar(100), 
+@color_hexa_code varchar(8), 
+@id_valid bit)
+as
+begin
+	declare @color_id int;
+	set @color_id = 1;
+	while exists (select ID_COLOR from COLOR where ID_COLOR = @color_id)
+		set @color_id = @color_id + 1 
+		insert into COLOR(ID_COLOR, COLOR_NAME, COLOR_HEXA_CODE, is_valid)
+						values(@color_id, @color_name, @color_hexa_code, @id_valid);
+end
+
+
+--INSERT COLOR PRODUCT
+ALTER PROC sp_insert_color_product @id_color int, @id_product int
+as
+begin
+	insert into COLOR_PRODUCT(ID_COLOR, ID_PRODUCT)
+			values (@id_color, @id_product);
+end
+
+
+
+-- INSERT_IMAGE
+ALTER PROC sp_insert_image
+(  
+@image_link text, 
+@id_valid bit, @desc text)
+as
+begin
+	declare @id_image int;
+	set @id_image = 1;
+	while exists (select ID_IMAGE from IMAGE_PRODUCT where ID_IMAGE = @id_image)
+		set @id_image = @id_image + 1 
+		insert into IMAGE_PRODUCT(ID_IMAGE, IMAGE_LINK, is_valid, IMAGE_DESC)
+		
+		values(@id_image, @image_link, @id_valid, @desc);
+end
+
+
+exec sp_insert_image 'shorturl.at/twyO3', 1, 'Iphone 14 pro Gold 2'
+
+
+-- INSERT IMAGE_PRODUCT
+ALTER PROC sp_insert_image_product (@id_image int, @id_product int, @desc text)
+as	
+begin
+	insert into PRODUC_IMAGE_DETAIL(ID_IMAGE, ID_PRODUCT, IMAGE_DESC)
+			values (@id_image, @id_product, @desc)
+end
+
+exec sp_insert_image_product 6, 1, 'Iphone 14 pro Gold'
+
+-- INSERT PRODUCT
+ALTER PROC sp_insert_product
+(
+@product_name nvarchar(1000), 
+@price int,
+@product_desc nvarchar(1000), 
+@id_type_product int, 
+@product_model_no varchar(20), @is_valid bit, @brand nvarchar(100), @base_hardware varchar(10))
+as
+begin
+	declare @product_id int;
+	set @product_id = 1;
+	while exists (select ID_PRODUCT from PRODUCT where ID_PRODUCT = @product_id)
+		set @product_id = @product_id + 1 
+		insert into PRODUCT(ID_PRODUCT, PRODUCT_NAME, PRICE, PRODUCT_DESC, ID_TYPE_PRODUCT, PRODUCT_MODEL_NO, is_valid, BRAND, BASE_HARDWARE_CONFIGURATION)
+						values(@product_id, @product_name, @price, @product_desc, @id_type_product, @product_model_no, @is_valid, @brand, @base_hardware);
+		
+end
+
+
+-- INSERT EMPLOYEE
+ALTER PROC sp_insert_employee
+(
+@employee_name nvarchar(1000), 
+@phone_number int,
+@address nvarchar(1000), 
+@person_id int, 
+@email varchar(6))
+as
+begin
+	declare @employee_id int;
+	set @employee_id = 1;
+	while exists (select ID_EMPLOYEE from EMPLOYEE where ID_EMPLOYEE = @employee_id)
+		set @employee_id = @employee_id + 1
+		insert into EMPLOYEE(ID_EMPLOYEE, EMPLOYEE_NAME, PHONE_NUMBER, EMPLOYEE_ADDRESS, PERSON_ID, EMAIL)
+						values(@employee_id, @employee_name, @phone_number, @address, @person_id, @email);
+end
+
+
+
+
+-- INSERT CUSTOMER
+ALTER PROC sp_insert_customer
+(
+@customer_name nvarchar(1000), 
+@phone_number VARCHAR(15),
+@is_valid bit, 
+@dob DATETIME, 
+@password varchar(6), @email varchar(100))
+as
+begin
+	declare @cus_id int;
+	set @cus_id = 1;
+	while exists (select ID_CUSTOMER from CUSTOMER where ID_CUSTOMER = @cus_id)
+		set @cus_id = @cus_id + 1
+		insert into CUSTOMER(ID_CUSTOMER, CUSTOMER_NAME, PHONE_NUMBER, IS_VALID, DATE_OF_BIRTH, CUSTOMER_PASSWORD, EMAIL)
+						values(@cus_id, @customer_name, @phone_number, @is_valid, @dob, @password, @email);
+end
+
+-- INSERT CART
+ALTER PROC sp_insert_cart
+(
+@QUANTITY SMALLINT, 
+@SUBTOTAL INT, 
+@ORDER_TOTAL INT,
+@ID_PRODUCT INT, @ID_CUSTOMER INT)
+as
+begin
+	declare @id_cart int;
+	set @id_cart = 1;
+	while exists (select ID_CART from CART where ID_CART = @id_cart)
+		set @id_cart = @id_cart + 1
+		insert into CART(ID_CART, QUANTITY, SUBTOTAL, ORDER_TOTAL, ID_PRODUCT, ID_CUSTOMER, CREATE_AT)
+						values(@id_cart, @QUANTITY, @SUBTOTAL, @ORDER_TOTAL, @ID_PRODUCT, @ID_CUSTOMER, getdate());
+end
+
+
+-- INSERT CONFIGURATION
+ALTER PROC sp_insert_hardware_configuration
+(
+@CPU nvarchar(100), 
+@STORAGE nvarchar,
+@PRODUCT_EXTENSION NVARCHAR(1000), 
+@PRODUCT_CONNECT NVARCHAR(1000), 
+@PRODUCT_SCREEN NVARCHAR(1000), @ID_PRODUCT int)
+as
+begin
+	declare @id_hardware_conf int;
+	set @id_hardware_conf = 1;
+	while exists (select ID_HARDWARE_CONFIGURATION from HARDWARE_CONFIGURATION where ID_HARDWARE_CONFIGURATION = @id_hardware_conf)
+		set @id_hardware_conf = @id_hardware_conf + 1
+		insert into HARDWARE_CONFIGURATION(ID_HARDWARE_CONFIGURATION,  CPU, STORAGE, PRODUCT_EXTENSION, PRODUCT_CONNECT, PRODUCT_SCREEN, ID_PRODUCT)
+						values(@id_hardware_conf, @CPU, @STORAGE, @PRODUCT_EXTENSION, @PRODUCT_CONNECT, @PRODUCT_SCREEN, @ID_PRODUCT);
+end
+
+exec sp_insert_hardware_configuration N'Chip A16 Bionic,CPU 6 nhân, GPU 5 lõi, 16-core Neural Engine',  '128G 256G 512G 1T', '', N'2 SIM (1 Nano SIM và 1 eSIM hoặc 2 eSIM), hỗ trợ 5G', N'	6.7″Super Retina XDR display', 1
+
+
+-- INSERT SLIDER
+CREATE PROC sp_insert_slider
+(@image_link text, @name_image nvarchar(100), @status bit)
+as
+begin
+	declare @id_slider int;
+	set @id_slider = 1;
+	while exists (select ID_SLIDER from SLIDER where ID_SLIDER = @id_slider)
+		set @id_slider = @id_slider + 1
+		insert into SLIDER(ID_SLIDER,  IMAGE_LINK, NAME_IMAGE, IMAGE_STATUS)
+						values(@id_slider, @image_link, @name_image, @status);
+end
+
+exec sp_insert_slider 'https://rb.gy/ks2onq', 'Banner homepage 2', 1
+--END INSERT
+
+
+select*
+from image_product
+
+
+-- GET
+-- HOME PAGE
+
+-- GET SLIDER
+CREATE TABLE SLIDER(
+	ID_SLIDER INT PRIMARY KEY,
+	IMAGE_LINK TEXT,
+	NAME_IMAGE NVARCHAR(100),
+	IMAGE_STATUS BIT,
+);
+
+create proc sp_get_slider
+as
+begin
+	select*
+	from SLIDER
+end
+
+exec sp_get_slider
+-- END GET SLIDER
+
+-- GET TYPE FOR NAVITAION
+create proc sp_get_type_navigation
+as
+begin 
+	select name_product_type
+	from PRODUCT_TYPE
+end
+
+exec sp_get_type_navigation
+-- END TYPE FOR NAVITAION
+
+--get ALL PRODUCT RENDER 
+
+CREATE or ALTER PROC sp_get_base_info_all_product
+as
+begin
+	select NAME_PRODUCT_TYPE, PRODUCT_NAME, BASE_HARDWARE_CONFIGURATION, PRICE, IMAGE_LINK, IM.IMAGE_DESC
+	from PRODUCT PR, IMAGE_PRODUCT IM, PRODUC_IMAGE_DETAIL DT, PRODUCT_TYPE TP
+	where PR.ID_PRODUCT = DT.ID_PRODUCT
+	and DT.ID_IMAGE = IM.ID_IMAGE
+	AND PR.ID_TYPE_PRODUCT = TP.ID_PRODUCT_TYPE
+end
+
+exec sp_get_base_info_all_product
+-- END PRODUCT RENDER ALL
+
+
+
+
+
+
+
+--Get infor customer
+ALTER PROC sp_get_login_inforcustomer
+AS
+BEGIN
+	SELECT EMAIL, PHONE_NUMBER, CUSTOMER_PASSWORD, IS_VALID
+	FROM CUSTOMER
+END
+-- END GET INFO
+
+
+
+
+
+
+
+
+

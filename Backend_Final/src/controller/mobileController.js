@@ -1,4 +1,10 @@
-const { getAllMobile, createOneMobile, deleteMobile, updateMobile, getOneMobile} = require("../services/mobileServies"); // import file 
+const {
+  getAllMobile,
+  createOneMobile,
+  deleteMobile,
+  updateMobile,
+  getOneMobile,
+} = require("../services/mobileServies"); // import file
 
 const getMobile = async (req, res) => {
   try {
@@ -42,27 +48,27 @@ const deleteMB = async (req, res) => {
     return res.status(203).json({
       EM: "Delete sucess",
       EC: 1,
-      DT: ""
+      DT: "",
     });
-  } catch(error) {
+  } catch (error) {
     console.log(error);
     return res.status(500).json(data);
   }
 };
 
-const updateMB = async(req, res) => {
+const updateMB = async (req, res) => {
   try {
     const data = await updateMobile(req.params.id, req.body.nameMB);
     return res.status(200).json({
-      EM:"Update success",
+      EM: "Update success",
       EC: 1,
       DT: "",
-    }) 
-  } catch(error) {
+    });
+  } catch (error) {
     console.log(error);
     return res.status(500).json(data);
   }
-}
+};
 
 const getMobileById = async (req, res) => {
   try {
@@ -71,10 +77,11 @@ const getMobileById = async (req, res) => {
       EM: data.EM,
       EC: data.EC,
       DT: data.DT,
-    }) 
-  } catch(error) {
+    });
+  } catch (error) {
     console.log(error);
     return res.status(500).json(data);
   }
-}
-module.exports = { getMobile, createMobile, deleteMB, updateMB, getMobileById};
+};
+
+module.exports = { getMobile, createMobile, deleteMB, updateMB, getMobileById };
