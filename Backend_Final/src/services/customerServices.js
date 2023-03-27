@@ -19,6 +19,8 @@ const createNewCustomer = async (name, phoneNumber, dob, password, email) => {
   }
 };
 
+//add a new thing
+
 const getCustomerList = async () => {
   try {
     const poolConnection = await sql.connect(config);
