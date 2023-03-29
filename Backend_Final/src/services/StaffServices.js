@@ -32,7 +32,7 @@ const getAllStaff = async () => {
   }
 };
 
-const CreateOneStaff = async ( name, phone, addr, persionid,email) => {
+const createOneStaff = async ( name, phone, addr, persionid,email) => {
   try {
     const poolConnection = await sql.connect(config);
     await poolConnection.query(`exec sp_insert_employee N'${name}', '${phone}', N'${addr}', '${persionid}','${email}'`)
@@ -108,4 +108,4 @@ const GetStaffbyID = async (id) => {
   }
 }
 
-module.exports = { getAllStaff, CreateOneStaff, DeleteOneStaff, UpdateStaff, GetStaffbyID};
+module.exports = { getAllStaff, createOneStaff, DeleteOneStaff, UpdateStaff, GetStaffbyID};
