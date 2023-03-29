@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const { getAllPtype, createOnePtype, deletePtype, updatePtype, getOnePtype } = require("../services/ptypeServices");
-router.route("/findall").get(getAllPtype);
-router.route("/create").post(createOnePtype);
-router.route("/delete").delete(deletePtype);
-router.route("/update").put(updatePtype);
-router.route("/findone/:id").get(getOnePtype);
+const { getallptype, createoneptype, deleteptype, updateptype, getoneptype, getallptype } = require("../controller/ptypeController");
+router.route("/findall").get(getallptype);
+router.route("/create").post(createoneptype);
+router.route("/delete").delete(deleteptype);
+router.route("/update").put(updateptype);
+router.route("/findone/:id").get(getoneptype);
 module.exports = router;
