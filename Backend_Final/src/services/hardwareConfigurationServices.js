@@ -1,12 +1,13 @@
 const sql = require("mssql");
 const config = require("../config/configDatabase");
 
-
-const getAllMobile = async () => {
+const readHardware = async () => {
   try {
     const poolConnection = await sql.connect(config);
     console.log("Reading rows from the Table...");
-    let data = await poolConnection.request().query("Select* from product");
+    let data = await poolConnection
+      .request()
+      .query("select* from hardware_configuration");
     poolConnection.close();
     if (data) {
       return {
@@ -31,19 +32,19 @@ const getAllMobile = async () => {
   }
 };
 
-const createOneMobile = async (
-  name,
-  desc,
-  id_type,
-  product_model,
-  is_valid,
-  brand
+const addHardware = async (
+  cpu,
+  storage,
+  extension,
+  connect,
+  screen,
+  id_product,
+  price
 ) => {
   try {
     const poolConnection = await sql.connect(config);
-    let data = await poolConnection.query(
-      `exec sp_insert_product N'${name}', N'${desc}', ${id_type}, '${product_model}',${is_valid},'${brand}'`
-    );
+    const data = await poolConnection.query(
+      `exec sp_insert_hardware_configuration N'${cpu}', N'${storage}', N'${extension}', N'${connect}', N'${screen}', ${id_product}, ${price}`);
     poolConnection.close();
     if (data) {
       return {
@@ -68,21 +69,30 @@ const createOneMobile = async (
   }
 };
 
-const deleteMobile = async (id) => {
+const removeHardware = async (id) => {
   try {
     const poolConnection = await sql.connect(config);
-    await poolConnection.query(`EXEC sp_delete_product ${id}`);
+    await poolConnection.query(`EXEC sp_delete_hardware ${id}`);
     poolConnection.close();
   } catch (error) {
     console.log("Delete new mobile error: " + error);
   }
 };
 
-const updateMobile = async (id, name, desc, id_type, is_valid) => {
+const editHardware = async (
+  id,
+  cpu,
+  storage,
+  extension,
+  connect,
+  screen,
+  id_product,
+  price
+) => {
   try {
     const poolConnection = await sql.connect(config);
     let data = await poolConnection.query(
-      `exec sp_update_product ${id}, '${name}', N'${desc}', ${id_type}, ${is_valid}`
+      `exec sp_update_hardware ${id}, N'${cpu}', '${storage}', N'${extension}', N'${connect}', N'${screen}', ${id_product}, ${price}`
     );
     poolConnection.close();
     if (data) {
@@ -102,40 +112,4 @@ const updateMobile = async (id, name, desc, id_type, is_valid) => {
   }
 };
 
-const getOneMobile = async (id) => {
-  try {
-    const poolConnection = await sql.connect(config);
-    const data = await poolConnection.query(
-      `SELECT* FROM PRODUCT WHERE ID_PRODUCT like '${id}'`
-    );
-    poolConnection.close();
-    if (data) {
-      return {
-        EM: "Get data succcess",
-        EC: 1,
-        DT: data.recordset,
-      };
-    } else {
-      return {
-        EM: "Get data succcess",
-        EC: 1,
-        DT: [],
-      };
-    }
-  } catch (error) {
-    console.log("Get one user failed" + error);
-    return {
-      EM: "Get data failed",
-      EC: -1,
-      DT: "",
-    };
-  }
-};
-
-module.exports = {
-  getAllMobile,
-  createOneMobile,
-  deleteMobile,
-  updateMobile,
-  getOneMobile,
-};
+module.exports = { readHardware, addHardware, removeHardware, editHardware };
