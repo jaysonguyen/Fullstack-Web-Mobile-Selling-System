@@ -1,13 +1,13 @@
 const sql = require("mssql");
 const config = require("../config/configDatabase");
 
-console.log("Staff...");
+console.log("ptype...");
 
-const getAllStaff = async () => {
+const getAllPtype = async () => {
   try {
     const poolConnection = await sql.connect(config);
     console.log("Reading rows from the Table...");
-    let data = await poolConnection.request().query("Select* from employee");
+    let data = await poolConnection.request().query("Select* from product_type");
     poolConnection.close();
     if (data) {
       return {
@@ -32,10 +32,10 @@ const getAllStaff = async () => {
   }
 };
 
-const CreateOneStaff = async ( name, phone, addr, persionid,email) => {
+const createOnePtype = async (ptype_id,ptype_name,ptype_desc) => {
   try {
     const poolConnection = await sql.connect(config);
-    await poolConnection.query(`exec sp_insert_employee N'${name}', '${phone}', N'${addr}', '${persionid}','${email}'`)
+    await poolConnection.query(`insert into product_type values ('${ptype_id},N'${ptype_name}','${ptype_desc}')`)
     poolConnection.close();
     if(data) {
       return {
@@ -51,7 +51,7 @@ const CreateOneStaff = async ( name, phone, addr, persionid,email) => {
       }
     }
   } catch (error) {
-    console.log("Create new staff error: " + error);
+    console.log("Create new type_product error: " + error);
     return {
       EM: 'Create success',
       EC: 1,
@@ -60,30 +60,30 @@ const CreateOneStaff = async ( name, phone, addr, persionid,email) => {
   }
 };
 
-const DeleteOneStaff = async (id) => {
+const deletePtype = async (id) => {
   try {
     const poolConnection = await sql.connect(config);
-    await poolConnection.query(`Delete from employee where id_employee like ${id}`);
+    await poolConnection.query(`Delete from PRODUCT_type where ID_PRODUCT_TYPE like ${id}`);
     poolConnection.close();
   } catch(error) {
-    console.log("Delete new staff error: " + error)
+    console.log("Delete new mobile error: " + error)
   }
 };
 
-const UpdateStaff = async (id, name, phonenumber, addr, persionid, email) => {
+const updatePtype = async (ptype_id,ptype_name,ptype_desc) => {
   try {
     const poolConnection = await sql.connect(config);
-    await poolConnection.query(`UPDATE employee SET EMPLOYEE_NAME = '${name}', PHONE_NUMBER='${phonenumber}',EMPLOYEE_ADDRESS='${addr}',PERSON_ID='${persionid}',EMAIL='${email}' WHERE ID_employee like '${id}' `);
+    await poolConnection.query(`UPDATE product_type SET name_product_type= N'${ptype_name}',product_type_desc='${ptype_desc}' where id =${ptype_id}`);
     poolConnection.close();
   } catch(error) {
-    console.log("Update product error", error);
+    console.log("Update product_type error", error);
   }
 };
 
-const GetStaffbyID = async (id) => {
+const getOnePtype = async (id) => {
   try {
     const poolConnection = await sql.connect(config);
-    const data = await poolConnection.query(`SELECT* FROM employee WHERE id_employee like '${id}'`)
+    const data = await poolConnection.query(`SELECT* FROM PRODUCT_type WHERE ID_PRODUCT_type like '${id}'`)
     poolConnection.close();
     if(data) {
       return {
@@ -108,4 +108,4 @@ const GetStaffbyID = async (id) => {
   }
 }
 
-module.exports = { getAllStaff, CreateOneStaff, DeleteOneStaff, UpdateStaff, GetStaffbyID};
+module.exports = { getAllPtype, createOnePtype, deletePtype, updatePtype, getOnePtype};

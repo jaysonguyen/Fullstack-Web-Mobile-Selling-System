@@ -1,7 +1,7 @@
 const sql = require("mssql");
 const config = require("../config/configDatabase");
 
-console.log("Starting...");
+console.log("product...");
 
 const getAllMobile = async () => {
   try {
