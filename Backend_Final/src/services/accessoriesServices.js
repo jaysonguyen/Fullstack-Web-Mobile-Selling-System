@@ -1,13 +1,13 @@
 const sql = require("mssql");
 const config = require("../config/configDatabase");
 
-console.log("Staff...");
+console.log("Accessories...");
 
-const getAllStaff = async () => {
+const Getallaccess = async () => {
   try {
     const poolConnection = await sql.connect(config);
     console.log("Reading rows from the Table...");
-    let data = await poolConnection.request().query("Select* from employee");
+    let data = await poolConnection.request().query("Select* from ACCESSORY");
     poolConnection.close();
     if (data) {
       return {
@@ -32,10 +32,10 @@ const getAllStaff = async () => {
   }
 };
 
-const CreateOneStaff = async ( name, phone, addr, persionid,email) => {
+const Createaccess = async ( price,name,brand) => {
   try {
     const poolConnection = await sql.connect(config);
-    await poolConnection.query(`exec sp_insert_employee N'${name}', '${phone}', N'${addr}', '${persionid}','${email}'`)
+    await poolConnection.query(`exec sp_insert_accessory ${price}, N'${name}', N'${brand}'`)
     poolConnection.close();
     if(data) {
       return {
@@ -60,30 +60,30 @@ const CreateOneStaff = async ( name, phone, addr, persionid,email) => {
   }
 };
 
-const DeleteOneStaff = async (id) => {
+const Deleteaccess = async (id) => {
   try {
     const poolConnection = await sql.connect(config);
-    await poolConnection.query(`Delete from employee where id_employee like ${id}`);
+    await poolConnection.query(`Delete from accessory where id_accessory like ${id}`);
     poolConnection.close();
   } catch(error) {
     console.log("Delete new staff error: " + error)
   }
 };
 
-const UpdateStaff = async (id, name, phonenumber, addr, persionid, email) => {
+const Updateaccess = async (id,price,name,brand) => {
   try {
     const poolConnection = await sql.connect(config);
-    await poolConnection.query(`UPDATE employee SET EMPLOYEE_NAME = '${name}', PHONE_NUMBER='${phonenumber}',EMPLOYEE_ADDRESS='${addr}',PERSON_ID='${persionid}',EMAIL='${email}' WHERE ID_employee like '${id}' `);
+    await poolConnection.query(`UPDATE accessory SET price='${price}', accessory_name='${name}',brand='${brand}' WHERE id_accessory like '${id}'`);
     poolConnection.close();
   } catch(error) {
-    console.log("Update staff error", error);
+    console.log("Update access error", error);
   }
 };
 
-const GetStaffbyID = async (id) => {
+const Getoneaccess = async (id) => {
   try {
     const poolConnection = await sql.connect(config);
-    const data = await poolConnection.query(`SELECT* FROM employee WHERE id_employee like '${id}'`)
+    const data = await poolConnection.query(`SELECT* FROM accessory WHERE id_accessory like '${id}'`)
     poolConnection.close();
     if(data) {
       return {
@@ -99,7 +99,7 @@ const GetStaffbyID = async (id) => {
       }
     }
   } catch(error) {
-    console.log("Get one user failed" + error);
+    console.log("Get one accessory failed" + error);
     return {
       EM: "Get data failed",
       EC: -1,
@@ -107,5 +107,4 @@ const GetStaffbyID = async (id) => {
     }
   }
 }
-
-module.exports = { getAllStaff, CreateOneStaff, DeleteOneStaff, UpdateStaff, GetStaffbyID};
+module.exports = { Getallaccess,Createaccess,Deleteaccess,Updateaccess,Getoneaccess};
