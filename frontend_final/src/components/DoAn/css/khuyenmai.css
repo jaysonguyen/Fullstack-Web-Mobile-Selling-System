@@ -1,0 +1,37 @@
+.khuyenmai-contain{
+   align-items: center;
+   margin-top: 50px;
+    text-align: center;
+    margin-bottom: 80px;
+}
+.khuyenmai{
+   width: 100%;
+   float: left;
+   display: flex;
+   justify-content: space-evenly;
+}
+.km{
+width: 430px;
+transition: all .40s ease;
+margin-right: 20px;
+}
+
+
+@media (max-width: 1355px) {
+    .khuyenmai-contain{
+    margin: auto;
+    margin-top: 50px;
+    text-align: center;
+ 
+     }
+     .khuyenmai{
+        float: left;
+        display: flex;
+     
+     }
+     .km{
+     width:800px;
+    margin-top: 30px;
+    transition: all .50s ease;
+     }
+  }
