@@ -1,13 +1,13 @@
 const sql = require("mssql");
 const config = require("../config/configDatabase");
 
-console.log("Starting...");
+console.log("Voucher...");
 
-const getAllStaff = async () => {
+const Getallvoucher = async () => {
   try {
     const poolConnection = await sql.connect(config);
     console.log("Reading rows from the Table...");
-    let data = await poolConnection.request().query("Select* from employee");
+    let data = await poolConnection.request().query("Select* from promotion");
     poolConnection.close();
     if (data) {
       return {
@@ -32,10 +32,10 @@ const getAllStaff = async () => {
   }
 };
 
-const createOneStaff = async ( name, phone, addr, persionid,email) => {
+const Createvoucher = async ( name,expday,startday,context,cost,is_valid) => {
   try {
     const poolConnection = await sql.connect(config);
-    await poolConnection.query(`exec sp_insert_employee N'${name}', '${phone}', N'${addr}', '${persionid}','${email}'`)
+    await poolConnection.query(``)
     poolConnection.close();
     if(data) {
       return {
@@ -60,30 +60,30 @@ const createOneStaff = async ( name, phone, addr, persionid,email) => {
   }
 };
 
-const deleteOneStaff = async (id) => {
+const Deletevoucher = async (id) => {
   try {
     const poolConnection = await sql.connect(config);
-    await poolConnection.query(`Delete from employee where id_employee like ${id}`);
+    await poolConnection.query(`Delete from promotion where id_promotion like ${id}`);
     poolConnection.close();
   } catch(error) {
     console.log("Delete new staff error: " + error)
   }
 };
 
-const updateStaff = async (id, name, phonenumber, addr, persionid, email) => {
+const Updatevoucher = async (price,name) => {
   try {
     const poolConnection = await sql.connect(config);
-    await poolConnection.query(`UPDATE employee SET EMPLOYEE_NAME = '${name}', PHONE_NUMBER='${phonenumber}',EMPLOYEE_ADDRESS='${addr}',PERSON_ID='${persionid}',EMAIL='${email}' WHERE ID_employee like '${id}' `);
+    await poolConnection.query(`  `);
     poolConnection.close();
   } catch(error) {
-    console.log("Update product error", error);
+    console.log("Update promotion error", error);
   }
 };
 
-const getStaffbyID = async (id) => {
+const Getonevoucher = async (id) => {
   try {
     const poolConnection = await sql.connect(config);
-    const data = await poolConnection.query(`SELECT* FROM employee WHERE id_employee like '${id}'`)
+    const data = await poolConnection.query(`SELECT* FROM promotion WHERE id_promotion like '${id}'`)
     poolConnection.close();
     if(data) {
       return {
@@ -99,7 +99,7 @@ const getStaffbyID = async (id) => {
       }
     }
   } catch(error) {
-    console.log("Get one user failed" + error);
+    console.log("Get one voucher failed" + error);
     return {
       EM: "Get data failed",
       EC: -1,
@@ -107,5 +107,4 @@ const getStaffbyID = async (id) => {
     }
   }
 }
-
-module.exports = { getAllStaff, createOneStaff, deleteOneStaff, updateStaff, getStaffbyID};
+module.exports = { Getallvoucher,Createvoucher,Deletevoucher,Updatevoucher,Getonevoucher};
