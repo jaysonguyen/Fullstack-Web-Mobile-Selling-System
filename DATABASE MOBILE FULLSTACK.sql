@@ -1,120 +1,58 @@
-﻿CREATE TABLE PRODUCT(
+﻿
+CREATE TABLE PRODUCT(
 	ID_PRODUCT INT NOT NULL PRIMARY KEY,
-	PRODUCT_NAME NVARCHAR(1000) NOT NULL,
-	PRICE INT NOT NULL,
-	PRODUCT_DESC NVARCHAR(1000),
 	ID_TYPE_PRODUCT INT FOREIGN KEY REFERENCES PRODUCT_TYPE(ID_PRODUCT_TYPE),
+	PRODUCT_NAME NVARCHAR(1000) NOT NULL,
+	PRODUCT_DESC NVARCHAR(1000),
 	PRODUCT_MODEL_NO VARCHAR(20),
 	BRAND nvarchar(100),
-	BASE_HARDWARE_CONFIGURATION VARCHAR(10)
-);
-
-
-
-EXEC sp_rename 'PRODUCT.BASE_HARDWARE_CONFIGURATION', 'BASE_HARDWARE_CONFIGURATION';
+	IMAGE_SIG TEXT
+);	
 
 CREATE TABLE IMAGE_PRODUCT (
 	ID_IMAGE INT PRIMARY KEY,
 	IMAGE_LINK TEXT,
+	Image_desc nvarchar(100),
+	ID_COLOR int foreign key references COLOR(ID_COLOR),
+	ID_PRODUCT  int foreign key references PRODUCT(ID_PRODUCT)
 );
-
-
-
-CREATE TABLE PRODUC_IMAGE_DETAIL(
-	ID_IMAGE INT FOREIGN KEY REFERENCES IMAGE_PRODUCT(ID_IMAGE),
-	ID_PRODUCT INT FOREIGN KEY REFERENCES PRODUCT(ID_PRODUCT),
-	IMAGE_DESC TEXT
-);
-
-
-
-
---OK
 CREATE TABLE COLOR(
 	ID_COLOR INT PRIMARY KEY NOT NULL,
 	COLOR_NAME VARCHAR(100),
 	COLOR_HEXA_CODE VARCHAR(8),
+	ID_PRODUCT int foreign key references PRODUCT(ID_PRODUCT)
 );
 
-alter table COLOR
-add is_valid bit
 
---OK
-CREATE TABLE COLOR_PRODUCT(
+select*
+from color
+
+CREATE TABLE PRODUCT_DETAIL(
 	ID_COLOR INT FOREIGN KEY REFERENCES COLOR(ID_COLOR),
 	ID_PRODUCT INT FOREIGN KEY REFERENCES PRODUCT(ID_PRODUCT),
+	ID_HARDWARE int foreign key references HARDWARE_CONFIGURATION(ID_HARDWARE_CONFIGURATION),
+	ID_IMAGE INT CONSTRAINT FK_IMAGE_ID REFERENCES IMAGE_PRODUCT(ID_IMAGE),
+	QUANTITY int,
+	Import_date date,
+	PRICE INT
 );
 
 
 
--- OKE
 CREATE TABLE PRODUCT_TYPE(
 	ID_PRODUCT_TYPE INT PRIMARY KEY,
 	NAME_PRODUCT_TYPE NVARCHAR(1000) NOT NULL,
 	PRODUCT_TYPE_DESC NVARCHAR(1000),
 );
-
---OK
-CREATE TABLE CART(
-	ID_CART INT NOT NULL PRIMARY KEY,
-	QUANTITY SMALLINT,
-	SUBTOTAL INT,
-	ORDER_TOTAL INT,
-);
-
---OK
-CREATE TABLE CART_PRODUCT(
-	ID_CART INT FOREIGN KEY REFERENCES CART(ID_CART),
-	ID_PRODUCT INT FOREIGN KEY REFERENCES PRODUCT(ID_PRODUCT),
-	CREATE_AT DATETIME,
-	UPDATE_AT DATETIME,
-);
-
-
---OK
 CREATE TABLE HARDWARE_CONFIGURATION(
 	ID_HARDWARE_CONFIGURATION INT PRIMARY KEY NOT NULL,
+	ID_PRODUCT INT CONSTRAINT FK_PRODUCT_HARDWARE FOREIGN KEY REFERENCES PRODUCT(ID_PRODUCT),
 	CPU NVARCHAR(100),
-	STORAGE NVARCHAR(100),
 	PRODUCT_EXTENSION NVARCHAR(1000),
 	PRODUCT_CONNECT NVARCHAR(1000),
 	PRODUCT_SCREEN NVARCHAR(1000),
-	ID_PRODUCT INT CONSTRAINT FK_PRODUCT_HARDWARE FOREIGN KEY REFERENCES PRODUCT(ID_PRODUCT),
+	STORAGE NVARCHAR(100),
 );
-
-
-drop table HARDWARE_CONFIGURATION
-
---OK
-CREATE TABLE TAG(
-	ID_TAG INT PRIMARY KEY,
-	TAG_NAME NVARCHAR(1000),
-);
-
-
---OK
-CREATE TABLE TAG_PRODUCT(
-	ID_PRODUCT INT FOREIGN KEY REFERENCES PRODUCT(ID_PRODUCT),
-	ID_TAG INT FOREIGN KEY REFERENCES PRODUCT(ID_PRODUCT),
-);
-
---OK
-CREATE TABLE VOUCHER(
-	ID_VOUCHER INT PRIMARY KEY NOT NULL,
-	VOUCHER_CODE VARCHAR(10),
-	VOUCHER_COST SMALLINT,
-	IS_VALID BIT,
-	EXP_DATE DATETIME,
-	QUANTITY SMALLINT
-);
-
---OK
-CREATE TABLE PRODUCT_VOUCHER(
-	ID_PRODUCT INT FOREIGN KEY REFERENCES PRODUCT(ID_PRODUCT),
-	ID_VOUCHER INT FOREIGN KEY REFERENCES VOUCHER(ID_VOUCHER),
-);
-
---OK
 CREATE TABLE PROMOTION(
 	ID_PROMOTION INT PRIMARY KEY NOT NULL,
 	PROMOTION_NAME NVARCHAR(1000),
@@ -124,52 +62,38 @@ CREATE TABLE PROMOTION(
 	PROMOTION_COST SMALLINT,
 	IS_VALID BIT
 );
-
---OK
 CREATE TABLE PROMOTION_PRODUCT(
 	ID_PROMOTION INT FOREIGN KEY REFERENCES PROMOTION(ID_PROMOTION),
 	ID_PRODUCT INT FOREIGN KEY REFERENCES PRODUCT(ID_PRODUCT),
 );
---OK
 CREATE TABLE ACCESSORY(
 	ID_ACCESSORY INT PRIMARY KEY NOT NULL,
 	PRICE INT,
 	ACCESSORY_NAME NVARCHAR(100),
 );
---15.OK
-CREATE TABLE ACCESSORY_PRODUCT(
-	ID_ACCESSORY INT FOREIGN KEY REFERENCES ACCESSORY(ID_ACCESSORY),
-	ID_PRODUCT INT FOREIGN KEY REFERENCES PRODUCT(ID_PRODUCT),
-);
-
---OK
 CREATE TABLE RATING(
 	ID_RATING INT PRIMARY KEY,
 	RATING_POINT TINYINT,
 	RATING_COMMENT NVARCHAR(1000),
 	ID_PRODUCT INT FOREIGN KEY REFERENCES PRODUCT(ID_PRODUCT),
 );
---OK
 CREATE TABLE WARE_HOUSE(
 	ID_WARE_HOUSE INT PRIMARY KEY,
 	IMPORT_DATE DATETIME,
 	EXPORT_DATE DATETIME,
 	WARE_HOUSE_ADDRESS NVARCHAR(1000),
 );
---OK
 CREATE TABLE PRODUCT_WAREHOUSE(
 	ID_WAREHOUSE INT FOREIGN KEY REFERENCES WARE_HOUSE(ID_WARE_HOUSE),
 	ID_PRODUCT INT FOREIGN KEY REFERENCES PRODUCT(ID_PRODUCT),
 	QUANTITY_PRODUCT INT,
 );
---OK
 CREATE TABLE INVOCE_PRODUCT(
 	ID_INVOCE INT FOREIGN KEY REFERENCES INVOCE(ID_INVOCE),
 	PRODUCT_QUANTITY SMALLINT,
 	AMOUNT INT,
 	IT_PRODUCT INT FOREIGN KEY REFERENCES PRODUCT(ID_PRODUCT),
 );
-
 CREATE TABLE INVOCE(
 	ID_INVOCE INT PRIMARY KEY NOT NULL,
 	TOTAL INT,
@@ -177,8 +101,6 @@ CREATE TABLE INVOCE(
 	ID_EMPLOYEE INT FOREIGN KEY REFERENCES EMPLOYEE(ID_EMPLOYEE),
 	ID_CUSTOMER INT FOREIGN KEY REFERENCES CUSTOMER(ID_CUSTOMER),
 );
-
---OK
 CREATE TABLE EMPLOYEE(
 	ID_EMPLOYEE INT PRIMARY KEY,
 	EMPLOYEE_NAME NVARCHAR(1000),
@@ -187,8 +109,6 @@ CREATE TABLE EMPLOYEE(
 	PERSON_ID VARCHAR(15),
 	EMAIL VARCHAR(1000),
 );
-
---OK
 CREATE TABLE CUSTOMER(
 	ID_CUSTOMER INT PRIMARY KEY NOT NULL,
 	CUSTOMER_NAME NVARCHAR(1000) NOT NULL,
@@ -196,55 +116,28 @@ CREATE TABLE CUSTOMER(
 	IS_VALID BIT,
 	DATE_OF_BIRTH DATETIME,
 	CUSTOMER_PASSWORD VARCHAR(10),
-	EMAIL VARCHAR(15),
+	EMAIL VARCHAR(100),
 );
-
-alter table customer 
-alter column email varchar(100)
---OK	
 CREATE TABLE PAYING(
 	ID_PAYING INT PRIMARY KEY,
 	PAY_METHOD NVARCHAR(100) NOT NULL,
 	PAYING_STATUS BIT,
 	ID_CUSTOMER INT FOREIGN KEY REFERENCES CUSTOMER(ID_CUSTOMER),
 );
-
 CREATE TABLE ORDER_PRODUCT(
 	ID_ORDER VARCHAR(10) PRIMARY KEY,
 	METHOD_RECEIVE NVARCHAR(100),
 	STORE_ADDRESS NVARCHAR(100),
 	OTHER_DEMAIND NVARCHAR(100),
-	ID_CART INT FOREIGN KEY REFERENCES CART(ID_CART),
-	ID_VOUCHER INT FOREIGN KEY REFERENCES VOUCHER(ID_VOUCHER),
+	ORDER_STATUS NVARCHAR(30)
 );
-
-ALTER TABLE ORDER_PRODUCT
-ADD ORDER_STATUS NVARCHAR(30)
-
---OK
 CREATE TABLE SLIDER(
 	ID_SLIDER INT PRIMARY KEY,
 	IMAGE_LINK TEXT,
 	NAME_IMAGE NVARCHAR(100),
 	IMAGE_STATUS BIT,
+	CONTENT NVARCHAR(MAX)
 );
-
-
-
--- TEST
-CREATE TABLE IMAGE_PRODUCT (
-	ID_IMAGE INT PRIMARY KEY,
-	IMAGE_LINK TEXT,
-	IMAGE_DESC text,
-);
-
-
-
-CREATE TABLE PRODUC_IMAGE_DETAIL(
-	ID_IMAGE INT FOREIGN KEY REFERENCES IMAGE_PRODUCT(ID_IMAGE),
-	ID_PRODUCT INT FOREIGN KEY REFERENCES PRODUCT(ID_PRODUCT),
-);
-
 
 
 -- INSERT TYPE PRODUCT
@@ -275,75 +168,92 @@ exec sp_insert_type_product N'Đồng hồ',  N'Các dòng đồng hồ thông m
 ALTER PROC sp_insert_color
 (
 @color_name varchar(100), 
-@color_hexa_code varchar(8), 
-@id_valid bit)
+@color_hexa_code varchar(8), @idProduct int)
 as
 begin
 	declare @color_id int;
 	set @color_id = 1;
 	while exists (select ID_COLOR from COLOR where ID_COLOR = @color_id)
 		set @color_id = @color_id + 1 
-		insert into COLOR(ID_COLOR, COLOR_NAME, COLOR_HEXA_CODE, is_valid)
-						values(@color_id, @color_name, @color_hexa_code, @id_valid);
+		insert into COLOR(ID_COLOR, COLOR_NAME, COLOR_HEXA_CODE, ID_PRODUCT)
+						values(@color_id, @color_name, @color_hexa_code, @idProduct);
 end
 
 
 --INSERT COLOR PRODUCT
-ALTER PROC sp_insert_color_product @id_color int, @id_product int
+alter PROC sp_insert_product_detail @id_color int, @id_product int, @idHardWare int, @id_image int, @quantity int, @date date, @price int
 as
 begin
-	insert into COLOR_PRODUCT(ID_COLOR, ID_PRODUCT)
-			values (@id_color, @id_product);
+	if exists (select* 
+				from PRODUCT_DETAIL
+				where ID_COLOR like @id_color
+				AND ID_PRODUCT LIKE @id_product
+				)
+				RAISERROR('DU LIEU DA TON TAI', 16, 1)
+	else
+		insert into PRODUCT_DETAIL(ID_COLOR, ID_PRODUCT, Quantity, Import_date, ID_Hardware,id_image, price)
+			values (@id_color, @id_product, @quantity, @date, @idHardWare, @id_image, @price);
 end
 
+exec sp_insert_product_detail 8, 4, 2, 1, 10, '', 4900000
+
+select*
+from color
+
+select*
+from product_detail
+
+select*
+from product
+
+
+update product
+set image_sig = 'https://cdn.shopify.com/s/files/1/0079/5602/products/MacBook_Pro_16-in_Space_Grey_PDP_Image_Position-1__CA-EN_800x.jpg?v=1634610405'
+where id_product = 4
+
+select*
+from hardware_Configuration
+
+exec sp_insert_color 'Sliver Grey macbook', '#ee1e0', 4
+
+select*
+from product_detail
+exec sp_insert_product_detail 6, 1, 2, 1, 10, '', 4990000
 
 
 -- INSERT_IMAGE
 ALTER PROC sp_insert_image
 (  
 @image_link text, 
-@id_valid bit, @desc text)
+@id_valid bit, @desc text, @idColor int, @idProduct int)
 as
 begin
 	declare @id_image int;
 	set @id_image = 1;
 	while exists (select ID_IMAGE from IMAGE_PRODUCT where ID_IMAGE = @id_image)
 		set @id_image = @id_image + 1 
-		insert into IMAGE_PRODUCT(ID_IMAGE, IMAGE_LINK, is_valid, IMAGE_DESC)
-		
-		values(@id_image, @image_link, @id_valid, @desc);
+		insert into IMAGE_PRODUCT(ID_IMAGE, IMAGE_LINK, is_valid, IMAGE_DESC, ID_PRODUCT, ID_COLOR)
+				values(@id_image, @image_link, @id_valid, @desc, @idProduct, @idColor);
 end
+exec sp_insert_image 'https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-14-pro-finish-select-202209-6-1inch-gold_AV2?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1660754258490', 1, 'Iphone 14 pro Gold', 5, 1
 
-
-exec sp_insert_image 'shorturl.at/twyO3', 1, 'Iphone 14 pro Gold 2'
-
-
--- INSERT IMAGE_PRODUCT
-ALTER PROC sp_insert_image_product (@id_image int, @id_product int, @desc text)
-as	
-begin
-	insert into PRODUC_IMAGE_DETAIL(ID_IMAGE, ID_PRODUCT, IMAGE_DESC)
-			values (@id_image, @id_product, @desc)
-end
-
-exec sp_insert_image_product 6, 1, 'Iphone 14 pro Gold'
+--END
 
 -- INSERT PRODUCT
 ALTER PROC sp_insert_product
 (
 @product_name nvarchar(1000), 
-@price int,
 @product_desc nvarchar(1000), 
 @id_type_product int, 
-@product_model_no varchar(20), @is_valid bit, @brand nvarchar(100), @base_hardware varchar(10))
+@product_model_no varchar(20), @is_valid bit, @brand nvarchar(100), @IMAGE_SIG TEXT)
 as
 begin
 	declare @product_id int;
 	set @product_id = 1;
 	while exists (select ID_PRODUCT from PRODUCT where ID_PRODUCT = @product_id)
 		set @product_id = @product_id + 1 
-		insert into PRODUCT(ID_PRODUCT, PRODUCT_NAME, PRICE, PRODUCT_DESC, ID_TYPE_PRODUCT, PRODUCT_MODEL_NO, is_valid, BRAND, BASE_HARDWARE_CONFIGURATION)
-						values(@product_id, @product_name, @price, @product_desc, @id_type_product, @product_model_no, @is_valid, @brand, @base_hardware);
+		insert into PRODUCT(ID_PRODUCT, PRODUCT_NAME, PRODUCT_DESC, ID_TYPE_PRODUCT, PRODUCT_MODEL_NO, is_valid, BRAND, IMAGE_SIG)
+						values(@product_id, @product_name, @product_desc, @id_type_product, @product_model_no, @is_valid, @brand, @IMAGE_SIG);
 		
 end
 
@@ -409,7 +319,7 @@ end
 ALTER PROC sp_insert_hardware_configuration
 (
 @CPU nvarchar(100), 
-@STORAGE nvarchar,
+@STORAGE nvarchar(100),
 @PRODUCT_EXTENSION NVARCHAR(1000), 
 @PRODUCT_CONNECT NVARCHAR(1000), 
 @PRODUCT_SCREEN NVARCHAR(1000), @ID_PRODUCT int)
@@ -423,11 +333,11 @@ begin
 						values(@id_hardware_conf, @CPU, @STORAGE, @PRODUCT_EXTENSION, @PRODUCT_CONNECT, @PRODUCT_SCREEN, @ID_PRODUCT);
 end
 
-exec sp_insert_hardware_configuration N'Chip A16 Bionic,CPU 6 nhân, GPU 5 lõi, 16-core Neural Engine',  '128G 256G 512G 1T', '', N'2 SIM (1 Nano SIM và 1 eSIM hoặc 2 eSIM), hỗ trợ 5G', N'	6.7″Super Retina XDR display', 1
+exec sp_insert_hardware_configuration N'Apple M2 Pro', N'Ram: 16GB Ổ cứng: 512G', N'Card màn hình: Card tích hợp - 19 nhân GPU Công nghệ âm thanh: Wide stereo sound Spatial Audio Dolby Atmos', N'HDMIJack tai nghe 3.5 mm MagSafe 3 3 x Thunderbolt 4 5.3', '16.2 inch',  4
 
 
 -- INSERT SLIDER
-CREATE PROC sp_insert_slider
+ALTER PROC sp_insert_slider
 (@image_link text, @name_image nvarchar(100), @status bit)
 as
 begin
@@ -439,26 +349,82 @@ begin
 						values(@id_slider, @image_link, @name_image, @status);
 end
 
-exec sp_insert_slider 'https://rb.gy/ks2onq', 'Banner homepage 2', 1
---END INSERT
-
 
 select*
-from image_product
+from slider
+exec sp_insert_slider 'https://rb.gy/ks2onq', 'Banner homepage 2', 1
+--END
+
+-- INSERT PRODUCT TYPE
+CREATE TABLE PRODUCT_TYPE(
+	ID_PRODUCT_TYPE INT PRIMARY KEY,
+	NAME_PRODUCT_TYPE NVARCHAR(1000) NOT NULL,
+	PRODUCT_TYPE_DESC NVARCHAR(1000),
+);
+
+ALTER PROC sp_insert_product_type @nameType nvarchar(1000), @typeDesc nvarchar(1000)
+as
+begin
+	declare @id int;
+	set @id = 1;
+	while exists (select ID_PRODUCT_TYPE from PRODUCT_TYPE where ID_PRODUCT_TYPE = @id)
+		set @id = @id + 1
+		insert into PRODUCT_TYPE(ID_PRODUCT_TYPE,  NAME_PRODUCT_TYPE, PRODUCT_TYPE_DESC)
+						values(@id, @nameType, @typeDesc);
+end
+
+exec sp_insert_product_type N'Màn hình', N''
+--END
+
+--OK
+
+--INSERT RATING
+ALTER PROC sp_insert_product_rating @point TINYINT, @cmt nvarchar(1000), @idProc int
+as
+begin
+	declare @id int;
+	set @id = 1;
+	while exists (select ID_RATING from RATING where ID_RATING = @id)
+		set @id = @id + 1
+		insert into RATING(ID_RATING,  RATING_POINT, RATING_COMMENT, ID_PRODUCT)
+						values(@id, @point, @cmt, @idProc);
+end
 
 
+--INSERT ACCESSORIES
+CREATE TABLE ACCESSORY(
+	ID_ACCESSORY INT PRIMARY KEY NOT NULL,
+	PRICE INT,
+	ACCESSORY_NAME NVARCHAR(100),
+	BRAND NVARCHAR(1000)
+);
+
+
+ALTER PROC sp_insert_accessory @price int,  @accessory_name nvarchar(1000), @brand nvarchar(1000)
+as
+begin
+	declare @id int;
+	set @id = 1;
+	while exists (select ID_ACCESSORY from ACCESSORY where ID_ACCESSORY = @id)
+		set @id = @id + 1 
+	if exists (select* from ACCESSORY where ACCESSORY_NAME = @accessory_name)
+		raiserror('San pham da ton tai', 16, 1);
+	else 
+		insert into ACCESSORY(ID_ACCESSORY, PRICE, ACCESSORY_NAME, BRAND)
+						values(@id, @price, @accessory_name, @brand)
+		
+end
+
+exec sp_insert_accessory 1000000, 'Op lung iphone 14', 'Apple'
+
+
+--END INSERT
 -- GET
 -- HOME PAGE
 
 -- GET SLIDER
-CREATE TABLE SLIDER(
-	ID_SLIDER INT PRIMARY KEY,
-	IMAGE_LINK TEXT,
-	NAME_IMAGE NVARCHAR(100),
-	IMAGE_STATUS BIT,
-);
 
-create proc sp_get_slider
+ALTER proc sp_get_slider
 as
 begin
 	select*
@@ -469,7 +435,7 @@ exec sp_get_slider
 -- END GET SLIDER
 
 -- GET TYPE FOR NAVITAION
-create proc sp_get_type_navigation
+ALTER proc sp_get_type_navigation
 as
 begin 
 	select name_product_type
@@ -478,26 +444,57 @@ end
 
 exec sp_get_type_navigation
 -- END TYPE FOR NAVITAION
+SELECT*
+FROM COLOR
+ALTER PROC SP_GET_NAME_IMAGE_PRODUCT
+AS
+BEGIN
+	SELECT PRODUCT_NAME, IMAGE_SIG
+	FROM PRODUCT
+	WHERE IMAGE_SIG IS NOT NULL
 
---get ALL PRODUCT RENDER 
+	
+END
 
-CREATE or ALTER PROC sp_get_base_info_all_product
-as
-begin
-	select NAME_PRODUCT_TYPE, PRODUCT_NAME, BASE_HARDWARE_CONFIGURATION, PRICE, IMAGE_LINK, IM.IMAGE_DESC
-	from PRODUCT PR, IMAGE_PRODUCT IM, PRODUC_IMAGE_DETAIL DT, PRODUCT_TYPE TP
-	where PR.ID_PRODUCT = DT.ID_PRODUCT
-	and DT.ID_IMAGE = IM.ID_IMAGE
-	AND PR.ID_TYPE_PRODUCT = TP.ID_PRODUCT_TYPE
-end
+exec SP_GET_ALL_INFOR_PRODUCT
 
-exec sp_get_base_info_all_product
+
+
+--END
+
 -- END PRODUCT RENDER ALL
 
 
+SELECT*
+FROM HARDWARE_CONFIGURATION
+--GET ALL COLOR
+ALTER PROC sp_get_color
+as
+begin
+	SELECT PRODUCT.ID_PRODUCT, COLOR_HEXA_CODE
+	FROM PRODUCT
+	JOIN COLOR ON COLOR.ID_PRODUCT = PRODUCT.ID_PRODUCT
+end
 
+exec sp_get_color
+--END GET COLOR
 
+--Get image product
+alter PROC sp_get_product_name_price
+as
+begin
+	select product.id_product, price, image_sig, product_name, id_type_product
+	from product
+	join product_detail dt on dt.id_product = product.id_product
+end
 
+--GET COLOR PRODUCT
+alter proc sp_get_color_product
+as
+	select*
+	from color_product
+	order by id_product asc
+--END GET COLOR PRODUCT  
 
 
 --Get infor customer
@@ -509,10 +506,242 @@ BEGIN
 END
 -- END GET INFO
 
+-- GET IMAGE
+create proc sp_get_image_product
+as
+begin	
+	select*
+	from image_product
+end
+
+exec sp_get_image_product
+
+--end
+
+
+-- GET PRODUCT TYPE
+alter proc sp_get_product_type
+as
+begin	
+	select product_type.id_product_type, name_product_type
+	from product_type
+	join product on product_type.id_product_type = product.id_type_product
+	order by product_type.id_product_type asc 
+end
+
+select*
+from product
+
+select*
+from product_detail
+
+select*
+from color
+
+select*
+from product_type
+
+update product_detail
+set id_color = ''
+where id_color = 6
+
+delete from product_detail
+where id_color = 6
+
+exec sp_get_product_type
+-- END
+
+-- GET RATING
+create proc sp_get_product_rating
+as
+	select* from rating
+
+
+create proc sp_get_infor_product
+as
+begin
+	select product_name, price, image_sig, color_hexa_code, product.id_product
+	from product
+	join product_detail on product_detail.id_product = product.id_product
+	join color on color.id_product = product.id_product
+end
+
+--GET SLIDER
+create proc sp_get_slider
+as
+begin
+	select image_link, image_status
+	from slider
+end
+
+-- END Get
+
+
+-- UPDATE
+
+
+
+-- UPDATE PRODUCT
+ALTER PROC sp_update_product @id int, @name  nvarchar(max), @desc nvarchar(max), @idType int, @is_valid bit
+as
+	Update PRODUCT 
+	SET PRODUCT_DESC = @desc, ID_TYPE_PRODUCT = @idType, is_valid = @is_valid, PRODUCT_NAME = @name
+	WHERE ID_PRODUCT = @id
+
+
+
+-- UPdate HARDWARE
+ALTER PROC sp_update_hardware @id int, @cpu nvarchar(max), @storage varchar(max), @extension nvarchar(max), @connect nvarchar(max), @screen nvarchar(100), @id_proc int, @price int
+as
+	Update HARDWARE_CONFIGURATION 
+	SET CPU = @cpu, STORAGE = @storage, PRODUCT_EXTENSION = @extension, PRODUCT_CONNECT = @connect, PRODUCT_SCREEN = @screen, ID_PRODUCT = @id_proc, PRICE = @price
+	WHERE ID_HARDWARE_CONFIGURATION = @id
+
+
+
+select*
+from hardware_configuration
+exec sp_update_hardware 3, '123', '123', '1234', '1234', '', 1, 9999
+-- END
+
+-- UPDATE COLOR
+select*
+from color
+create proc sp_update_color @id int, @name varchar(100), @hex_code varchar(8), @valid bit
+as
+begin 
+	update color 
+	set COLOR_NAME = @name, COLOR_HEXA_CODE = @hex_code, is_valid = @valid
+	where ID_COLOR = @id
+end
+
+-- UPDATE COLOR PRODUCT
+create proc sp_update_color_product @idColor int , @idProduct int, @quantity int, @importDate date
+as
+begin 
+	Update color_product
+	set QUANTITY = @quantity, Import_date = @importDate
+	where ID_COLOR = @idColor
+	and ID_PRODUCT = @idProduct
+end
+ 
+ exec sp_update_color_product 4, 1, 12, '03/29/2023'
+ 
+--END
+ -- Update Image product
+ select*
+ from image_product
+ create proc sp_update_image_product @id_image int, @imageLink text, @isValid bit, @desc text, @idProc int, @idColor int
+ as
+ begin
+	update image_product
+	set image_link = @imageLink, is_valid = @isValid, IMAGE_DESC = @desc, ID_PRODUCT = @idProc, ID_COLOR = @idColor
+	where ID_IMAGE = @id_image
+end
+
+exec sp_update_image_product 6, '22', 1, '22', 1, 1
+--end
+
+
+-- Update Type product
+ create proc sp_update_type_product @id int ,@typename nvarchar(1000), @desc nvarchar(1000)
+ as
+ begin
+	update product_type
+	set NAME_PRODUCT_TYPE = @typename, PRODUCT_TYPE_DESC = @desc
+	where ID_PRODUCT_TYPE = @id
+end
+
+exec sp_update_type_product 
+-- END
+
+alter proc sp_update_rating_product @id int ,@point TINYINT, @cmt nvarchar(1000), @idproduct int
+ as
+ begin
+	update RATING
+	set RATING_POINT = @point, RATING_COMMENT = @cmt
+	where ID_RATING = @id
+end
+
+
+exec sp_update_rating_product 1, 5, 'ngon bo re'
+
+ --END UPDATE
+
+ select* from rating
 
 
 
 
+
+---DELETE
+
+ -- DELETE PRODCUT
+ CREATE PROC sp_delete_product @id INT
+AS
+BEGIN
+	DELETE FROM PRODUCT WHERE ID_PRODUCT = @id
+END
+-- END DELETE PRODUCT
+
+-- DELETE HARDWARE
+CREATE PROC sp_delete_hardware @id int
+AS
+BEGIN 
+	DELETE FROM HARDWARE_CONFIGURATION WHERE ID_HARDWARE_CONFIGURATION = @id
+END
+-- END DELETE HARDWARE
+EXEC sp_delete_product 4
+
+--DELETE COLOR
+create proc sp_delete_color @id int
+as
+begin 
+	delete from color where id_color = @id
+end
+
+-- DELETE COLOR PRODUCT
+
+select* 
+from color_product
+create proc sp_delete_color_product @idcolor int, @idproduct int
+as
+begin	
+	delete from color_product where id_color = @idcolor and id_product = @idproduct
+end
+
+exec sp_delete_color_product 5, 1  
+
+--DELTE IMAGE
+create proc sp_delete_image_product @id int
+as
+begin
+	delete from image_product where ID_IMAGE = @id
+end
+
+exec sp_delete_image_product 6
+--END
+
+--DELETE TYPPE
+
+alter proc sp_delete_type_product @id int
+as
+begin
+	delete from PRODUCT_TYPE where ID_PRODUCT_TYPE = @id
+end
+
+exec sp_delete_type_product 7
+-- END
+
+
+exec sp_get_product_rating
+-- DELTE RATING
+
+create proc sp_delete_rating_product @id int
+as
+begin
+	delete from RATING where ID_RATING = @id
+end
 
 
 

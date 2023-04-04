@@ -60,7 +60,7 @@ const createOneStaff = async ( name, phone, addr, persionid,email) => {
   }
 };
 
-const DeleteOneStaff = async (id) => {
+const deleteOneStaff = async (id) => {
   try {
     const poolConnection = await sql.connect(config);
     await poolConnection.query(`Delete from employee where id_employee like ${id}`);
@@ -70,7 +70,7 @@ const DeleteOneStaff = async (id) => {
   }
 };
 
-const UpdateStaff = async (id, name, phonenumber, addr, persionid, email) => {
+const updateStaff = async (id, name, phonenumber, addr, persionid, email) => {
   try {
     const poolConnection = await sql.connect(config);
     await poolConnection.query(`UPDATE employee SET EMPLOYEE_NAME = '${name}', PHONE_NUMBER='${phonenumber}',EMPLOYEE_ADDRESS='${addr}',PERSON_ID='${persionid}',EMAIL='${email}' WHERE ID_employee like '${id}' `);
@@ -80,7 +80,7 @@ const UpdateStaff = async (id, name, phonenumber, addr, persionid, email) => {
   }
 };
 
-const GetStaffbyID = async (id) => {
+const getStaffbyID = async (id) => {
   try {
     const poolConnection = await sql.connect(config);
     const data = await poolConnection.query(`SELECT* FROM employee WHERE id_employee like '${id}'`)
@@ -108,4 +108,4 @@ const GetStaffbyID = async (id) => {
   }
 }
 
-module.exports = { getAllStaff, createOneStaff, DeleteOneStaff, UpdateStaff, GetStaffbyID};
+module.exports = { getAllStaff, createOneStaff, deleteOneStaff, updateStaff, getStaffbyID};

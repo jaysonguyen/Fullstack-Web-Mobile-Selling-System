@@ -4,7 +4,9 @@ const {
   deleteMobile,
   updateMobile,
   getOneMobile,
-} = require("../services/mobileServies");
+} = require("../services/productServies");
+
+
 
 const getMobile = async (req, res) => {
   try {

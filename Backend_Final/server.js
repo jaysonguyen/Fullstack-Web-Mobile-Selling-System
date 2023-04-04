@@ -34,7 +34,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 //app.use(errorHandler);
 
-app.use("/api/mobile/", require("./src/routes/mobileApi"));
+app.use("/api/product/", require("./src/routes/productApi"));
 app.use("/api/customer/", require("./src/routes/customerApi"));
 app.use("/api/staff/", require("./src/routes/StaffApi"));
 app.use("/api/hardware/", require("./src/routes/hardwareApi"));

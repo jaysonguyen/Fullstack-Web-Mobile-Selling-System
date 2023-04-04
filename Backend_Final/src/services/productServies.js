@@ -1,12 +1,13 @@
 const sql = require("mssql");
 const config = require("../config/configDatabase");
 
-
 const getAllMobile = async () => {
   try {
     const poolConnection = await sql.connect(config);
     console.log("Reading rows from the Table...");
-    let data = await poolConnection.request().query("Select* from product");
+    let data = await poolConnection
+      .request()
+      .query("EXEC sp_get_product_name_price");
     poolConnection.close();
     if (data) {
       return {
