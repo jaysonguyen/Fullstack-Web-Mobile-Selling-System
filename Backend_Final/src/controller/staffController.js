@@ -1,8 +1,8 @@
-const { getAllMobile, createOneMobile, deleteMobile, updateMobile, getOneMobile } = require("../services/mobileServies"); // import file 
+const { getAllStaff, CreateOneStaff, DeleteOneStaff, UpdateStaff, GetStaffbyID } = require("../services/StaffServices"); // import file 
 
-const getMobile = async (req, res) => {
+const getstaff = async (req, res) => {
   try {
-    const data = await getAllMobile();
+    const data = await getAllStaff();
     return res.status(200).json({
       EM: data.EM,
       EC: data.EC,
@@ -18,10 +18,10 @@ const getMobile = async (req, res) => {
   }
 };
 
-const createMobile = async (req, res) => {
+const createstaff = async (req, res) => {
   try {
-    const {product_name, price, product_desc, id_type_product, model_no,is_valid,brand,base_hardware_conf} = req.body
-    const data = await createOneMobile(product_name, price, product_desc, id_type_product, model_no,is_valid,brand,base_hardware_conf);
+    const {EMPLOYEE_NAME, PHONE_NUMBER, EMPLOYEE_ADDRESS, PERSON_ID,EMAIL} = req.body
+    const data = await CreateOneStaff(EMPLOYEE_NAME, PHONE_NUMBER,EMPLOYEE_ADDRESS, PERSON_ID,EMAIL);
     return res.status(201).json({
       EM: "Create success",
       EC: 1,
@@ -37,9 +37,9 @@ const createMobile = async (req, res) => {
 
   }
 };
-const deleteMB = async (req, res) => {
+const deletestaff = async (req, res) => {
   try {
-    const data = await deleteMobile(req.body.id_product);
+    const data = await DeleteOneStaff(req.body.id_employee);
     return res.status(203).json({
       EM: "Delete sucess",
       EC: 1,
@@ -51,9 +51,9 @@ const deleteMB = async (req, res) => {
   }
 };
 
-const updateMB = async (req, res) => {
+const updatestaff = async (req, res) => {
   try {
-    const data = await updateMobile(req.body.id_product, req.body.product_name,req.body.price,req.body.product_desc,req.body.id_type_product,req.body.model_no,req.body.is_valid,req.body.brand,req.body.base_hardware_conf);
+    const data = await UpdateStaff(req.body.ID_EMPLOYEE, req.body.EMPLOYEE_NAME,req.body.PHONE_NUMBER,req.body.EMPLOYEE_ADDRESS,req.body.PERSON_ID,req.body.EMAIL);
     return res.status(200).json({
       EM: "Update success",
       EC: 1,
@@ -65,9 +65,9 @@ const updateMB = async (req, res) => {
   }
 }
 
-const getMobileById = async (req, res) => {
+const getstaffbyid = async (req, res) => {
   try {
-    const data = await getOneMobile(req.params.id);
+    const data = await GetStaffbyID(req.params.id);
     return res.status(200).json({
       EM: data.EM,
       EC: data.EC,
@@ -78,4 +78,4 @@ const getMobileById = async (req, res) => {
     return res.status(500).json(data);
   }
 }
-module.exports = { getMobile, createMobile, deleteMB, updateMB, getMobileById };
+module.exports = { getstaff, createstaff, deletestaff, updatestaff, getstaffbyid };

@@ -10,6 +10,6 @@ const config = {
     options: {
       encrypt: true,
     },
-};
+};  
 
 module.exports = config;

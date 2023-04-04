@@ -30,7 +30,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //app.use(errorHandler);
 
 app.use("/api/mobile/", require("./src/routes/mobileApi"));
-app.use("/api/customer/", require("./src/routes/customerApi"));
+app.use("/api/staff/", require("./src/routes/StaffApi"));
+app.use("/api/accessories/", require("./src/routes/accessoriesApi"));
+app.use("/api/voucher/", require("./src/routes/voucherApi"));
+app.use("/api/slider/", require("./src/routes/sliderApi"));
+
+
+
 
 
 app.listen(PORT, () => {

@@ -1,8 +1,9 @@
-const { getAllMobile, createOneMobile, deleteMobile, updateMobile, getOneMobile } = require("../services/mobileServies"); // import file 
 
-const getMobile = async (req, res) => {
+const { Getallaccess, Createaccess, Deleteaccess, Updateaccess, Getoneaccess } = require("../services/accessoriesServices"); // import file 
+
+const getallaccess = async (req, res) => {
   try {
-    const data = await getAllMobile();
+    const data = await Getallaccess();
     return res.status(200).json({
       EM: data.EM,
       EC: data.EC,
@@ -18,10 +19,10 @@ const getMobile = async (req, res) => {
   }
 };
 
-const createMobile = async (req, res) => {
+const createaccess = async (req, res) => {
   try {
-    const {product_name, price, product_desc, id_type_product, model_no,is_valid,brand,base_hardware_conf} = req.body
-    const data = await createOneMobile(product_name, price, product_desc, id_type_product, model_no,is_valid,brand,base_hardware_conf);
+    const {price,accessory_name,brand} = req.body
+    const data = await Createaccess(price,accessory_name,brand);
     return res.status(201).json({
       EM: "Create success",
       EC: 1,
@@ -37,9 +38,9 @@ const createMobile = async (req, res) => {
 
   }
 };
-const deleteMB = async (req, res) => {
+const deleteaccess = async (req, res) => {
   try {
-    const data = await deleteMobile(req.body.id_product);
+    const data = await Deleteaccess(req.body.id_accessory);
     return res.status(203).json({
       EM: "Delete sucess",
       EC: 1,
@@ -51,9 +52,9 @@ const deleteMB = async (req, res) => {
   }
 };
 
-const updateMB = async (req, res) => {
+const updateaccess = async (req, res) => {
   try {
-    const data = await updateMobile(req.body.id_product, req.body.product_name,req.body.price,req.body.product_desc,req.body.id_type_product,req.body.model_no,req.body.is_valid,req.body.brand,req.body.base_hardware_conf);
+    const data = await Updateaccess(req.body.id_accessory,req.body.accessory_price,req.body.accessory_name,req.body.brand);
     return res.status(200).json({
       EM: "Update success",
       EC: 1,
@@ -65,9 +66,9 @@ const updateMB = async (req, res) => {
   }
 }
 
-const getMobileById = async (req, res) => {
+const getoneaccess = async (req, res) => {
   try {
-    const data = await getOneMobile(req.params.id);
+    const data = await Getoneaccess(req.params.id);
     return res.status(200).json({
       EM: data.EM,
       EC: data.EC,
@@ -78,4 +79,4 @@ const getMobileById = async (req, res) => {
     return res.status(500).json(data);
   }
 }
-module.exports = { getMobile, createMobile, deleteMB, updateMB, getMobileById };
+module.exports = { getallaccess, createaccess, deleteaccess, updateaccess, getoneaccess };
