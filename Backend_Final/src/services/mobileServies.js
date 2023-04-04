@@ -1,13 +1,12 @@
 const sql = require("mssql");
 const config = require("../config/configDatabase");
 
-const readProductColor = async () => {
+
+const getAllMobile = async () => {
   try {
     const poolConnection = await sql.connect(config);
     console.log("Reading rows from the Table...");
-    let data = await poolConnection
-      .request()
-      .query("exec sp_get_color_product");
+    let data = await poolConnection.request().query("Select* from product");
     poolConnection.close();
     if (data) {
       return {
@@ -25,18 +24,25 @@ const readProductColor = async () => {
   } catch (error) {
     console.log(error);
     return {
-      EM: "Error from services",
+      EM: "Get data failed",
       EC: -1,
       DT: "",
     };
   }
 };
 
-const addProductColor = async (idColor, idProduct, quantity, importDate) => {
+const createOneMobile = async (
+  name,
+  desc,
+  id_type,
+  product_model,
+  is_valid,
+  brand
+) => {
   try {
     const poolConnection = await sql.connect(config);
     let data = await poolConnection.query(
-      `exec sp_insert_color_product ${idColor}, ${idProduct}, ${quantity}, '${importDate}'`
+      `exec sp_insert_product N'${name}', N'${desc}', ${id_type}, '${product_model}',${is_valid},'${brand}'`
     );
     poolConnection.close();
     if (data) {
@@ -62,35 +68,21 @@ const addProductColor = async (idColor, idProduct, quantity, importDate) => {
   }
 };
 
-const removeProductColor = async (idColor, idProduct) => {
+const deleteMobile = async (id) => {
   try {
     const poolConnection = await sql.connect(config);
-    const data = await poolConnection.query(
-      `EXEC sp_delete_color_product ${idColor}, ${idProduct}`
-    );
+    await poolConnection.query(`EXEC sp_delete_product ${id}`);
     poolConnection.close();
-    if (data) {
-      return {
-        EM: "Delete success",
-        EC: 1,
-        DT: "",
-      };
-    }
   } catch (error) {
-    console.log("Delete new ProductColor error: " + error);
-    return {
-      EM: "Error from services",
-      EC: -1,
-      DT: "",
-    };
+    console.log("Delete new mobile error: " + error);
   }
 };
 
-const editProductColor = async (idColor, idProduct, quantity, importDate) => {
+const updateMobile = async (id, name, desc, id_type, is_valid) => {
   try {
     const poolConnection = await sql.connect(config);
     let data = await poolConnection.query(
-      ` exec sp_update_color_product ${idColor}, ${idProduct}, ${quantity}, '${importDate}'`
+      `exec sp_update_product ${id}, '${name}', N'${desc}', ${id_type}, ${is_valid}`
     );
     poolConnection.close();
     if (data) {
@@ -110,9 +102,40 @@ const editProductColor = async (idColor, idProduct, quantity, importDate) => {
   }
 };
 
+const getOneMobile = async (id) => {
+  try {
+    const poolConnection = await sql.connect(config);
+    const data = await poolConnection.query(
+      `SELECT* FROM PRODUCT WHERE ID_PRODUCT like '${id}'`
+    );
+    poolConnection.close();
+    if (data) {
+      return {
+        EM: "Get data succcess",
+        EC: 1,
+        DT: data.recordset,
+      };
+    } else {
+      return {
+        EM: "Get data succcess",
+        EC: 1,
+        DT: [],
+      };
+    }
+  } catch (error) {
+    console.log("Get one user failed" + error);
+    return {
+      EM: "Get data failed",
+      EC: -1,
+      DT: "",
+    };
+  }
+};
+
 module.exports = {
-  readProductColor,
-  addProductColor,
-  removeProductColor,
-  editProductColor,
+  getAllMobile,
+  createOneMobile,
+  deleteMobile,
+  updateMobile,
+  getOneMobile,
 };

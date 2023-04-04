@@ -1,15 +1,12 @@
-import React from "react";
-import "./Footer.css";
+import React from 'react';
+import "./Footer.css"
 
 const Footer = (props) => {
-  return (
-    <div>
-      <div class="footer">
-        <i class="cart-shopping-solid.svg"></i>
-        saddd
-      </div>
-    </div>
-  );
-};
+    return (
+        <div>
+           Footer 
+        </div>
+    );
+}
 
 export default Footer;

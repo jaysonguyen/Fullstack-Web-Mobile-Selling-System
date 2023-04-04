@@ -1,8 +1,9 @@
-const { getAllStaff, CreateOneStaff, DeleteOneStaff, UpdateStaff, GetStaffbyID } = require("../services/StaffServices"); // import file 
 
-const getstaff = async (req, res) => {
+const { Getallslider, Createslider, Deleteslider, Updateslider, Getoneslider } = require("../services/sliderServices"); // import file 
+
+const getallslider = async (req, res) => {
   try {
-    const data = await getAllStaff();
+    const data = await Getallslider();
     return res.status(200).json({
       EM: data.EM,
       EC: data.EC,
@@ -18,10 +19,10 @@ const getstaff = async (req, res) => {
   }
 };
 
-const createstaff = async (req, res) => {
+const createslider = async (req, res) => {
   try {
-    const {EMPLOYEE_NAME, PHONE_NUMBER, EMPLOYEE_ADDRESS, PERSON_ID,EMAIL} = req.body
-    const data = await CreateOneStaff(EMPLOYEE_NAME, PHONE_NUMBER,EMPLOYEE_ADDRESS, PERSON_ID,EMAIL);
+    const {image_link,name_image,image_status} = req.body
+    const data = await Createslider(price,accessory_name);
     return res.status(201).json({
       EM: "Create success",
       EC: 1,
@@ -37,11 +38,11 @@ const createstaff = async (req, res) => {
 
   }
 };
-const deletestaff = async (req, res) => {
+const deleteslider = async (req, res) => {
   try {
-    const data = await DeleteOneStaff(req.body.id_employee);
+    const data = await Deleteslider(req.body.id_promotion);
     return res.status(203).json({
-      EM: "Delete sucess",
+      EM: "Delete success",
       EC: 1,
       DT: ""
     });
@@ -51,9 +52,9 @@ const deletestaff = async (req, res) => {
   }
 };
 
-const updatestaff = async (req, res) => {
+const updateslider = async (req, res) => {
   try {
-    const data = await UpdateStaff(req.body.ID_EMPLOYEE, req.body.EMPLOYEE_NAME,req.body.PHONE_NUMBER,req.body.EMPLOYEE_ADDRESS,req.body.PERSON_ID,req.body.EMAIL);
+    const data = await Updateslider(req.body.id_slider,req.body.image_link,req.body.name_image,req.body.image_status);
     return res.status(200).json({
       EM: "Update success",
       EC: 1,
@@ -64,10 +65,9 @@ const updatestaff = async (req, res) => {
     return res.status(500).json(data);
   }
 }
-
-const getstaffbyid = async (req, res) => {
+const getoneslider = async (req, res) => {
   try {
-    const data = await GetStaffbyID(req.params.id);
+    const data = await Getoneslider(req.body.id_slider);
     return res.status(200).json({
       EM: data.EM,
       EC: data.EC,
@@ -78,4 +78,4 @@ const getstaffbyid = async (req, res) => {
     return res.status(500).json(data);
   }
 }
-module.exports = { getstaff, createstaff, deletestaff, updatestaff, getstaffbyid };
+module.exports = { getallslider, createslider, deleteslider, updateslider, getoneslider };

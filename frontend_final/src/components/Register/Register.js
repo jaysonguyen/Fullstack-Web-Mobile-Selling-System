@@ -3,7 +3,7 @@ import { RecaptchaVerifier } from "firebase/auth";
 import { auth } from "../../config/firebaseConfig";
 import { signInWithPhoneNumber } from "firebase/auth";
 import OTPInput, { ResendOTP } from "otp-input-react";
-//import { registerNewUser } from "../../Services/customerService";
+import { registerNewUser } from "../../Services/customerService";
 
 const Register = (props) => {
   const [userName, setUserName] = useState("");
@@ -75,7 +75,7 @@ const Register = (props) => {
   };*/
 
   const customerInforRegister = async () => {
-    //await registerNewUser(userName, phone, dob, password, email);
+    await registerNewUser(userName, phone, dob, password, email);
   };
 
   return (

@@ -1,12 +1,12 @@
 import axios from "../setup/axios";
 
 const getAllMobilePhone = () => {
-  return axios.get(`/api/product/findall`);
+  return axios.get(`/api/mobile`);
 };
 
 const createMobilePhone = (userData) => {
   console.log("User data: >>>>>", userData);
-  return axios.post("/api/product/", {
+  return axios.post("/api/mobile", {
     ...userData,
   });
 };

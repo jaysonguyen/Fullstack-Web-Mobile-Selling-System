@@ -34,7 +34,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 //app.use(errorHandler);
 
-app.use("/api/product/", require("./src/routes/productApi"));
+app.use("/api/mobile/", require("./src/routes/mobileApi"));
 app.use("/api/customer/", require("./src/routes/customerApi"));
 app.use("/api/staff/", require("./src/routes/StaffApi"));
 app.use("/api/hardware/", require("./src/routes/hardwareApi"));
@@ -43,6 +43,11 @@ app.use("/api/color/product", require("./src/routes/colorProductApi"));
 app.use("/api/image/product", require("./src/routes/ImageApi"));
 app.use("/api/type/product", require("./src/routes/producTypeApi"));
 app.use("/api/rating/product", require("./src/routes/productRating"));
+app.use("/api/accessories/", require("./src/routes/accessoriesApi"));
+app.use("/api/voucher/", require("./src/routes/voucherApi"));
+
+
+
 
 app.use;
 app.listen(PORT, () => {

@@ -1,8 +1,9 @@
-const { getAllStaff, CreateOneStaff, DeleteOneStaff, UpdateStaff, GetStaffbyID } = require("../services/StaffServices"); // import file 
 
-const getstaff = async (req, res) => {
+const { Getallaccess, Createaccess, Deleteaccess, Updateaccess, Getoneaccess } = require("../services/accessoriesServices"); // import file 
+
+const getallaccess = async (req, res) => {
   try {
-    const data = await getAllStaff();
+    const data = await Getallaccess();
     return res.status(200).json({
       EM: data.EM,
       EC: data.EC,
@@ -18,10 +19,10 @@ const getstaff = async (req, res) => {
   }
 };
 
-const createstaff = async (req, res) => {
+const createaccess = async (req, res) => {
   try {
-    const {EMPLOYEE_NAME, PHONE_NUMBER, EMPLOYEE_ADDRESS, PERSON_ID,EMAIL} = req.body
-    const data = await CreateOneStaff(EMPLOYEE_NAME, PHONE_NUMBER,EMPLOYEE_ADDRESS, PERSON_ID,EMAIL);
+    const {price,accessory_name,brand} = req.body
+    const data = await Createaccess(price,accessory_name,brand);
     return res.status(201).json({
       EM: "Create success",
       EC: 1,
@@ -37,9 +38,9 @@ const createstaff = async (req, res) => {
 
   }
 };
-const deletestaff = async (req, res) => {
+const deleteaccess = async (req, res) => {
   try {
-    const data = await DeleteOneStaff(req.body.id_employee);
+    const data = await Deleteaccess(req.body.id_accessory);
     return res.status(203).json({
       EM: "Delete sucess",
       EC: 1,
@@ -51,9 +52,9 @@ const deletestaff = async (req, res) => {
   }
 };
 
-const updatestaff = async (req, res) => {
+const updateaccess = async (req, res) => {
   try {
-    const data = await UpdateStaff(req.body.ID_EMPLOYEE, req.body.EMPLOYEE_NAME,req.body.PHONE_NUMBER,req.body.EMPLOYEE_ADDRESS,req.body.PERSON_ID,req.body.EMAIL);
+    const data = await Updateaccess(req.body.id_accessory,req.body.accessory_price,req.body.accessory_name,req.body.brand);
     return res.status(200).json({
       EM: "Update success",
       EC: 1,
@@ -65,9 +66,9 @@ const updatestaff = async (req, res) => {
   }
 }
 
-const getstaffbyid = async (req, res) => {
+const getoneaccess = async (req, res) => {
   try {
-    const data = await GetStaffbyID(req.params.id);
+    const data = await Getoneaccess(req.params.id);
     return res.status(200).json({
       EM: data.EM,
       EC: data.EC,
@@ -78,4 +79,4 @@ const getstaffbyid = async (req, res) => {
     return res.status(500).json(data);
   }
 }
-module.exports = { getstaff, createstaff, deletestaff, updatestaff, getstaffbyid };
+module.exports = { getallaccess, createaccess, deleteaccess, updateaccess, getoneaccess };
