@@ -1,0 +1,166 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./admin.css">
+  <link href="bootstrap-5.3.0-alpha3-examples/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sidebars/">
+  <link href="./bootstrap-5.3.0-alpha3-examples/sidebars/sidebars.css" rel="stylesheet">
+  <script src="./bootstrap-5.3.0-alpha3-examples/sidebars/sidebars.js"></script>
+  <link rel="stylesheet" href="./content-admin.css">
+
+
+</head>
+
+<body>
+
+
+
+  <div class="content">
+    <div class="header"></div>
+
+    <div class="noidung">
+      <h1 style="text-align: center;padding-top: 50px;"> Thông tin tài khoản</h1>
+      <div class="trai">
+        <div class="trai-nd">
+          <table class="table1">
+            <tr>
+              <td class="ava" rowspan="2"></td>
+              <td class="Ten">Huy Taam</td>
+            </tr>
+            <tr>
+              <td> quận 10 thành phố hồ chí minh </td>
+            </tr>
+          </table>
+
+
+          <div class="note">
+            <p>Ghi Chu</p>
+            <input type="text" placeholder="Nhap Ghi Chu Ve Khach Hang">
+          </div>
+          <div class="line"></div>
+          <table class="table2">
+            <tr>
+              <td>Đơn hàng mới nhất</td>
+              <td>Tổng chi tiêu</td>
+              <td>Chi tiêu trung bình</td>
+            </tr>
+            <tr>
+              <td>#2913</td>
+              <td>290.940đ</td>
+              <td>20.930đ</td>
+            </tr>
+          </table>
+
+        </div>
+      </div>
+      <div class="phai">
+        <div class="phai-nd">
+          <div class="tieude">
+            <h4>Liên hệ</h4>
+            <span>Sửa</span>
+          </div>
+          <div class="tieude-nd">
+            <p>caohuytam@gmail.com</p>
+            <p>dổi mật khẩu</p>
+            <p>đổi ảnh đại diện</p>
+
+          </div> <br><br>
+          <div style="width: 100%;" class="line"></div>
+          <div class="tieude">
+            <h4>Thông Tin Cá Nhân</h4>
+            <span>Sửa</span>
+          </div>
+          <div class="tieude-nd">
+            <p>Cao Huy Tam</p>
+            <p>0909009099</p>
+            <p>ấp 1, xã việt nam, tỉnh việt nam</p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu">
+    <div class="flex-shrink-0 p-3" style="width: 280px;">
+      <a href="" class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
+        <svg class="bi pe-none me-2" width="30" height="24">
+          <use xlink:href="" />
+        </svg>
+        <span class="fs-5 fw-semibold">LoGo</span>
+      </a>
+      <ul class="list-unstyled ps-0">
+        <li class="mb-1">
+          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+            QUẢN LÍ ĐƠN HÀNG
+          </button>
+          <div class="collapse show" id="home-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Danh sách đơn
+                  hàng</a></li>
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Thêm đơn hàng</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="mb-1">
+          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+            QUẢN LÍ THỐNG KÊ
+          </button>
+          <div class="collapse" id="dashboard-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Mã khuyến mãi</a>
+              </li>
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Phương thức thanh
+                  toán</a></li>
+
+            </ul>
+          </div>
+        </li>
+        <li class="mb-1">
+          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+            QUẢN LÍ DỊCH VỤ
+          </button>
+          <div class="collapse" id="orders-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">New</a></li>
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Processed</a></li>
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Shipped</a></li>
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Returned</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="border-top my-3"></li>
+        <li class="mb-1">
+          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+            QUẢN LÍ TÀI KHOẢN
+          </button>
+          <div class="collapse" id="account-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Xem thông tin</a></li>
+              <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">chỉnh sửa</a></li>
+              <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Danh sách tài khảin</a></li>
+              <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Đăng xuất</a></li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer"></div>
+
+</body>
+<script src="bootstrap-5.3.0-alpha3-examples/assets/js/color-modes.js"></script>
+
+<script src="./bootstrap-5.3.0-alpha3-examples/assets/dist/js/bootstrap.bundle.min.js"></script>
+<script src="sidebars.js"></script>
+
+</html>
