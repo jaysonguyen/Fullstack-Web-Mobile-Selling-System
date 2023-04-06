@@ -5,11 +5,9 @@ import Register from "./components/Register/Register";
 import AppRoutes from "./Routes/AppRoutes";
 
 const App = () => {
-
   return (
     <>
-    <AppRoutes />
-
+      <AppRoutes />
     </>
     /* <BrowserRouter>
       <Routes>

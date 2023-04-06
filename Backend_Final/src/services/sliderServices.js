@@ -1,13 +1,13 @@
 const sql = require("mssql");
 const config = require("../config/configDatabase");
 
-console.log("Staff...");
+console.log("Slider...");
 
-const getAllStaff = async () => {
+const Getallslider = async () => {
   try {
     const poolConnection = await sql.connect(config);
     console.log("Reading rows from the Table...");
-    let data = await poolConnection.request().query("Select* from employee");
+    let data = await poolConnection.request().query("exec sp_get_slider");
     poolConnection.close();
     if (data) {
       return {
@@ -32,10 +32,10 @@ const getAllStaff = async () => {
   }
 };
 
-const CreateOneStaff = async ( name, phone, addr, persionid,email) => {
+const Createslider = async (link,name,status) => {
   try {
     const poolConnection = await sql.connect(config);
-    await poolConnection.query(`exec sp_insert_employee N'${name}', '${phone}', N'${addr}', '${persionid}','${email}'`)
+    await poolConnection.query(`exec sp_insert_slider ${link}, N'${name}', N'${status}'`)
     poolConnection.close();
     if(data) {
       return {
@@ -53,37 +53,37 @@ const CreateOneStaff = async ( name, phone, addr, persionid,email) => {
   } catch (error) {
     console.log("Create new staff error: " + error);
     return {
-      EM: 'Create success',
+      EM: 'Error from server',
       EC: 1,
       DT: ''
     } 
   }
 };
 
-const DeleteOneStaff = async (id) => {
+const Deleteslider = async (id) => {
   try {
     const poolConnection = await sql.connect(config);
-    await poolConnection.query(`Delete from employee where id_employee like ${id}`);
+    await poolConnection.query(`exec sp_delete_slider ${id}`);
     poolConnection.close();
   } catch(error) {
-    console.log("Delete new staff error: " + error)
+    console.log("Delete new slider error: " + error)
   }
 };
 
-const UpdateStaff = async (id, name, phonenumber, addr, persionid, email) => {
+const Updateslider = async (id,link,name,status) => {
   try {
     const poolConnection = await sql.connect(config);
-    await poolConnection.query(`UPDATE employee SET EMPLOYEE_NAME = '${name}', PHONE_NUMBER='${phonenumber}',EMPLOYEE_ADDRESS='${addr}',PERSON_ID='${persionid}',EMAIL='${email}' WHERE ID_employee like '${id}' `);
+    await poolConnection.query(`exec sp_update_slider ${id}, '${link}', ${status}`);
     poolConnection.close();
   } catch(error) {
-    console.log("Update staff error", error);
+    console.log("Update slider error", error);
   }
 };
 
-const GetStaffbyID = async (id) => {
+const Getoneslider = async (id) => {
   try {
     const poolConnection = await sql.connect(config);
-    const data = await poolConnection.query(`SELECT* FROM employee WHERE id_employee like '${id}'`)
+    const data = await poolConnection.query(`exec sp_delete_slider '${id}'`)
     poolConnection.close();
     if(data) {
       return {
@@ -99,7 +99,7 @@ const GetStaffbyID = async (id) => {
       }
     }
   } catch(error) {
-    console.log("Get one user failed" + error);
+    console.log("Get one slider failed" + error);
     return {
       EM: "Get data failed",
       EC: -1,
@@ -107,5 +107,4 @@ const GetStaffbyID = async (id) => {
     }
   }
 }
-
-module.exports = { getAllStaff, CreateOneStaff, DeleteOneStaff, UpdateStaff, GetStaffbyID};
+module.exports = { Getallslider,Createslider,Deleteslider,Updateslider,Getoneslider};

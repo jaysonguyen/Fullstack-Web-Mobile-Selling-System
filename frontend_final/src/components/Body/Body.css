@@ -326,7 +326,7 @@ section .main_btn:hover i {
 }
 
 .body-container {
-    margin-top: 150px;
+    margin-top: 70px;
 }
 
 .color-product {
@@ -348,4 +348,18 @@ section .main_btn:hover i {
     color: #000;
     font-weight: bold;
     text-align: center;
+}
+
+.carousel-container {
+    width: 100%;
+}
+
+.buyButton {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    background-color: #000;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
 }

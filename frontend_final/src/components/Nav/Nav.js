@@ -1,82 +1,52 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import "./Nav.css";
-import {
-  getAllMobilePhone,
-  createMobilePhone,
-  deleteMobilePhone,
-} from "../../Services/mobileService";
+import React from "react";
+import { NavLink } from "react-router-dom";
 import {
   AiOutlineSearch,
-  AiOutlineUser,
   AiOutlineShoppingCart,
+  AiOutlineUser,
 } from "react-icons/ai";
+import './Nav.css'
 
 const Nav = (props) => {
-
-  // useEffect(() => {
-  //   getAllMB();
-  //   createMB();
-  // }, []);
-
-  const handleClickDelete = () => {
-    deleteMB();
-  };
-
-  const getAllMB = async () => {
-    let response = await getAllMobilePhone();
-  };
-
-  const createMB = async () => {
-    await createMobilePhone({
-      MaMB: "22",
-      nameMB: "Nguyen MB",
-    });
-  };
-
-  const deleteMB = async () => {
-    await deleteMobilePhone("22");
-  };
-
   return (
     <header>
-      <Link href="/" class="logo">
-        <i class="ri-home-fill"></i>
+      <NavLink to="/" className="logo">
+        <i className="ri-home-fill"></i>
         <span>logo</span>
-      </Link>
+      </NavLink>
 
-      <ul class="navbar">
+      <ul className="navbar">
         <li>
-          <Link href="">Điện Thoại</Link>
+          <NavLink to="/mobile">Điện Thoại</NavLink>
         </li>
         <li>
-          <Link href="">Tablet</Link>
+          <NavLink to="/tablet">Tablet</NavLink>
         </li>
         <li>
-          <Link href="">Đồng hồ</Link>
+          <NavLink to="/watch">Đồng hồ</NavLink>
         </li>
         <li>
-          <Link href="">Âm thanh</Link>
+          <NavLink to="/sound">Âm thanh</NavLink>
         </li>
         <li>
-          <Link href="">Phụ kiện</Link>
+          <NavLink to="/accessories">Phụ kiện</NavLink>
         </li>
         <li>
-          <Link href="">Khuyến mãi</Link>
+          <NavLink to="/promotion">Khuyến mãi</NavLink>
         </li>
       </ul>
 
-      <div class="main">
-        <Link href="">
+      <div className="main">
+        <a href="">
           <AiOutlineSearch />
-        </Link>
+        </a>
 
-        <Link href="" class="Cart">
+        <a href="" className="Cart">
           <AiOutlineShoppingCart />
-        </Link>
-        <Link href="" class="User">
+        </a>
+        <a href="" className="User">
           <AiOutlineUser />
-        </Link>
+        </a>
         <div className="bx bx-menu" id="menu-icon"></div>
       </div>
     </header>

@@ -356,12 +356,6 @@ exec sp_insert_slider 'https://rb.gy/ks2onq', 'Banner homepage 2', 1
 --END
 
 -- INSERT PRODUCT TYPE
-CREATE TABLE PRODUCT_TYPE(
-	ID_PRODUCT_TYPE INT PRIMARY KEY,
-	NAME_PRODUCT_TYPE NVARCHAR(1000) NOT NULL,
-	PRODUCT_TYPE_DESC NVARCHAR(1000),
-);
-
 ALTER PROC sp_insert_product_type @nameType nvarchar(1000), @typeDesc nvarchar(1000)
 as
 begin
@@ -400,7 +394,10 @@ CREATE TABLE ACCESSORY(
 );
 
 
-ALTER PROC sp_insert_accessory @price int,  @accessory_name nvarchar(1000), @brand nvarchar(1000)
+ALTER PROC sp_insert_accessory (
+@price int,  
+@accessory_name nvarchar(1000), 
+@brand nvarchar(1000))
 as
 begin
 	declare @id int;
@@ -427,12 +424,12 @@ exec sp_insert_accessory 1000000, 'Op lung iphone 14', 'Apple'
 ALTER proc sp_get_slider
 as
 begin
-	select*
+	select image_link, id_slider, image_status
 	from SLIDER
 end
 
 exec sp_get_slider
--- END GET SLIDER
+-- END GET SLIDERS
 
 -- GET TYPE FOR NAVITAION
 ALTER proc sp_get_type_navigation
@@ -666,10 +663,29 @@ end
 
 exec sp_update_rating_product 1, 5, 'ngon bo re'
 
+
+CREATE TABLE SLIDER(
+	ID_SLIDER INT PRIMARY KEY,
+	IMAGE_LINK TEXT,
+	NAME_IMAGE NVARCHAR(100),
+	IMAGE_STATUS BIT,
+	CONTENT NVARCHAR(MAX)
+);
+
+-- update slider
+create proc sp_update_slider @id int, @image_link text, @name_image nvarchar(100), @status bit
+as
+begin
+	update SLIDER
+	set IMAGE_LINK = @image_link, NAME_IMAGE = @name_image, IMAGE_STATUS = @status
+	where ID_SLIDER = @id
+end
+
+exec sp_update_slider 1, 'https://img.republicworld.com/republic-prod/stories/promolarge/xhdpi/4bww7deichbrtmf8_1632729611.jpeg', '', 1
+
+
+
  --END UPDATE
-
- select* from rating
-
 
 
 
@@ -741,6 +757,12 @@ create proc sp_delete_rating_product @id int
 as
 begin
 	delete from RATING where ID_RATING = @id
+end
+
+create proc sp_delete_slider @id int
+as
+begin	
+	delete from SLIDER where ID_SLIDER = @id
 end
 
 

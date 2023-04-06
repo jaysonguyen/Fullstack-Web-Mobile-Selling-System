@@ -1,8 +1,8 @@
-const { getAllStaff, CreateOneStaff, DeleteOneStaff, UpdateStaff, GetStaffbyID } = require("../services/StaffServices"); // import file 
+const { Getallvoucher, Createvoucher, Deletevoucher, Updatevoucher, Getonevoucher } = require("../services/voucherServices"); // import file 
 
-const getstaff = async (req, res) => {
+const getallvoucher = async (req, res) => {
   try {
-    const data = await getAllStaff();
+    const data = await Getallvoucher();
     return res.status(200).json({
       EM: data.EM,
       EC: data.EC,
@@ -18,10 +18,10 @@ const getstaff = async (req, res) => {
   }
 };
 
-const createstaff = async (req, res) => {
+const createvoucher = async (req, res) => {
   try {
-    const {EMPLOYEE_NAME, PHONE_NUMBER, EMPLOYEE_ADDRESS, PERSON_ID,EMAIL} = req.body
-    const data = await CreateOneStaff(EMPLOYEE_NAME, PHONE_NUMBER,EMPLOYEE_ADDRESS, PERSON_ID,EMAIL);
+    const {promotion_name,exp_day,start_time,promotion_content,promotion_cost,is_valid} = req.body
+    const data = await Createvoucher(price,accessory_name);
     return res.status(201).json({
       EM: "Create success",
       EC: 1,
@@ -37,9 +37,9 @@ const createstaff = async (req, res) => {
 
   }
 };
-const deletestaff = async (req, res) => {
+const deletevoucher = async (req, res) => {
   try {
-    const data = await DeleteOneStaff(req.body.id_employee);
+    const data = await Deletevoucher(req.body.id_promotion);
     return res.status(203).json({
       EM: "Delete sucess",
       EC: 1,
@@ -51,9 +51,9 @@ const deletestaff = async (req, res) => {
   }
 };
 
-const updatestaff = async (req, res) => {
+const updatevoucher = async (req, res) => {
   try {
-    const data = await UpdateStaff(req.body.ID_EMPLOYEE, req.body.EMPLOYEE_NAME,req.body.PHONE_NUMBER,req.body.EMPLOYEE_ADDRESS,req.body.PERSON_ID,req.body.EMAIL);
+    const data = await Updatevoucher(req.body.id_promotion,req.body.promotion_name,req.body.exp_date,req.body.start_exp,req.body.promotion_content,req.body.promotion_cost,req.body.is_valid);
     return res.status(200).json({
       EM: "Update success",
       EC: 1,
@@ -64,10 +64,9 @@ const updatestaff = async (req, res) => {
     return res.status(500).json(data);
   }
 }
-
-const getstaffbyid = async (req, res) => {
+const getonevoucher = async (req, res) => {
   try {
-    const data = await GetStaffbyID(req.params.id);
+    const data = await Getonevoucher(req.params.id);
     return res.status(200).json({
       EM: data.EM,
       EC: data.EC,
@@ -78,4 +77,4 @@ const getstaffbyid = async (req, res) => {
     return res.status(500).json(data);
   }
 }
-module.exports = { getstaff, createstaff, deletestaff, updatestaff, getstaffbyid };
+module.exports = { getallvoucher, createvoucher, deletevoucher, updatevoucher, getonevoucher };

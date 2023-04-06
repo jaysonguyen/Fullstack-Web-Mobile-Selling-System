@@ -1,87 +1,123 @@
 import React, { useEffect, useState } from "react";
 import "./Body.css";
 import { Row, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { getAllMobilePhone } from "../../Services/mobileService";
 import { getColorProduct } from "../../Services/colorService";
 import { getTypeProduct } from "../../Services/typeServices";
 import Slider from "../Slider/Slider";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 
 const Body = (props) => {
+  const responsive = {
+    superLargeDesktop: {
+      // the naming can be any, depends on you.
+      breakpoint: { max: 4000, min: 3000 },
+      items: 4,
+    },
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 4,
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 3,
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 2,
+    },
+  };
+
   const [mobile, setMobile] = useState([]);
-  const [mobileInfor, setMobileInfor] = useState([]);
   const [color, setColor] = useState([]);
   const [type, setType] = useState([]);
 
-  useEffect(async () => {
-    await fetchData();
-  }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      const mobileData = await getAllMobilePhone();
+      const colorData = await getColorProduct();
+      const typeData = await getTypeProduct();
 
-  const fetchData = async () => {
-    let data = await getAllMobilePhone();
-    let colorData = await getColorProduct();
-    let typeData = await getTypeProduct();
-    setMobile(data.DT);
-    setColor(colorData.DT);
-    setType(typeData.DT);
-  };
+      setMobile(mobileData.DT);
+      setColor(colorData.DT);
+      setType(typeData.DT);
+    };
+
+    fetchData();
+
+    return () => {
+      console.log("return log");
+    }
+  }, []);
 
   return (
     <div className="body-container">
       <Slider />
-      {type.map((type, index) => {
-        return (
-          <>
-            <h5 key={index} className="type-title">
-              {type.name_product_type}
-            </h5>
-            ;
-            <Row className="row">
-              {mobile.map((item, index) => {
-                if (item.id_type_product === type.id_product_type) {
-                  return (
-                    <Col className="column">
-                      <Link key={index} href="/">
-                        <div className="card">
-                          {/* <div className="status">Tạm hết hàng</div> */}
-                          <div className="imageProduct">
-                            <img className="imgPhone" src={item.image_sig} />
-                          </div>
-                          <p className="NamePhone">{item.product_name}</p>
-                          <div className="color-product">
-                            {color.map((element) => {
-                              if (
-                                element.ID_PRODUCT == item.id_product &&
-                                element.COLOR_HEXA_CODE != "#fff"
-                              ) {
-                                return (
-                                  <>
-                                    <div
-                                      className="spot"
-                                      style={{
-                                        backgroundColor:
-                                          element.COLOR_HEXA_CODE,
-                                      }}
-                                    ></div>
-                                  </>
-                                );
-                              }
-                            })}
-                          </div>
-                          <div className="price-contain">
-                            <p className="price">{item.price}</p>
-                            <p className="price-old">34.000.000</p>
-                          </div>
+      {type.map((productType) => (
+        <div key={productType.id_product_type}>
+          <h5 className="type-title">{productType.name_product_type}</h5>
+          <Row className="row">
+            {mobile
+              .filter(
+                (item) => item.id_type_product === productType.id_product_type
+              )
+              .map((item) => (
+                <Col key={item.id_product} className="">
+                  <Carousel
+                    responsive={responsive}
+                    showDots={true}
+                    autoPlaySpeed={5000}
+                    autoPlay={true}
+                    infinite={true}
+                    rewind={true}
+                    className="carousel-container"
+                    removeArrowOnDeviceType={["tablet", "mobile"]}
+                    transitionDuration={500}
+                  >
+                    <Link to={`/product_detail/${item.id_product}`}>
+                      <div className="card">
+                        <div className="imageProduct">
+                          <img
+                            className="imgPhone"
+                            src={item.image_sig}
+                            alt={item.product_name}
+                          />
                         </div>
-                      </Link>
-                    </Col>
-                  );
-                }
-              })}
-            </Row>
-          </>
-        );
-      })}
+                        <p className="NamePhone">{item.product_name}</p>
+                        <div className="color-product">
+                          {color
+                            .filter(
+                              (element) =>
+                                element.ID_PRODUCT === item.id_product &&
+                                element.COLOR_HEXA_CODE !== "#fff"
+                            )
+                            .map((element) => (
+                              <div
+                                key={element.COLOR_HEXA_CODE}
+                                className="spot"
+                                style={{
+                                  backgroundColor: element.COLOR_HEXA_CODE,
+                                }}
+                              ></div>
+                            ))}
+                        </div>
+                        <div className="price-contain">
+                          <p className="price">
+                            {item.price.toLocaleString("de-DE")}
+                            <span>&#8363;</span>
+                          </p>
+                        </div>
+                        <button className="buyButton">Mua ngay</button>
+                      </div>
+                    </Link>
+                  </Carousel>
+                </Col>
+              ))}
+          </Row>
+        </div>
+      ))}
     </div>
   );
 };
