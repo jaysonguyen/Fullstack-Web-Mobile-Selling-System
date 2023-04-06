@@ -1,13 +1,13 @@
 const sql = require("mssql");
 const config = require("../config/configDatabase");
 
-console.log("Starting...");
+console.log("Voucher...");
 
-const getAllMobile = async () => {
+const Getallvoucher = async () => {
   try {
     const poolConnection = await sql.connect(config);
     console.log("Reading rows from the Table...");
-    let data = await poolConnection.request().query("Select* from mobile");
+    let data = await poolConnection.request().query("Select* from promotion");
     poolConnection.close();
     if (data) {
       return {
@@ -32,43 +32,58 @@ const getAllMobile = async () => {
   }
 };
 
-const createOneMobile = async (id, name) => {
+const Createvoucher = async ( name,expday,startday,context,cost,is_valid) => {
   try {
     const poolConnection = await sql.connect(config);
-    await poolConnection.query(
-      `Insert into mobile (MaMB, nameMB) values('${id}', '${name}')`
-    );
+    await poolConnection.query(``)
     poolConnection.close();
+    if(data) {
+      return {
+        EM: 'Create success',
+        EC: 1,
+        DT: []
+      }
+    } else {
+      return {
+        EM: 'Create success',
+        EC: 1,
+        DT: []
+      }
+    }
   } catch (error) {
-    console.log("Create new mobile error: " + error);
+    console.log("Create new staff error: " + error);
+    return {
+      EM: 'Create success',
+      EC: 1,
+      DT: ''
+    } 
   }
 };
 
-const deleteMobile = async (id) => {
+const Deletevoucher = async (id) => {
   try {
     const poolConnection = await sql.connect(config);
-    await poolConnection.query(`Delete from mobile where MaMB like ${id}`);
-    poolConnection.close();
-
-  } catch(error) {
-    console.log("Delete new mobile error: " + error)
-  }
-};
-
-const updateMobile = async (id, name) => {
-  try {
-    const poolConnection = await sql.connect(config);
-    await poolConnection.query(`UPDATE mobile SET nameMB = '${name}' WHERE MaMB like '${id}' `);
+    await poolConnection.query(`Delete from promotion where id_promotion like ${id}`);
     poolConnection.close();
   } catch(error) {
-    console.log("Update mobile error", error);
+    console.log("Delete new staff error: " + error)
   }
 };
 
-const getOneMobile = async (id) => {
+const Updatevoucher = async (price,name) => {
   try {
     const poolConnection = await sql.connect(config);
-    const data = await poolConnection.query(`SELECT* FROM mobile WHERE MaMB like '${id}'`)
+    await poolConnection.query(`  `);
+    poolConnection.close();
+  } catch(error) {
+    console.log("Update promotion error", error);
+  }
+};
+
+const Getonevoucher = async (id) => {
+  try {
+    const poolConnection = await sql.connect(config);
+    const data = await poolConnection.query(`SELECT* FROM promotion WHERE id_promotion like '${id}'`)
     poolConnection.close();
     if(data) {
       return {
@@ -84,7 +99,7 @@ const getOneMobile = async (id) => {
       }
     }
   } catch(error) {
-    console.log("Get one user failed" + error);
+    console.log("Get one voucher failed" + error);
     return {
       EM: "Get data failed",
       EC: -1,
@@ -92,5 +107,4 @@ const getOneMobile = async (id) => {
     }
   }
 }
-
-module.exports = { getAllMobile, createOneMobile, deleteMobile, updateMobile, getOneMobile};
+module.exports = { Getallvoucher,Createvoucher,Deletevoucher,Updatevoucher,Getonevoucher};
