@@ -1,6 +1,4 @@
-import Nav from "./components/Nav/Nav";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HomePage from "./components/HomePage/HomePage";
+
 import Register from "./components/Register/Register";
 import AppRoutes from "./Routes/AppRoutes";
 
