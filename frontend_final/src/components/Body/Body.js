@@ -43,6 +43,7 @@ const Body = (props) => {
       setMobile(mobileData.DT);
       setColor(colorData.DT);
       setType(typeData.DT);
+
     };
 
     fetchData();
@@ -66,7 +67,7 @@ const Body = (props) => {
               .map((item) => (
                 <Col key={item.id_product} className="">
                   <Carousel
-                    responsive={responsive}
+                    responsive={responsive} 
                     showDots={true}
                     autoPlaySpeed={5000}
                     autoPlay={true}

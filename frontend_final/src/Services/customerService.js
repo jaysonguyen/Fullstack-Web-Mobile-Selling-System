@@ -20,8 +20,11 @@ const getCustomerList = () => {
    return axios.get(`/api/customer/get/list`);
 }
 
-const getCustomerLogin = () => {
-  return axios.get(`api/customer/login`);
+const checkInforCusomter = (email, password) => {
+  return axios.post(`api/customer/login`, {
+    email,
+    password
+  });
 }
 
-export { registerNewUser, getCustomerList, getCustomerLogin};
+export { registerNewUser, getCustomerList, checkInforCusomter};

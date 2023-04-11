@@ -113,11 +113,19 @@ CREATE TABLE CUSTOMER(
 	ID_CUSTOMER INT PRIMARY KEY NOT NULL,
 	CUSTOMER_NAME NVARCHAR(1000) NOT NULL,
 	PHONE_NUMBER VARCHAR(15),
-	IS_VALID BIT,
 	DATE_OF_BIRTH DATETIME,
-	CUSTOMER_PASSWORD VARCHAR(10),
 	EMAIL VARCHAR(100),
+	ID_ACCOUNT INT foreign key references Account(ID_Account)
 );
+
+Create TABLE ACCOUNT(
+	ID_ACCOUNT INT PRIMARY KEY,
+	IS_VALID BIT,
+	IS_CUSTOMER BIT,
+);
+
+
+
 CREATE TABLE PAYING(
 	ID_PAYING INT PRIMARY KEY,
 	PAY_METHOD NVARCHAR(100) NOT NULL,
@@ -276,26 +284,85 @@ begin
 						values(@employee_id, @employee_name, @phone_number, @address, @person_id, @email);
 end
 
+-- end
+Create TABLE ACCOUNT(
+	ID_ACCOUNT INT PRIMARY KEY,
+	IS_VALID BIT,
+	IS_CUSTOMER BIT,
+	PASS varchar(20)
+);
 
 
+select*
+from account
+
+
+--insert account
+ALTER PROC sp_insert_account
+(
+@isValid bit, 
+@is_customer bit,
+@pass varchar(20)
+)
+as
+begin
+	declare @idAcc int;
+	set @idAcc = 1;
+	while exists (select ID_ACCOUNT from ACCOUNT where ID_ACCOUNT = @idAcc)
+		set @idAcc = @idAcc + 1
+		insert into ACCOUNT(ID_ACCOUNT, IS_VALID, IS_CUSTOMER, PASS)
+						values(@idAcc, @isValid, @is_customer, @pass);
+end
+
+
+alter proc sp_insert_account_customer
+(
+	@pass varchar(200),
+	@customerName nvarchar(1000),
+	@phoneNum varchar(15),
+	@dob datetime,
+	@email varchar(100)
+)
+as
+begin
+	declare @idAcc int;
+	set @idAcc = 1;
+	while exists (select ID_ACCOUNT from ACCOUNT where ID_ACCOUNT = @idAcc)
+		set @idAcc = @idAcc + 1
+	if exists (select* from CUSTOMER where EMAIL = @email)
+		raiserror('San pham da ton tai', 16, 1);
+	else
+		insert into ACCOUNT(ID_ACCOUNT, IS_VALID, IS_CUSTOMER, PASS)
+			values(@idAcc, 1, 1, @pass);
+		exec sp_insert_customer @customerName, @phoneNum, @dob, @email, @idAcc
+end
+
+select*
+from account
+
+select*
+from CUSTOMER
+
+exec sp_insert_account_customer '123123', N'Nguyen Vu Thanh Nguyen', '0384295435', '05/05/2023', 'thanhnguyen@gmail.com'
 
 -- INSERT CUSTOMER
 ALTER PROC sp_insert_customer
 (
 @customer_name nvarchar(1000), 
 @phone_number VARCHAR(15),
-@is_valid bit, 
-@dob DATETIME, 
-@password varchar(6), @email varchar(100))
+@dob DATETIME, @email varchar(100), @idAcc int)
 as
 begin
 	declare @cus_id int;
 	set @cus_id = 1;
 	while exists (select ID_CUSTOMER from CUSTOMER where ID_CUSTOMER = @cus_id)
 		set @cus_id = @cus_id + 1
-		insert into CUSTOMER(ID_CUSTOMER, CUSTOMER_NAME, PHONE_NUMBER, IS_VALID, DATE_OF_BIRTH, CUSTOMER_PASSWORD, EMAIL)
-						values(@cus_id, @customer_name, @phone_number, @is_valid, @dob, @password, @email);
+	else
+		insert into CUSTOMER(ID_CUSTOMER, CUSTOMER_NAME, PHONE_NUMBER, DATE_OF_BIRTH, EMAIL, ID_ACCOUNT)
+				values(@cus_id, @customer_name, @phone_number, @dob, @email, @idAcc);
 end
+
+
 
 -- INSERT CART
 ALTER PROC sp_insert_cart
@@ -570,6 +637,17 @@ begin
 	select image_link, image_status
 	from slider
 end
+
+-- GET INFO LOGIN
+create proc sp_get_infor_login
+as
+begin
+	select email, pass, is_valid, is_customer
+	from customer
+	right join account on customer.id_account = account.id_account
+end
+exec sp_get_infor_login
+
 
 -- END Get
 

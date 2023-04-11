@@ -92,6 +92,7 @@ header {
 .user {
     display: flex;
     align-items: center;
+    position: relative;
 }
 
 .user i {
@@ -118,6 +119,7 @@ header {
         padding: 5px 0;
         margin: 0px 20px;
     }
+
 
 }
 
@@ -159,4 +161,28 @@ header {
     .navbar.open {
         right: 2%;
     }
+}
+
+.option-hover-user {
+    position: absolute;
+    right: 12%;
+    border: 1px solid #cdcdcd;
+    border-radius: 3px;
+    width: 200px;
+    display: none;
+    height: 100px;
+    background-color: #fff;
+}
+
+.option-hover-user button {
+    width: 100%;
+    padding: 5px 0;
+    border: none;
+    background-color: #fff;
+    margin-top: 6px;
+    cursor: pointer;
+}
+
+.User:hover .option-hover-user {
+    display: block;
 }
