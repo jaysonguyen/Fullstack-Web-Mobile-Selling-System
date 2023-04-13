@@ -86,27 +86,27 @@ const Register = (props) => {
 
   const onSignUp = () => {
     setLoading(true);
-    onCaptchVertify();
+    try {
+      onCaptchVertify();
 
-    const appVerifier = window.recaptchaVerifier;
-    const formatPh = "+84" + phone;
+      const appVerifier = window.recaptchaVerifier;
+      const formatPh = "+84" + phone;
 
-    signInWithPhoneNumber(auth, formatPh, appVerifier)
-      .then((confirmationResult) => {
-        window.confirmationResult = confirmationResult;
-        toast.success("Đã gửi mã OTP");
-        setLoading(false);
-        setShowOtp(true);
-        console.log("Gui OTP");
-      })
-      .catch((error) => {
-        console.log(error);
-        console.log("Khong gui duoc OTP");
-        setLoading(false);
-        toast.error(
-          "Số điện thoại không tồn tại hoặc nhập sai vui lòng kiểm tra"
-        );
-      });
+      signInWithPhoneNumber(auth, formatPh, appVerifier)
+        .then((confirmationResult) => {
+          window.confirmationResult = confirmationResult;
+          toast.success("Đã gửi mã OTP");
+          setLoading(false);
+          setShowOtp(true);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (error) {
+      toast.error(
+        "Số điện thoại không tồn tại hoặc nhập sai vui lòng kiểm tra"
+      );
+    }
   };
 
   const onClickRegister = (e) => {
@@ -124,29 +124,38 @@ const Register = (props) => {
 
   // OTP CONFIRM
   const onOtpVerify = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    window.confirmationResult
-      .confirm(otp)
-      .then(async (res) => {
-        console.log(res);
-        setUser(res.user);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
-    if (user) {
-      let data = await registerNewUser(userName, phone, dob, password, email);
-      if (+data === 1) {
-        toast.success("Đăng ký thành công");
-        navigate("/login");
-      } else {
-        toast.error("Đăng ký thất bại vui lòng thử lại");
+    try {
+      e.preventDefault();
+      setLoading(true);
+      window.confirmationResult
+        .confirm(otp)
+        .then(async (res) => {
+          console.log(res);
+          setUser(res.user);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setLoading(false);
+        });
+      if (user) {
+        const data = await registerNewUser(
+          userName,
+          phone,
+          dob,
+          password,
+          email
+        );
+        if (data && +data.EC == 1) {
+          toast.success("Đăng ký thành công");
+          navigate("/login");
+        }
+        if (data && +data.EC != 1) {
+          toast.error(data.EC);
+        }
       }
-    } else {
-      toast.error("Sai mã OTP vui lòng kiểm tra lại");
+    } catch (error) {
+      toast.error("Sai mã OTP vui lòng nhập lại");
     }
   };
 
@@ -242,6 +251,9 @@ const Register = (props) => {
               onChange={setOpt}
               value={otp}
             ></OTPInput>
+            <a className="resent-otp" onClick={() => onSignUp()}>
+              Gửi lại
+            </a>
             <button
               className="sign-btn"
               onClick={(e) => {

@@ -16,20 +16,21 @@ const createCustomer = async (req, res) => {
     } = req.body;
 
     console.log("check req=>>>", req.body);
-    let data = await createNewCustomer(
+    const data = await createNewCustomer(
       customer_name,
       phone_number,
       date_of_birth,
       customer_password,
       email
     );
-    if (data && data.EC != -1) {
+    if (data && +data.EC == 1) {
       return res.status(201).json({
         EM: data.EM,
         EC: 1,
         DT: "",
       });
-    } else {
+    }
+    if (data && +data.EC != 1) {
       return res.status(201).json({
         EM: data.EM,
         EC: data.EC,
@@ -83,10 +84,8 @@ const getInforLogin = async (req, res) => {
 const loginCustomer = async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log(req.body);
     const data = await checkLogin(email, password);
     if (data && data.EC != -1) {
-      console.log("duoi neeee", data);
       return res.status(200).json({
         EM: data.EM,
         EC: data.EC,
