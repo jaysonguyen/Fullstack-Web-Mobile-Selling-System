@@ -17,7 +17,7 @@ const AppRoutes = (props) => {
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/user_profile" element={<User_Profile />} />
         <Route exact path="/product_detail/:id" element={<ProductDetail />} />
-        <Route exact path="/mobile" element={<ProductList/>} Component={ProductList} />
+        <Route exact path="/mobile"  Component={ProductList} />
         <Route path="*">404 Not Found</Route>
       </Routes>
     </BrowserRouter>

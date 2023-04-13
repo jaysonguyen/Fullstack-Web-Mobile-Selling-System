@@ -1,4 +1,4 @@
-import React from "react";
+
 import { NavLink } from "react-router-dom";
 import {
   AiOutlineSearch,
@@ -6,6 +6,7 @@ import {
   AiOutlineUser,
 } from "react-icons/ai";
 import './Nav.css'
+
 
 const Nav = (props) => {
   return (
@@ -16,6 +17,7 @@ const Nav = (props) => {
       </NavLink>
 
       <ul className="navbar">
+       
         <li>
           <NavLink to="/mobile">Điện Thoại</NavLink>
         </li>
