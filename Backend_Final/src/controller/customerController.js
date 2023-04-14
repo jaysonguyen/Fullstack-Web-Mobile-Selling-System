@@ -3,6 +3,7 @@ const {
   getCustomerList,
   getInforLoginCustomer,
   checkLogin,
+  getCustomerbyEmail,
 } = require("../services/customerServices");
 
 const createCustomer = async (req, res) => {
@@ -14,8 +15,6 @@ const createCustomer = async (req, res) => {
       customer_password,
       email,
     } = req.body;
-
-    console.log("check req=>>>", req.body);
     const data = await createNewCustomer(
       customer_name,
       phone_number,
@@ -104,9 +103,34 @@ const loginCustomer = async (req, res) => {
   }
 };
 
+const getCusByEmail = async (req, res) => {
+  try {
+    const email = req.params.email
+    const data = await getCustomerbyEmail(email);
+    if (data && +data.EC == 1) {
+      return res.status(200).json({
+        EM: data.EM,
+        EC: data.EC,
+        DT: data.DT,
+      });
+    }
+    if (data && +data.EC != 1) {
+      return res.status(200).json({
+        EM: data.EM,
+        EC: data.EC,
+        DT: data.DT,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ EM: "Error from server", EC: -1, DT: "" });
+  }
+};
+
 module.exports = {
   createCustomer,
   getAllCustomer,
   getInforLogin,
   loginCustomer,
+  getCusByEmail,
 };

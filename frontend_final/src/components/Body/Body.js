@@ -5,9 +5,9 @@ import { Link, NavLink } from "react-router-dom";
 import { getAllMobilePhone } from "../../Services/mobileService";
 import { getColorProduct } from "../../Services/colorService";
 import { getTypeProduct } from "../../Services/typeServices";
-import Slider from "../Slider/Slider";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import Slider from "../Slider/Slider";
 
 const Body = (props) => {
   const responsive = {
@@ -77,7 +77,7 @@ const Body = (props) => {
                     removeArrowOnDeviceType={["tablet", "mobile"]}
                     transitionDuration={500}
                   >
-                    <Link to={`/product_detail/${item.id_product}`}>
+                    <Link className="product_link" to={`/product_detail/${item.id_product}`}>
                       <div className="card">
                         <div className="imageProduct">
                           <img

@@ -6,6 +6,8 @@
     list-style: none;
 }
 
+
+
 :root {
     color: #fff;
     --bg-color: #222327;
@@ -55,6 +57,7 @@ header {
 
 .navbar {
     display: flex;
+    margin: 0;
 }
 
 .navbar a {

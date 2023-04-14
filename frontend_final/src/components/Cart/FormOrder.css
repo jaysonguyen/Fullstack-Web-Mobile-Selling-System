@@ -137,3 +137,8 @@
     color: #000;
     text-decoration: underline;
 }
+
+.infor_image.order {
+    width: 60px;
+    height: 60px;
+}

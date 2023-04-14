@@ -5,7 +5,7 @@ const readColor = async () => {
   try {
     const poolConnection = await sql.connect(config);
     console.log("Reading rows from the Table...");
-    let data = await poolConnection.request().query("exec sp_get_color");
+    const data = await poolConnection.request().query("exec sp_get_color");
     poolConnection.close();
     if (data) {
       return {

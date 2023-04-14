@@ -10,18 +10,19 @@ import { MdDeleteOutline } from "react-icons/md";
 import Carousel from "react-multi-carousel";
 import FormOrder from "./FormOrder";
 
+
 const Cart = (props) => {
-  const [showCart, setShowCart] = useState(false);
+  const [showCart, setShowCart] = useState(true);
 
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
       breakpoint: { max: 4000, min: 3000 },
-      items: 6,
+      items: 5,
     },
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 6,
+      items: 5,
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },
@@ -182,7 +183,7 @@ const Cart = (props) => {
                   removeArrowOnDeviceType={["tablet", "mobile"]}
                   transitionDuration={500}
                 >
-                  <div className="access_item">
+                  <div className="acc_container">
                     <div className="access_img">
                       <img src="https://shopdunk.com/images/thumbs/0002755_iphone-14-pro-leather-case-with-magsafe_240.jpeg" />
                     </div>
@@ -200,7 +201,7 @@ const Cart = (props) => {
                       <span>&#8363;</span>
                     </span>
                   </div>
-                  <div className="access_item">
+                  <div className="acc_container">
                     <div className="access_img">
                       <img src="https://shopdunk.com/images/thumbs/0002755_iphone-14-pro-leather-case-with-magsafe_240.jpeg" />
                     </div>

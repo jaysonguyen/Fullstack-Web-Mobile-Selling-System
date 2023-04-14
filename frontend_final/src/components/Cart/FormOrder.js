@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
 import Container from "react-bootstrap/esm/Container";
@@ -8,17 +8,38 @@ import mb from "./img/mblogo.jpg";
 import delivery from "./img/deliveryfast.png";
 import { HiMinusSm } from "react-icons/hi";
 import { FcCheckmark } from "react-icons/fc";
+import { getInforByEmailCus } from "../../Services/customerService";
 
 const FormOrder = (props) => {
   const [showComplete, setShowComplete] = useState(false);
   const [name, setname] = useState("");
   const [phone, setphone] = useState("");
   const [address, setaddress] = useState("");
+  const [email, setemail] = useState("");
+
+  const sessionData = sessionStorage.getItem("account");
+  const handleGetInforByEmail = async () => {
+    if (sessionData) {
+      const email = JSON.parse(sessionData).email;
+      const checkEmail = await getInforByEmailCus(email);
+      if (checkEmail && +checkEmail.EC === 1) {
+        setname(checkEmail.DT[0].CUSTOMER_NAME);
+        setphone(checkEmail.DT[0].PHONE_NUMBER);
+        setaddress(checkEmail.DT[0].CUSTOMER_ADDRESS);
+        setemail(checkEmail.DT[0].EMAIL);
+      }
+    }
+  };
+
+  useEffect(() => {
+    handleGetInforByEmail();
+  }, []);
 
   const handleCompletebtn = () => {
     let flag = !showComplete;
     setShowComplete(flag);
   };
+
   return (
     <div className="order_container_form">
       {!showComplete && (
@@ -170,13 +191,27 @@ const FormOrder = (props) => {
               <div className="infor_order">
                 <div className="infor_user_container">
                   <label>Tên</label>
-                  <input className="name_user" placeholder="Tên" />
+                  <input value={name} className="name_user" placeholder="Tên" />
                   <label>Số điện thoại</label>
-                  <input className="phone_number" placeholder="Số điện thoại" />
+                  <input
+                    value={phone}
+                    disabled={phone ? "disabled" : ""}
+                    className="phone_number"
+                    placeholder="Số điện thoại"
+                  />
                   <label>Email</label>
-                  <input className="email" placeholder="Email" />
+                  <input
+                    value={email}
+                    disabled={email ? "disabled" : ""}
+                    className="email"
+                    placeholder="Email"
+                  />
                   <label>Địa chỉ</label>
-                  <input className="address" placeholder="Địa chỉ" />
+                  <input
+                    value={address}
+                    className="address"
+                    placeholder="Địa chỉ"
+                  />
                 </div>
                 <div className="amount_container">
                   <p className="subTotal">
@@ -216,8 +251,16 @@ const FormOrder = (props) => {
             Cảm ơn bạn đã tin tưởng và sử dụng dịch vụ của chúng tôi. Chúc bạn
             thành công và may mắn.
           </p>
-          <button className="view_order_btn" onClick={() => handleCompletebtn()}>Xem thông tin đặt hàng</button>
-          <a className="ruleLink formorderrulelink"> xem lại điều khoản và diều kiện của website</a>
+          <button
+            className="view_order_btn"
+            onClick={() => handleCompletebtn()}
+          >
+            Xem thông tin đặt hàng
+          </button>
+          <a className="ruleLink formorderrulelink">
+            {" "}
+            xem lại điều khoản và diều kiện của website
+          </a>
         </div>
       )}
     </div>

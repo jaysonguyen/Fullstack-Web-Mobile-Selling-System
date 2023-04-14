@@ -2,6 +2,7 @@ import AppRoutes from "./Routes/AppRoutes";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "./components/Footer/Footer";
+import "./App.css"
 
 const App = () => {
   return (
