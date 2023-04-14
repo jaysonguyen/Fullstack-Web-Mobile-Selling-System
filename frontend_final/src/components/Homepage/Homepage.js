@@ -6,9 +6,7 @@ import Nav from "../Nav/Nav";
 const HomePage = (props) => {
   return (
     <div>
-      <Nav />
       <Body />
-      <Footer />
     </div>
   );
 };

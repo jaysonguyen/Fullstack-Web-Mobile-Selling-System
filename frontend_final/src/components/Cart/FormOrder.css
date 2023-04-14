@@ -142,3 +142,8 @@
     width: 60px;
     height: 60px;
 }
+
+.email {
+    height: inherit;
+    background-color: #fff;
+}
