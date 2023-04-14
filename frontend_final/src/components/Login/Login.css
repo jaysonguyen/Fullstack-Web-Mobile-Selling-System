@@ -1,0 +1,126 @@
+.h3 {
+    text-align: center;
+    font-size: 22px;
+
+}
+
+.login_container {
+    align-items: center;
+    padding-top: 10%;
+    padding-bottom: 40px;
+    /* background-image: url(https://source.unsplash.com/1600x900/?technology) !important; */
+    background-image: linear-gradient(rgba(0, 0, 0, .2), rgba(0, 0, 0, .8)), url(https://images.unsplash.com/photo-1519389950473-47ba0277781c?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=900&ixid=MnwxfDB8MXxyYW5kb218MHx8dGVjaG5vbG9neXx8fHx8fDE2ODA2NzYzMTE&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1600);
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: -1;
+    padding-bottom: 30%;
+}
+
+.form-signin {
+    max-width: 600px;
+    text-align: center;
+    margin: auto;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    position: relative;
+    padding: 30px
+}
+
+.close-btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 32px;
+}
+
+.gg-btn,
+.fb-btn,
+.gh-btn,
+.gmail-btn {
+    margin-bottom: 10px;
+    width: 50%;
+    padding: 10px;
+    border-radius: 10px;
+    border: thin solid #444;
+}
+
+.gg-btn img,
+.fb-btn img,
+.gh-btn img,
+.gmail-btn img {
+    padding: 0 5px;
+}
+
+.gmail-btn a {
+    text-decoration: none;
+    color: #111;
+}
+
+.sign-up-link {
+    text-align: center;
+}
+
+.sign-up-link a {
+    text-decoration: none;
+}
+
+.input_container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    align-items: center;
+}
+
+.input_container input {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: none;
+    width: 90%;
+    border-radius: 3px;
+
+}
+
+.option_login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.option_login button {
+    width: 42%;
+    border: none;
+    border-radius: 3px;
+}
+
+.gg-btn {
+    margin-right: 15px;
+    background-color: #fff;
+
+}
+
+.fb-btn {
+    margin-left: 15px;
+    color: #fff;
+    background-color: #1877f2;
+}
+
+.sign-up-link {
+    margin-top: 10px;
+    color: #000;
+}
+
+.sign-btn {
+    width: 90%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 3px;
+    border: none;
+    background-color: #424141;
+    color: #fff;
+    font-weight: 700;
+}
+
+.is-invalid {
+    border: red;
+}

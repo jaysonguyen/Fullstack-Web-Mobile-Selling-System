@@ -1,0 +1,73 @@
+.input_container label {
+    color: #000;
+    align-self: flex-start;
+    margin-left: 32px;
+    margin-top: 6px;
+    margin-bottom: 3px;
+    font-size: 14px;
+
+}
+
+.have-account-btn {
+    margin-top: 10px;
+    color: #000;
+    font-size: 14px;
+
+}
+
+.otp-container {
+    color: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.otp-heading {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.otp-number {
+    margin-bottom: 15px;
+}
+
+.go-back-btn {
+    border: none;
+    font-size: 20px;
+    margin-right: auto;
+    cursor: pointer;
+}
+
+.sign-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.animate-spin {
+    margin-left: 5px;
+    top: 3px;
+    animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+    from {
+        transform: scale(1) rotate(0deg);
+    }
+
+    to {
+        transform: scale(1) rotate(360deg);
+    }
+}
+
+form h1 {
+    color: #000
+}
+
+.resent-otp {
+    font-weight: 500;
+    margin-top: 20px;
+    font-size: 14px;
+    cursor: pointer;
+}

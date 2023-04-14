@@ -1,14 +1,23 @@
-
-import { NavLink } from "react-router-dom";
+import React from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import {
   AiOutlineSearch,
   AiOutlineShoppingCart,
   AiOutlineUser,
 } from "react-icons/ai";
-import './Nav.css'
+import "./Nav.css";
 
 
 const Nav = (props) => {
+  const navigate = useNavigate();
+  let sessionData = sessionStorage.getItem("account");
+  let data = JSON.parse(sessionData);
+
+  const handleSignOut = () => {
+    sessionStorage.removeItem("account");
+    navigate("/login");
+  };
+
   return (
     <header>
       <NavLink to="/" className="logo">
@@ -43,12 +52,22 @@ const Nav = (props) => {
           <AiOutlineSearch />
         </a>
 
-        <a href="" className="Cart">
+        <NavLink to="" className="Cart">
           <AiOutlineShoppingCart />
-        </a>
-        <a href="" className="User">
-          <AiOutlineUser />
-        </a>
+        </NavLink>
+        <div className="User">
+          <NavLink to={!data && "/login"} className="user-option">
+            <AiOutlineUser />
+          </NavLink>
+          {data && (
+            <div className="option-hover-user">
+              <button>Tài khoản</button>
+              <button>Đơn hàng</button>
+              <button onClick={() => handleSignOut()}>Đăng xuất</button>
+            </div>
+          )}
+        </div>
+
         <div className="bx bx-menu" id="menu-icon"></div>
       </div>
     </header>

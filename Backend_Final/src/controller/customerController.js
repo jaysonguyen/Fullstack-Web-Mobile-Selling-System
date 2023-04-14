@@ -2,34 +2,46 @@ const {
   createNewCustomer,
   getCustomerList,
   getInforLoginCustomer,
+  checkLogin,
 } = require("../services/customerServices");
 
 const createCustomer = async (req, res) => {
   try {
     const {
       customer_name,
-      phone_number, 
+      phone_number,
       date_of_birth,
       customer_password,
       email,
     } = req.body;
 
     console.log("check req=>>>", req.body);
-    await createNewCustomer(
+    const data = await createNewCustomer(
       customer_name,
       phone_number,
       date_of_birth,
       customer_password,
       email
     );
-    return res.status(201).json({
-      EM: "Create success",
-      EC: 1,
-      DT: "",
-    });
+    if (data && +data.EC == 1) {
+      return res.status(201).json({
+        EM: data.EM,
+        EC: 1,
+        DT: "",
+      });
+    }
+    if (data && +data.EC != 1) {
+      return res.status(201).json({
+        EM: data.EM,
+        EC: data.EC,
+      });
+    }
   } catch (error) {
     console.log(error);
-    return res.status(500).json(data);
+    return res.status(500).json({
+      EM: "Create account failed",
+      EC: data.EC,
+    });
   }
 };
 
@@ -57,9 +69,9 @@ const getInforLogin = async (req, res) => {
     return res.status(200).json({
       EM: data.EM,
       EC: data.EC,
-      DT: data.DT
+      DT: data.DT,
     });
-  } catch(error) {
+  } catch (error) {
     console.log(error);
     return res.status(200).json({
       EM: "Error from server",
@@ -67,6 +79,34 @@ const getInforLogin = async (req, res) => {
       DT: "",
     });
   }
-}
+};
 
-module.exports = { createCustomer, getAllCustomer, getInforLogin};
+const loginCustomer = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const data = await checkLogin(email, password);
+    if (data && data.EC != -1) {
+      return res.status(200).json({
+        EM: data.EM,
+        EC: data.EC,
+      });
+    }
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      EM: "Error from server",
+      EC: -1,
+    });
+  }
+};
+
+module.exports = {
+  createCustomer,
+  getAllCustomer,
+  getInforLogin,
+  loginCustomer,
+};
