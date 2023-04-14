@@ -6,6 +6,7 @@ import {
   AiOutlineUser,
 } from "react-icons/ai";
 import "./Nav.css";
+import logo from "./logonew.png";
 
 const Nav = (props) => {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ const Nav = (props) => {
     <header>
       <NavLink to="/" className="logo">
         <i className="ri-home-fill"></i>
-        <span>logo</span>
+        <img className="logo" src={logo}/>
       </NavLink>
 
       <ul className="navbar">
@@ -50,7 +51,7 @@ const Nav = (props) => {
           <AiOutlineSearch />
         </a>
 
-        <NavLink to="" className="Cart">
+        <NavLink to="/cart" className="Cart">
           <AiOutlineShoppingCart />
         </NavLink>
         <div className="User">

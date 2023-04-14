@@ -1,0 +1,139 @@
+.infor_order {
+    margin: 0;
+    width: 100%;
+}
+
+.infor_user_container {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    background-color: inherit;
+
+}
+
+.order_heading {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+.order_desc {
+    color: #717171
+}
+
+.item_order,
+.payment_detail {
+    background-color: #fff;
+    padding: 20px 30px 20px 30px;
+}
+
+.payment_detail {
+    background-color: #f9fbfc;
+}
+
+.body_value_order.border_around {
+    border: 1px solid #cdcdcd;
+    border-radius: 8px;
+}
+
+.infor_price {
+    transform: translateX(125px);
+}
+
+.infor_user_container input {
+    width: 100%;
+    margin: 0;
+}
+
+.infor_user_container label {
+    margin-bottom: 0px;
+    margin-top: 10px;
+    margin-left: 5px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.infor_user_container {
+    margin-top: 30px;
+}
+
+.total_price {
+    float: right;
+}
+
+.order_btn {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.method_receive {
+    margin-top: 30px;
+    font-size: 14px;
+    color: #717171;
+}
+
+.payment_method_list {
+    margin-top: 15px;
+}
+
+.step_order {
+    display: flex;
+    float: right;
+    margin-right: 200px;
+    list-style: none;
+}
+
+.step_order li{
+    margin-left: 10px;
+}
+
+.icon_success {
+    color: green;
+}
+
+.success_icon {
+    margin-right: 3px;
+    width: 5px;
+    height: 5px;
+    padding: 0  5px;
+    border-radius: 50%;
+    border: 1px solid rgb(37, 201, 84);
+}
+
+.icon {
+    font-size: 10px;
+}
+
+.complete_contaier {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.complete_contaier h1 {
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.complete_contaier p {
+    width: 50%;
+}
+
+.view_order_btn {
+    background-color: #353535;
+    color: #fff;
+    font-weight: 600;
+    outline: none;
+    border: none;
+    padding: 20px 70px;
+}
+
+
+.formorderrulelink {
+    margin-top: 10px;
+    color: #000;
+    text-decoration: underline;
+}
