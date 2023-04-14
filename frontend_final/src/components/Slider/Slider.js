@@ -28,7 +28,7 @@ const Slider = () => {
 
   useEffect(() => {
     fetchSlider();
-  }, []);
+  }, [slider]);
 
   const fetchSlider = async () => {
     let data = await readSlider();
@@ -38,7 +38,6 @@ const Slider = () => {
   return (
     <Carousel
       responsive={responsive}
-      showDots={true}
       autoPlaySpeed={5000}
       autoPlay={true}
       infinite={true}
@@ -61,15 +60,3 @@ const Slider = () => {
 };
 
 export default Slider;
-
-<Carousel
-  responsive={responsive}
-  showDots={true}
-  autoPlaySpeed={5000}
-  autoPlay={true}
-  infinite={true}
-  rewind={true}
-  className="carousel-container"
-  removeArrowOnDeviceType={["tablet", "mobile"]}
-  transitionDuration={500}
-></Carousel>;

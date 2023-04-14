@@ -8,7 +8,6 @@ const HomePage = (props) => {
     <div>
       <Nav />
       <Body />
-      <Footer />
     </div>
   );
 };

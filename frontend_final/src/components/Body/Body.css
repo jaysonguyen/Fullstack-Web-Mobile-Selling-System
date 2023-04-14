@@ -363,3 +363,7 @@ section .main_btn:hover i {
     cursor: pointer;
     font-weight: bold;
 }
+
+.product_link{
+    text-decoration: none;
+}

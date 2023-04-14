@@ -78,6 +78,36 @@ const getCustomerList = async () => {
   }
 };
 
+const getCustomerbyEmail = async (email) => {
+  try {
+    const poolConnection = await sql.connect(config);
+    const data = await poolConnection
+      .request()
+      .query(`exec sp_get_customer_by_email '${email}'`);
+    poolConnection.close();
+    if (data) {
+      return {
+        EM: "Get data success",
+        EC: 1,
+        DT: data.recordset,
+      };
+    } else {
+      return {
+        EM: "Get data success",
+        EC: 0,
+        DT: [],
+      };
+    }
+  } catch (error) {
+    console.log(error);
+    return {
+      EM: "Get data failed",
+      EC: -1,
+      DT: "",
+    };
+  }
+};
+
 const getInforLoginCustomer = async () => {
   try {
     const poolConnection = await sql.connect(config);
@@ -145,10 +175,10 @@ const checkLogin = async (email, password) => {
   }
 };
 
-
 module.exports = {
   createNewCustomer,
   getCustomerList,
   getInforLoginCustomer,
   checkLogin,
+  getCustomerbyEmail,
 };

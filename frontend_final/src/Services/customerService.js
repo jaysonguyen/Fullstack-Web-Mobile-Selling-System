@@ -17,14 +17,23 @@ const registerNewUser = (
 };
 
 const getCustomerList = () => {
-   return axios.get(`/api/customer/get/list`);
-}
+  return axios.get(`/api/customer/get/list`);
+};
 
 const checkInforCusomter = (email, password) => {
   return axios.post(`api/customer/login`, {
     email,
-    password
+    password,
   });
-}
+};
 
-export { registerNewUser, getCustomerList, checkInforCusomter};
+const getInforByEmailCus = (email) => {
+  return axios.get(`/api/customer/get/inforby/email/${email}`);
+};
+
+export {
+  registerNewUser,
+  getCustomerList,
+  checkInforCusomter,
+  getInforByEmailCus,
+};

@@ -6,6 +6,8 @@
     list-style: none;
 }
 
+
+
 :root {
     color: #fff;
     --bg-color: #222327;
@@ -38,8 +40,7 @@ header {
 }
 
 .logo {
-    display: flex;
-    align-items: center;
+   width: 80px;
 }
 
 .logo i {
@@ -56,6 +57,7 @@ header {
 
 .navbar {
     display: flex;
+    margin: 0;
 }
 
 .navbar a {
@@ -65,6 +67,7 @@ header {
     padding: 5px 0;
     margin: 0px 30px;
     transition: all .50s ease;
+    text-decoration: none;
 }
 
 .navbar a:hover {

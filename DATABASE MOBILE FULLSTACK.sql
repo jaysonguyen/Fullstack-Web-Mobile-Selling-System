@@ -115,8 +115,10 @@ CREATE TABLE CUSTOMER(
 	PHONE_NUMBER VARCHAR(15),
 	DATE_OF_BIRTH DATETIME,
 	EMAIL VARCHAR(100),
-	ID_ACCOUNT INT foreign key references Account(ID_Account)
+	ID_ACCOUNT INT foreign key references Account(ID_Account),
+	 CUSTOMER_ADDRESS NVARCHAR(1000)
 );
+
 
 Create TABLE ACCOUNT(
 	ID_ACCOUNT INT PRIMARY KEY,
@@ -648,6 +650,16 @@ begin
 end
 exec sp_get_infor_login
 
+
+--GET CUSTOMER
+create proc sp_get_customer_by_email @email varchar(max)
+as
+begin
+	select*
+	from customer where email = @email
+end
+
+exec sp_get_customer_by_email 'gekiiki@gmail.com'
 
 -- END Get
 
