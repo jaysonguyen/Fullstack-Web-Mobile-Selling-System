@@ -127,20 +127,24 @@ Create TABLE ACCOUNT(
 );
 
 
-
 CREATE TABLE PAYING(
 	ID_PAYING INT PRIMARY KEY,
 	PAY_METHOD NVARCHAR(100) NOT NULL,
 	PAYING_STATUS BIT,
 	ID_CUSTOMER INT FOREIGN KEY REFERENCES CUSTOMER(ID_CUSTOMER),
+	 DATE_ORDER date,
 );
+
 CREATE TABLE ORDER_PRODUCT(
 	ID_ORDER VARCHAR(10) PRIMARY KEY,
 	METHOD_RECEIVE NVARCHAR(100),
 	STORE_ADDRESS NVARCHAR(100),
 	OTHER_DEMAIND NVARCHAR(100),
-	ORDER_STATUS NVARCHAR(30)
+	ORDER_STATUS NVARCHAR(30),
+	DATE_ORDER date
 );
+
+
 CREATE TABLE SLIDER(
 	ID_SLIDER INT PRIMARY KEY,
 	IMAGE_LINK TEXT,
@@ -172,6 +176,86 @@ begin
 end
 
 exec sp_insert_type_product N'Đồng hồ',  N'Các dòng đồng hồ thông minh, hoặc đồng hồ điện tử, đồng hồ cơ'
+
+--INSERT PAYING
+
+
+ALTER PROC sp_insert_paying 
+(
+@PAY_METHOD smallint, 
+@PAYING_STATUS bit,
+@ID_CUS int)
+as
+begin
+	declare @id int;
+	set @id = 1;
+	while exists (select ID_PAYING from PAYING where ID_PAYING = @id)
+		set @id = @id + 1 
+		insert into PAYING(ID_PAYING, PAY_METHOD, PAYING_STATUS, ID_CUSTOMER)
+						values(@id, @PAY_METHOD, @PAYING_STATUS, @ID_CUS);
+end
+
+exec sp_insert_paying 1, 1, 1, '04/15/2023';
+--END
+
+--INSERT ORDER
+CREATE TABLE ORDER_PRODUCT(
+	ID_ORDER int PRIMARY KEY,
+	METHOD_RECEIVE NVARCHAR(100),
+	ORDER_STATUS NVARCHAR(30),
+	ID_CUSTOMER int constraint fk_customer_id_order foreign key references CUSTOMER(ID_CUSTOMER)
+);
+
+
+--
+
+CREATE TABLE PRODUCT_ORDER_DETAIL (
+	ID_ORDER int constraint fk_order foreign key references ORDER_PRODUCT(ID_ORDER),
+	ID_PRODUCT int constraint fk_product foreign key references PRODUCT(ID_PRODUCT),
+	DATE_ORDER date,
+	 ID_ODER_PRODUCT_DETAIL int primary key
+
+);
+
+go
+ALTER PROC sp_insert_order_detail
+(@ID_ORDER NVARCHAR(100), 
+@ID_PRODUCT bit)
+as
+begin
+	declare @id int;
+	set @id = 1;
+	while exists (select ID_ODER_PRODUCT_DETAIL from PRODUCT_ORDER_DETAIL where ID_ODER_PRODUCT_DETAIL = @id )
+		set @id = @id + 1 
+		insert into PRODUCT_ORDER_DETAIL(ID_ORDER, ID_PRODUCT, DATE_ORDER, ID_ODER_PRODUCT_DETAIL)
+						values(@ID_ORDER, @ID_PRODUCT, getdate(), @id);
+end
+
+
+-- INSERT ORDER
+ALTER PROC sp_insert_order
+(
+@METHOD_RECEIVE smallint, 
+@ORDER_STATUS bit,  
+@ID_PRODUCT int,
+@ID_CUSTOMER int
+)
+as
+begin
+	declare @id int;
+	set @id = 1;
+	while exists (select ID_ORDER from ORDER_PRODUCT where ID_ORDER = @id)
+		set @id = @id + 1 
+		insert into ORDER_PRODUCT(ID_ORDER, METHOD_RECEIVE, ORDER_STATUS, ID_CUSTOMER)
+						values(@id, @METHOD_RECEIVE, @ORDER_STATUS, @ID_CUSTOMER);
+		exec sp_insert_order_detail @id, @ID_PRODUCT 
+end
+
+exec sp_insert_order 1, 1, 1, 1
+
+-- END INSERT ORDER
+
+
 
 
 -- INSERT COLOR
@@ -660,6 +744,51 @@ begin
 end
 
 exec sp_get_customer_by_email 'gekiiki@gmail.com'
+
+
+-- GET ORDER
+
+select ID_ORDER, CUSTOMER_NAME, PRODUCT_NAME, DATE_ORDER, PAYMENT_SATTUS
+
+select*
+from PRODUCT_ORDER_DETAIL
+
+select*
+from ORDER_PRODUCT
+
+select*
+from PAYING
+
+create proc sp_get_all_infor_order_detail 
+as
+begin 
+	select CUSTOMER_NAME, ORDER_PRODUCT.ID_ORDER, DATE_ORDER, ORDER_STATUS, PRODUCT_NAME, PAY_METHOD, PAYING_STATUS
+	from ORDER_PRODUCT
+	join CUSTOMER on CUSTOMER.ID_CUSTOMER = ORDER_PRODUCT.ID_CUSTOMER
+	join PRODUCT_ORDER_DETAIL on PRODUCT_ORDER_DETAIL.ID_ORDER = ORDER_PRODUCT.ID_ORDER
+	join PRODUCT on PRODUCT_ORDER_DETAIL.ID_PRODUCT = PRODUCT.ID_PRODUCT
+	join PAYING on CUSTOMER.ID_CUSTOMER = PAYING.ID_CUSTOMER
+end
+
+exec sp_get_all_infor_order_detail
+
+
+
+-- GET ONE MOBILE
+
+select*
+from product_detail
+
+alter proc get_one_product_infor @id int
+as
+begin 
+	select*
+	from PRODUCT
+	JOIN product_detail on product_detail.ID_PRODUCT = PRODUCT.ID_PRODUCT
+	where PRODUCT.ID_PRODUCT = @id
+end
+
+exec get_one_product_infor 1
 
 -- END Get
 

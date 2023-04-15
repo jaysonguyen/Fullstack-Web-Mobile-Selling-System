@@ -109,6 +109,7 @@
 .edit_infor_product {
     color: #06c;
     font-size: 14px;
+    cursor: pointer;
 }
 
 .name_order {
@@ -370,4 +371,19 @@
 
 .back_btn:hover {
     opacity: 0.5;
+}
+
+.color_cart_order {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: #000;
+    float: right;
+    margin-left: 10px;
+}
+
+.color_container_span {
+    display: inline;
+    flex-direction: row !important;
+    align-items: center;
 }

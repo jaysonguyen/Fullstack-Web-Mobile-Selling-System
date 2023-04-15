@@ -4,7 +4,6 @@ const config = require("../config/configDatabase");
 const readProductColor = async () => {
   try {
     const poolConnection = await sql.connect(config);
-    console.log("Reading rows from the Table...");
     let data = await poolConnection
       .request()
       .query("exec sp_get_color_product");
@@ -17,7 +16,7 @@ const readProductColor = async () => {
       };
     } else {
       return {
-        EM: "Get data success",
+        EM: "Get data failed",
         EC: 0,
         DT: [],
       };

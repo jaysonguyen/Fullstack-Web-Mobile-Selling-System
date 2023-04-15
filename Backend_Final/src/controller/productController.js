@@ -6,8 +6,6 @@ const {
   getOneMobile,
 } = require("../services/productServies");
 
-
-
 const getMobile = async (req, res) => {
   try {
     const data = await getAllMobile();
@@ -105,15 +103,29 @@ const updateMB = async (req, res) => {
 
 const getMobileById = async (req, res) => {
   try {
-    const data = await getOneMobile(req.params.id);
-    return res.status(200).json({
-      EM: data.EM,
-      EC: data.EC,
-      DT: data.DT,
-    });
-  } catch (error) {
+    const id = req.params.id;
+    console.log(id);
+    const data = await getOneMobile(id);
+    if(data && +data.EC === 1) {
+      return res.status(200).json({
+        EM: data.EM,
+        EC: data.EC,
+        DT: data.DT
+      })
+    } if(data && +data.EC != 1) {
+      return res.status(500).json({
+        EM: data.EM,
+        EC: data.EC,
+        DT: data.DT
+      })
+    } 
+  } catch (eror) {
     console.log(error);
-    return res.status(500).json({ EM: "Error from server", EC: -1, DT: "" });
+    return res.status(500).json({
+      EM: "Get data failed",
+      EC: -1,
+      DT: "",
+    });
   }
 };
 module.exports = { getMobile, createMobile, deleteMB, updateMB, getMobileById };

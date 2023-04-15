@@ -6,7 +6,6 @@ console.log("Staff...");
 const getAllStaff = async () => {
   try {
     const poolConnection = await sql.connect(config);
-    console.log("Reading rows from the Table...");
     let data = await poolConnection.request().query("Select* from employee");
     poolConnection.close();
     if (data) {

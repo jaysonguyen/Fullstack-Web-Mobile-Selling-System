@@ -6,7 +6,6 @@ console.log("Slider...");
 const Getallslider = async () => {
   try {
     const poolConnection = await sql.connect(config);
-    console.log("Reading rows from the Table...");
     let data = await poolConnection.request().query("exec sp_get_slider");
     poolConnection.close();
     if (data) {

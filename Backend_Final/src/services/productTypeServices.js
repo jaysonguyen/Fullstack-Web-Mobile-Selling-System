@@ -4,7 +4,6 @@ const config = require("../config/configDatabase");
 const readType = async () => {
   try {
     const poolConnection = await sql.connect(config);
-    console.log("Reading rows from the Table...");
     let data = await poolConnection.request().query("exec sp_get_product_type");
     poolConnection.close();
     if (data) {

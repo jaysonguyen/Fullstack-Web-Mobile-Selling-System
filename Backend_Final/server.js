@@ -42,6 +42,7 @@ app.use("/api/type/product", require("./src/routes/producTypeApi"));
 app.use("/api/hardware/", require("./src/routes/hardwareApi"));
 app.use("/api/rating/product", require("./src/routes/productRating"));
 app.use("/api/accessories/", require("./src/routes/accessoriesApi"));
+app.use("/api/order/", require("./src/routes/orderApi"));
 
 
 app.use("/api/customer/", require("./src/routes/customerApi"));
