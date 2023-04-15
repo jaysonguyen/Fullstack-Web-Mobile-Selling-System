@@ -52,7 +52,9 @@ app.use("/api/voucher/", require("./src/routes/voucherApi"));
 
 app.use("/api/slider/", require("./src/routes/sliderApi"));
 
+// admin
 
+app.use("/api/orderdetail/",require("./src/routes/orderDetailApi"));
 
 
 app.use;
