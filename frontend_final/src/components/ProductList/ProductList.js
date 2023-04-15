@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./ProductList.css";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 import { Link, NavLink } from "react-router-dom";
 import { getAllMobilePhone } from "../../Services/mobileService";
 import { getColorProduct } from "../../Services/colorService";
@@ -21,26 +21,6 @@ import {
 import { TbTruckDelivery, TbDiscountCheck } from "react-icons/tb";
 
 const ProductList = (props) => {
-  const responsive = {
-    superLargeDesktop: {
-      // the naming can be any, depends on you.
-      breakpoint: { max: 4000, min: 3000 },
-      items: 4,
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 4,
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 3,
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 2,
-    },
-  };
-
   const [mobile, setMobile] = useState([]);
   const [color, setColor] = useState([]);
   const [type, setType] = useState([]);
@@ -72,193 +52,153 @@ const ProductList = (props) => {
         .filter((item) => item.id_product_type === 1)
         .map((item) => (
           <>
-            <div className="all_sub-category">
-             
-              <div className="catagory-list">
-                <div className="item-box">
-                  <div className="title-item">
-                    <a href="#">Tất cả</a>
-                  </div>
-                </div>
-                <div className="item-box">
-                  <div className="title-item">
-                    <a href="#"> iPhone 14 series </a>
-                  </div>
-                </div>
-                <div className="item-box">
-                  <div className="title-item">
-                    <a href="#"> iPhone 13 series </a>
-                  </div>
-                </div>
-                <div className="item-box">
-                  <div className="title-item">
-                    <a href="#"> iPhone 12 series </a>
-                  </div>
-                </div>
-                <div className="item-box">
-                  <div className="title-item">
-                    <a href="#"> iPhone 11 series </a>
-                  </div>
-                </div>
-                <div className="item-box">
-                  <div className="title-item">
-                    <a href="#"> iPhone SE </a>
-                  </div>
-                </div>
-              </div>
-            </div>
             <div className="filter-properties">
-            <h2>Chọn theo tiêu chí </h2>
+              <h2 className="title">Chọn theo tiêu chí </h2>
               <div className="filter-feature">
                 <div className="filter-item">
                   <button className="btn-filter">
-                    <HiOutlineFilter className="icon"/>
+                    <HiOutlineFilter className="icon" />
                     Bộ lọc{" "}
                   </button>
                 </div>
                 <div className="filter-item">
                   <button className="btn-filter">
-                    <TbTruckDelivery className="icon"/> Sẵn sàng{" "}
+                    <TbTruckDelivery className="icon" /> Sẵn sàng{" "}
                   </button>
                 </div>
                 <div className="filter-item">
                   <button className="btn-filter">
-                    <HiOutlineCurrencyDollar className="icon"/>
+                    <HiOutlineCurrencyDollar className="icon" />
                     Giá
                   </button>
                 </div>
                 <div className="filter-item">
                   <button className="btn-filter">
-                    Ổ cứng <HiChevronDown className="icon" /> <HiQuestionMarkCircle className="icon" />
+                    Ổ cứng <HiChevronDown className="icon" />{" "}
+                    <HiQuestionMarkCircle className="icon" />
                   </button>
                 </div>
                 <div className="filter-item">
                   <button className="btn-filter">
-                    Nhu cầu sử dụng <HiChevronDown className="icon"/> <HiQuestionMarkCircle className="icon"/>{" "}
+                    Nhu cầu sử dụng <HiChevronDown className="icon" />{" "}
+                    <HiQuestionMarkCircle className="icon" />{" "}
                   </button>
                 </div>
                 <div className="filter-item">
                   <button className="btn-filter">
-                    Dung lượng RAM <HiChevronDown className="icon"/> <HiQuestionMarkCircle className="icon"/>{" "}
+                    Dung lượng RAM <HiChevronDown className="icon" />{" "}
+                    <HiQuestionMarkCircle className="icon" />{" "}
                   </button>
                 </div>
                 <div className="filter-item">
                   <button className="btn-filter">
-                    CPU <HiChevronDown className="icon"/> <HiQuestionMarkCircle className="icon" />{" "}
+                    CPU <HiChevronDown className="icon" />{" "}
+                    <HiQuestionMarkCircle className="icon" />{" "}
                   </button>
                 </div>
                 <div className="filter-item">
                   <button className="btn-filter">
-                    Kích thước màn hình <HiChevronDown className="icon"/>{" "}
-                    <HiQuestionMarkCircle className="icon"/>{" "}
+                    Kích thước màn hình <HiChevronDown className="icon" />{" "}
+                    <HiQuestionMarkCircle className="icon" />{" "}
                   </button>
                 </div>
                 <div className="filter-item">
                   <button className="btn-filter">
-                    Card đồ họa <HiChevronDown className="icon"/> <HiQuestionMarkCircle className="icon"/>{" "}
+                    Card đồ họa <HiChevronDown className="icon" />{" "}
+                    <HiQuestionMarkCircle className="icon" />{" "}
                   </button>
                 </div>
                 <div className="filter-item">
                   <button className="btn-filter">
-                    Tính năng đặc biệt <HiChevronDown className="icon"/>{" "}
-                    <HiQuestionMarkCircle className="icon"/>{" "}
+                    Tính năng đặc biệt <HiChevronDown className="icon" />{" "}
+                    <HiQuestionMarkCircle className="icon" />{" "}
                   </button>
                 </div>
                 <div className="filter-item">
                   <button className="btn-filter">
-                    Độ phân giải <HiChevronDown className="icon" /> <HiQuestionMarkCircle className="icon"/>
+                    Độ phân giải <HiChevronDown className="icon" />{" "}
+                    <HiQuestionMarkCircle className="icon" />
                   </button>
                 </div>
               </div>
             </div>
             <div className="sorting-container">
-              <h2>Sắp xếp theo </h2>
+              <h2 className="title">Sắp xếp theo </h2>
               <div className="sorting">
-              <div className="filter-item">
-                <button className="btn-filter">
-                  <HiSortDescending className="icon"/>
-                  Giá cao - thấp
-                </button>
-              </div>
-              <div className="filter-item">
-                <button className="btn-filter">
-                  <HiSortAscending className="icon" />
-                  Giá thấp - cao
-                </button>
-              </div>
-              <div className="filter-item">
-                <button className="btn-filter">
-                  <TbDiscountCheck className="icon" />
-                  Khuyến mãi hot
-                </button>
-              </div>
-              <div className="filter-item">
-                <button className="btn-filter">
-                  <HiEye className="icon" />
-                  Xem nhiều
-                </button>
+                <div className="filter-item">
+                  <button className="btn-filter">
+                    <HiSortDescending className="icon" />
+                    Giá cao - thấp
+                  </button>
+                </div>
+                <div className="filter-item">
+                  <button className="btn-filter">
+                    <HiSortAscending className="icon" />
+                    Giá thấp - cao
+                  </button>
+                </div>
+                <div className="filter-item">
+                  <button className="btn-filter">
+                    <TbDiscountCheck className="icon" />
+                    Khuyến mãi hot
+                  </button>
+                </div>
+                <div className="filter-item">
+                  <button className="btn-filter">
+                    <HiEye className="icon" />
+                    Xem nhiều
+                  </button>
+                </div>
               </div>
             </div>
-            </div>
-            
-
+            <Container fluid>
             <Row className="row">
               {mobile.map(
                 (mobile) =>
                   mobile.id_type_product === item.id_product_type && (
-                    <Col key={mobile.id_product} className="">
-                      <Carousel
-                        responsive={responsive}
-                        showDots={true}
-                        autoPlaySpeed={5000}
-                        autoPlay={true}
-                        infinite={true}
-                        rewind={true}
-                        className="carousel-container"
-                        removeArrowOnDeviceType={["tablet", "mobile"]}
-                        transitionDuration={500}
-                      >
-                        <Link to={`/product_detail/${mobile.id_product}`}>
-                          <div className="card">
-                            <div className="imageProduct">
-                              <img
-                                className="imgPhone"
-                                src={mobile.image_sig}
-                                alt={mobile.product_name}
-                              />
-                            </div>
-                            <p className="NamePhone">{mobile.product_name}</p>
-                            <div className="color-product">
-                              {color
-                                .filter(
-                                  (element) =>
-                                    element.ID_PRODUCT === mobile.id_product &&
-                                    element.COLOR_HEXA_CODE !== "#fff"
-                                )
-                                .map((element) => (
-                                  <div
-                                    key={element.COLOR_HEXA_CODE}
-                                    className="spot"
-                                    style={{
-                                      backgroundColor: element.COLOR_HEXA_CODE,
-                                    }}
-                                  ></div>
-                                ))}
-                            </div>
-                            <div className="price-contain">
-                              <p className="price">
-                                {mobile.price.toLocaleString("de-DE")}
-                                <span>&#8363;</span>
-                              </p>
-                            </div>
-                            <button className="buyButton">Mua ngay</button>
+                    <Col lg = {4} key={mobile.id_product} className="">
+                      <Link to={`/product_detail/${mobile.id_product}`} className="product_link">
+                        <div className="card">
+                          <div className="imageProduct">
+                            <img
+                              className="imgPhone"
+                              src={mobile.image_sig}
+                              alt={mobile.product_name}
+                            />
                           </div>
-                        </Link>
-                      </Carousel>
+                          <p className="NamePhone">{mobile.product_name}</p>
+                          <div className="color-product">
+                            {color
+                              .filter(
+                                (element) =>
+                                  element.ID_PRODUCT === mobile.id_product &&
+                                  element.COLOR_HEXA_CODE !== "#fff"
+                              )
+                              .map((element) => (
+                                <div
+                                  key={element.COLOR_HEXA_CODE}
+                                  className="spot"
+                                  style={{
+                                    backgroundColor: element.COLOR_HEXA_CODE,
+                                  }}
+                                ></div>
+                              ))}
+                          </div>
+                          <div className="price-contain">
+                            <p className="price">
+                              {mobile.price.toLocaleString("de-DE")}
+                              <span>&#8363;</span>
+                            </p>
+                          </div>
+                          <button className="buyButton">Mua ngay</button>
+                        </div>
+                      </Link>
                     </Col>
                   )
               )}
             </Row>
+            </Container>
+            
           </>
         ))}
     </div>

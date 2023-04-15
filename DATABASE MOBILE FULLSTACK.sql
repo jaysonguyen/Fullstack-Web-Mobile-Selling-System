@@ -135,6 +135,11 @@ CREATE TABLE PAYING(
 	 DATE_ORDER date,
 );
 
+drop table PAYING
+
+alter table PAYING
+drop ID_CUSTOMER
+
 CREATE TABLE ORDER_PRODUCT(
 	ID_ORDER VARCHAR(10) PRIMARY KEY,
 	METHOD_RECEIVE NVARCHAR(100),
@@ -203,42 +208,46 @@ CREATE TABLE ORDER_PRODUCT(
 	ID_ORDER int PRIMARY KEY,
 	METHOD_RECEIVE NVARCHAR(100),
 	ORDER_STATUS NVARCHAR(30),
-	ID_CUSTOMER int constraint fk_customer_id_order foreign key references CUSTOMER(ID_CUSTOMER)
+	email varchar(1000) 
 );
 
-
---
 
 CREATE TABLE PRODUCT_ORDER_DETAIL (
 	ID_ORDER int constraint fk_order foreign key references ORDER_PRODUCT(ID_ORDER),
 	ID_PRODUCT int constraint fk_product foreign key references PRODUCT(ID_PRODUCT),
 	DATE_ORDER date,
-	 ID_ODER_PRODUCT_DETAIL int primary key
-
+	HW varchar(10),
+	ID_ODER_PRODUCT_DETAIL int primary key,
+	 COLOR varchar(10),
+	 isPay bit
 );
 
-go
+
+
+
+
+
 ALTER PROC sp_insert_order_detail
 (@ID_ORDER NVARCHAR(100), 
-@ID_PRODUCT bit)
+@ID_PRODUCT bit, @HW varchar(10), @COLOR varchar(10))
 as
 begin
 	declare @id int;
 	set @id = 1;
 	while exists (select ID_ODER_PRODUCT_DETAIL from PRODUCT_ORDER_DETAIL where ID_ODER_PRODUCT_DETAIL = @id )
 		set @id = @id + 1 
-		insert into PRODUCT_ORDER_DETAIL(ID_ORDER, ID_PRODUCT, DATE_ORDER, ID_ODER_PRODUCT_DETAIL)
-						values(@ID_ORDER, @ID_PRODUCT, getdate(), @id);
+		insert into PRODUCT_ORDER_DETAIL(ID_ORDER, ID_PRODUCT, DATE_ORDER, ID_ODER_PRODUCT_DETAIL, HW, COLOR, isPay)
+						values(@ID_ORDER, @ID_PRODUCT, getdate(), @id, @HW, @COLOR, 1);
 end
+
 
 
 -- INSERT ORDER
 ALTER PROC sp_insert_order
 (
-@METHOD_RECEIVE smallint, 
-@ORDER_STATUS bit,  
+@METHOD_RECEIVE smallint,   
 @ID_PRODUCT int,
-@ID_CUSTOMER int
+@email varchar(1000), @HW varchar(10), @COLOR varchar(10)
 )
 as
 begin
@@ -246,12 +255,23 @@ begin
 	set @id = 1;
 	while exists (select ID_ORDER from ORDER_PRODUCT where ID_ORDER = @id)
 		set @id = @id + 1 
-		insert into ORDER_PRODUCT(ID_ORDER, METHOD_RECEIVE, ORDER_STATUS, ID_CUSTOMER)
-						values(@id, @METHOD_RECEIVE, @ORDER_STATUS, @ID_CUSTOMER);
-		exec sp_insert_order_detail @id, @ID_PRODUCT 
+	insert into ORDER_PRODUCT(ID_ORDER, METHOD_RECEIVE, ORDER_STATUS, email)
+			values(@id, @METHOD_RECEIVE, 4, @email);
+	exec sp_insert_order_detail @id, @ID_PRODUCT, @HW, @COLOR
 end
 
-exec sp_insert_order 1, 1, 1, 1
+exec sp_insert_order 1, 1, '22@gmail.com', '512G', '#000'
+
+
+
+
+select* 
+from ORDER_PRODUCT
+
+select*
+from product_order_detail
+
+
 
 -- END INSERT ORDER
 
@@ -754,24 +774,36 @@ select*
 from PRODUCT_ORDER_DETAIL
 
 select*
-from ORDER_PRODUCT
+from customer
+
+alter table paying 
+drop ID_CUSTOMER
+
+alter table order_product
+add ID_PAYING int foreign key references PAYING(ID_PAYING)
+
 
 select*
 from PAYING
 
-create proc sp_get_all_infor_order_detail 
+alter proc sp_get_all_infor_order_detail 
 as
 begin 
-	select CUSTOMER_NAME, ORDER_PRODUCT.ID_ORDER, DATE_ORDER, ORDER_STATUS, PRODUCT_NAME, PAY_METHOD, PAYING_STATUS
+	select CUSTOMER_NAME, ORDER_PRODUCT.ID_ORDER, ORDER_STATUS, DATE_ORDER, PRODUCT_NAME, METHOD_RECEIVE, isPay
 	from ORDER_PRODUCT
-	join CUSTOMER on CUSTOMER.ID_CUSTOMER = ORDER_PRODUCT.ID_CUSTOMER
-	join PRODUCT_ORDER_DETAIL on PRODUCT_ORDER_DETAIL.ID_ORDER = ORDER_PRODUCT.ID_ORDER
-	join PRODUCT on PRODUCT_ORDER_DETAIL.ID_PRODUCT = PRODUCT.ID_PRODUCT
-	join PAYING on CUSTOMER.ID_CUSTOMER = PAYING.ID_CUSTOMER
+	inner join CUSTOMER on customer.EMAIL = ORDER_PRODUCT.email
+	inner join PRODUCT_ORDER_DETAIL on PRODUCT_ORDER_DETAIL.ID_ORDER = ORDER_PRODUCT.ID_ORDER
+	inner join PRODUCT on PRODUCT_ORDER_DETAIL.ID_PRODUCT = PRODUCT.ID_PRODUCT
 end
 
 exec sp_get_all_infor_order_detail
 
+--PRODUCT_NAME, PAY_METHOD, PAYING_STATUS
+
+
+
+select*
+from customer
 
 
 -- GET ONE MOBILE

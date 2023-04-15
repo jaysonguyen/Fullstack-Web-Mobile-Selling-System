@@ -1,0 +1,132 @@
+.order_container {
+  display: flex;
+  width: 75%;
+  height: auto;
+  background-color: #fff;
+  overflow: hidden;
+  float: right;
+
+}
+.side_bar {
+}
+.order_body {
+  padding: 20px 40px;
+  display: flex;
+  flex-direction: column;
+}
+.order_header {
+  display: flex;
+  justify-content: space-between;
+}
+.btn_open_doc {
+  width: 120px;
+  color: #bdc1c7;
+}
+.btn_setup_details {
+  width: 100px;
+  color: #bdc1c7;
+}
+.order_title {
+  color: #05172e;
+  font-size: 28px;
+}
+.order_desc {
+  margin: 38px 0;
+  font-size: 12px;
+  color: #b7bbc2;
+}
+.order_body_nav {
+  display: flex;
+  justify-content: left;
+  border-bottom: 1px solid #b7bbc2;
+}
+li {
+  margin-right: 30px;
+}
+a {
+  color: #bdc1c7;
+  font-size: 13px;
+  font-weight: 700px;
+  transition: all 0.3s linear;
+}
+
+.active {
+  color: #1b4680;
+  padding-bottom: 2px;
+  text-decoration: none;
+  box-shadow: 0 3px #1b4680;
+  padding: 4px;
+}
+.order_body_func {
+  display: flex;
+  justify-content: space-between;
+  margin: 40px 0;
+  background-color: #fbfbfc;
+  padding: 12px;
+  border-radius: 2px;
+}
+.order_body_func_search {
+  width: 50%;
+}
+.order_body_table {
+  width: 100%;
+  height: auto;
+  flex: 1;
+}
+input {
+  width: 100%;
+  padding: 10px 8px;
+  border-radius: 10px;
+  font-size: 14px;
+  border: 1px solid #bdc1c7;
+}
+i {
+  font-size: 14px;
+  margin-right: 4px;
+}
+.btn {
+  height: 32px;
+  border-radius: 4px;
+  margin-right: 12px;
+  border: 1px solid #bdc1c7;
+  cursor: pointer;
+  background-color: #fff;
+  transition: all 0.3s linear;
+}
+.btn:hover {
+  color: #1b4680;
+  border-color: #1b4680;
+  transition: all 0.5 linear;
+}
+.btn:hover a {
+  color: #1b4680;
+  border-color: #1b4680;
+  transition: all 0.5 linear;
+}
+.btn_filters {
+  width: 92px;
+}
+.btn_attachment {
+  width: 124px;
+}
+.btn_export {
+  width: 91px;
+}
+
+/* you can css for button  of  material data grid in here  */
+.productListEdit {
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  background-color: #3bb077;
+  color: white;
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+.productListDelete {
+  width: 20px;
+  height: 20px;
+  color: red;
+  cursor: pointer;
+}
