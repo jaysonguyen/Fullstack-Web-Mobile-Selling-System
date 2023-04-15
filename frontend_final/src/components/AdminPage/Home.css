@@ -1,6 +1,6 @@
 .order_container {
   display: flex;
-  width: 75%;
+  width: auto;
   height: auto;
   background-color: #fff;
   overflow: hidden;

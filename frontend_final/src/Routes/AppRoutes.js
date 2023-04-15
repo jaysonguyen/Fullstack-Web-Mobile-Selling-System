@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Link, Outlet } from "react-router-dom";
 import React from "react";
 import Register from "../components/Register/Register";
 import Login from "../components/Login/Login";
-import HomePage from "../components/HomePage/HomePage"
+import HomePage from "../components/HomePage/Homepage"
 import User_Profile from "../components/User_Profile/User_Profile";
 import ProductDetail from "../components/ProductDetail/ProductDetail";
 import ProductList from "../components/ProductList/ProductList";
@@ -11,6 +11,7 @@ import SideBar from "../components/AdminPage/sidebar/Sidebar";
 import Cart from "../components/Cart/Cart";
 import Nav from "../components/Nav/Nav";
 import OrderManage from "../components/AdminPage/OrderManage/OrderManage";
+import ProductManage from "../components/AdminPage/ProductManage/ProductManage";
 
 const AppRoutes = (props) => {
   const pathname = window.location.pathname;
@@ -32,7 +33,7 @@ const AppRoutes = (props) => {
         <Route exact path="/product_detail/:id" element={<ProductDetail />} />
         <Route exact path="/mobile" element={<ProductList />} />
         <Route exact path="/admin/ordermanage" element={<OrderManage />} />
-
+        <Route exact path="/admin/productmanage" element={<ProductManage/>} />
         <Route exact path="/cart" element={<Cart />} />
         <Route exact path="/admin" element={<AdminPage />} />
 

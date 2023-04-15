@@ -27,23 +27,23 @@ const routes = [
     icon: <MdMessage />,
   },
   {
-    path: "/admin/analytics",
-    name: "Analytics",
+    path: "/admin/customerdemand ",
+    name: "Phân tích nhu cầu khách hàng  ",
     icon: <BiAnalyse />,
   },
   {
-    path: "/admin/file-manager",
-    name: "File Manager",
+    path: "/admin/product",
+    name: "Quản lí sản phẩm",
     icon: <AiTwotoneFileExclamation />,
     subRoutes: [
       {
-        path: "/admin/settings/profile",
-        name: "Profile ",
+        path: "/admin/productmanage",
+        name: " Sản phẩm ",
         icon: <FaUser />,
       },
       {
         path: "/admin/settings/2fa",
-        name: "2FA",
+        name: "Loại sản phẩm",
         icon: <FaLock />,
       },
       {
