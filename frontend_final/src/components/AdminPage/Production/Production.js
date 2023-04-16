@@ -33,7 +33,7 @@ const Production = (props) => {
   };
   return (
     <div className="container_body">
-      <button onClick={(e) => handleAddProduct(e)} className="btn_add_product">ADD PRODUCT</button>
+      <button onClick={(e) => handleAddProduct(e)} className="btn_add_product--production">ADD PRODUCT</button>
       <div className="order_container">
       <div className="order_body">
         <h5 class="card_title">Danh sách sản phẩm </h5>

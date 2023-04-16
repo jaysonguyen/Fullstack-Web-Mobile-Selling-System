@@ -9,7 +9,6 @@ import { AiOutlinePlusCircle } from "react-icons/ai";
 import { toast } from "react-toastify";
 import { createMobilePhone } from "../../../Services/mobileService";
 
-
 const AddProduct = (props) => {
   const [name, setname] = useState("");
   const [desc, setdesc] = useState("");
@@ -104,6 +103,7 @@ const AddProduct = (props) => {
       );
       if (data && +data.EC === 1) {
         toast.success("Thêm sản phẩm thành công");
+        navigate("/admin/production");
       }
     }
   };
@@ -490,10 +490,12 @@ const AddProduct = (props) => {
                       <div className="set_width"></div>
                       <div>
                         <div className="button_save_container">
-
-                         
-
-                          <button className="btn_cancel"  onClick={(e) => handleProductList(e)}>Hủy</button>
+                          <button
+                            className="btn_cancel"
+                            onClick={(e) => handleProductList(e)}
+                          >
+                            Hủy
+                          </button>
 
                           <button
                             className="btnadd"

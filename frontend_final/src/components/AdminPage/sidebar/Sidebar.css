@@ -10,6 +10,7 @@
   float: left;
   height: auto;
 }
+
 main {
   padding: 10px;
 }
@@ -37,13 +38,16 @@ main {
   justify-content: space-between;
   padding: 15px 10px;
 }
+
 .logo {
   font-size: 18px;
   line-height: 0;
 }
+
 .bars {
   width: 30px;
 }
+
 .hide {
   display: none;
 }
@@ -55,6 +59,7 @@ main {
   height: 30px;
   padding: 10px;
 }
+
 .search input {
   border: none;
   margin-left: 10px;
@@ -70,6 +75,7 @@ main {
   flex-direction: column;
   gap: 5px;
 }
+
 .link {
   display: flex;
   color: white;
@@ -81,21 +87,29 @@ main {
   font-size: 18px;
   margin: 4px 0;
 }
+
 .link:hover {
   border-right: 4px solid white;
   background: rgb(45, 51, 89);
   transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
 }
+
 .active {
   color: #fff !important;
   border-right: 4px solid white;
   background: rgb(45, 51, 89);
   width: 90%;
 }
+
 .link_text {
   white-space: nowrap;
   font-size: 15px;
 
+}
+
+.link_text:hover {
+  color: #fff;
+  opacity: .7;
 }
 
 .menu {
@@ -107,14 +121,17 @@ main {
   transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
   justify-content: space-between;
 }
+
 .menu_item {
   display: flex;
   gap: 10px;
 }
+
 .menu_container {
   display: flex;
   flex-direction: column;
 }
+
 .menu_container .link {
   padding-left: 20px;
   text-decoration: none;

@@ -1,11 +1,12 @@
-import React from 'react';
+import React from "react";
+import Production from "./Production/Production";
 
 const Home = (props) => {
   return (
     <div>
-      
+      <Production />
     </div>
   );
-}
+};
 
 export default Home;

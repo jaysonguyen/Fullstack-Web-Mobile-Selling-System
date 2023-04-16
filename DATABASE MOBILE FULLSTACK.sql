@@ -227,7 +227,7 @@ CREATE TABLE PRODUCT_ORDER_DETAIL (
 
 ALTER PROC sp_insert_order_detail
 (@ID_ORDER NVARCHAR(100), 
-@ID_PRODUCT bit, @HW varchar(10), @COLOR varchar(10))
+@ID_PRODUCT int, @HW varchar(10), @COLOR varchar(10))
 as
 begin
 	declare @id int;
@@ -237,8 +237,6 @@ begin
 		insert into PRODUCT_ORDER_DETAIL(ID_ORDER, ID_PRODUCT, DATE_ORDER, ID_ODER_PRODUCT_DETAIL, HW, COLOR, isPay)
 						values(@ID_ORDER, @ID_PRODUCT, getdate(), @id, @HW, @COLOR, 1);
 end
-
-
 
 -- INSERT ORDER
 ALTER PROC sp_insert_order
@@ -258,7 +256,6 @@ begin
 	exec sp_insert_order_detail @id, @ID_PRODUCT, @HW, @COLOR
 end
 
-exec sp_insert_order 1, 1, '22@gmail.com', '512G', '#000'
 
 
 
@@ -853,7 +850,7 @@ begin
 	inner join CUSTOMER on customer.EMAIL = ORDER_PRODUCT.email
 	inner join PRODUCT_ORDER_DETAIL on PRODUCT_ORDER_DETAIL.ID_ORDER = ORDER_PRODUCT.ID_ORDER
 	inner join PRODUCT on PRODUCT_ORDER_DETAIL.ID_PRODUCT = PRODUCT.ID_PRODUCT
-	order by ORDER_PRODUCT.ID_ORDER asc
+	order by ORDER_PRODUCT.ID_ORDER desc
 end
 
 exec sp_get_all_infor_order_detail
@@ -1105,3 +1102,7 @@ exec sp_get_hardware_byId  7
 
 select*
 from PRODUCT_TYPE
+
+
+select*
+from order_product

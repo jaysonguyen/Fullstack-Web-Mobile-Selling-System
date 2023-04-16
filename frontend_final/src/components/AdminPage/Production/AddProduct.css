@@ -1,16 +1,18 @@
-.container_body{
+.container_body {
     width: 100%;
 }
-.img_product{
+
+.img_product {
     width: 100px;
     height: 80px;
 }
-.btn_status_2{
+
+.btn_status_2 {
     background: none;
     border: 1px solid #fff;
     font-size: 15px;
     color: #fff;
-    cursor: pointer ;
+    cursor: pointer;
     position: relative;
     overflow: hidden;
     transition: all 0.3s;
@@ -20,22 +22,23 @@
     box-shadow: 0 0.5px 0 0.5px #313131;
     padding: 0.3em 0.5em;
 }
-.btn_status_1{
+
+.btn_status_1 {
     background: none;
     border: 1px solid #fff;
     font-size: 15px;
-    color: #fff;
-    cursor: pointer ;
+    color: #1DB744;
+    cursor: pointer;
     position: relative;
     overflow: hidden;
     transition: all 0.3s;
-    border-radius: 12px;
-    background-color: #1DB744;
+    border-radius: 5px;
+    border: 1px solid #1DB744;
     font-weight: bolder;
-    box-shadow: 0 0.5px 0 0.5px #313131;
     padding: 0.3em 0.5em;
 }
-.btn_add_product{
+
+.btn_add_product {
     margin: 20px 0 10px 75px;
     background: none;
     border: 2px solid #fff;
@@ -51,6 +54,7 @@
     box-shadow: 0 1px 0 1px #000;
     padding: 1em 1.5em;
 }
+
 .nd-1 {
     height: 15%;
     background-color: #ffffff;
@@ -586,4 +590,16 @@ button.search_btn {
 
 .btn_add_hw {
     padding: 5px 40px;
+}
+
+.btn_add_product--production {
+    background-color: #3572cc;
+    color: #fff;
+    border: none;
+    outline: none;
+    float: right;
+    margin-top: 20px;
+    margin-right: 50px;
+    padding: 5px 10px;
+    border-radius: 5px;
 }

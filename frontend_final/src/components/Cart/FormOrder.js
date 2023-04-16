@@ -234,7 +234,7 @@ const FormOrder = ({ mobileInfor, cart }) => {
                   <input
                     value={phone}
                     onChange={(e) => setphone(e.target.value)}
-                    disabled={phone && "disabled"}
+                    disabled={phone < 10 && "disabled"}
                     className="phone_number"
                     placeholder="Số điện thoại"
                   />
@@ -242,7 +242,7 @@ const FormOrder = ({ mobileInfor, cart }) => {
                   <input
                     value={email}
                     onChange={(e) => setemail(e.target.value)}
-                    disabled={email && "disabled"}
+                    disabled={email < 200 && "disabled"}
                     className="email"
                     placeholder="Email"
                   />

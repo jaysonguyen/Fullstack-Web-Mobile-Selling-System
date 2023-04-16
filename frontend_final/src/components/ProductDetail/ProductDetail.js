@@ -152,7 +152,7 @@ const ProductDetail = (props) => {
             {product && (
               <div className="gia">
                 <div className="giamoi" id="price">
-                  {product.PRICE.toLocaleString("de-DE")}
+                  {product.PRICE && product.PRICE.toLocaleString("de-DE")}
                   <span>&#8363;</span>
                 </div>
               </div>
@@ -178,21 +178,22 @@ const ProductDetail = (props) => {
             <div className="mau">
               Màu sắc
               <ul>
-                {color.map((color, key) => {
-                  if (idProduct.id == color.ID_PRODUCT) {
-                    return (
-                      <li key={key}>
-                        <button
-                          className="color_select_btn"
-                          onClick={() => setColorPro(color.COLOR_HEXA_CODE)}
-                          style={{
-                            backgroundColor: `${color.COLOR_HEXA_CODE}`,
-                          }}
-                        ></button>
-                      </li>
-                    );
-                  }
-                })}
+                {color &&
+                  color.map((color, key) => {
+                    if (idProduct.id == color.ID_PRODUCT) {
+                      return (
+                        <li key={key}>
+                          <button
+                            className="color_select_btn"
+                            onClick={() => setColorPro(color.COLOR_HEXA_CODE)}
+                            style={{
+                              backgroundColor: `${color.COLOR_HEXA_CODE}`,
+                            }}
+                          ></button>
+                        </li>
+                      );
+                    }
+                  })}
               </ul>
             </div>
             <div class="chuongtrinh">
@@ -310,7 +311,7 @@ const ProductDetail = (props) => {
                         <img className="imgPhone" src={item.image_access} />
                         <p className="NamePhone">{item.ACCESSORY_NAME}</p>
                         <p className="price">
-                          {item.PRICE.toLocaleString("de-De")}
+                          {item.PRICE && item.PRICE.toLocaleString("de-De")}
                           <span>&#8363;</span>
                         </p>
                       </div>
