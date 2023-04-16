@@ -114,7 +114,7 @@ const ProductDetail = (props) => {
     fetchProduct();
     fetchAccessory();
   }, []);
-  
+
   return (
     <div className="body-main">
       <div className="top">
@@ -130,22 +130,26 @@ const ProductDetail = (props) => {
               removeArrowOnDeviceType={["tablet", "mobile"]}
               transitionDuration={500}
             >
-              {imagedetail.map((item, key) => {
-                if (idProduct.id == item.ID_PRODUCT && item.is_valid == true) {
-                  return (
-                    <div className="mySlides fade" key={key}>
-                      <img src={item.IMAGE_LINK} style={{ width: "100%" }} />
-                    </div>
-                  );
-                }
-              })}
+              {imagedetail &&
+                imagedetail.map((item, key) => {
+                  if (
+                    idProduct.id == item.ID_PRODUCT &&
+                    item.is_valid == true
+                  ) {
+                    return (
+                      <div className="mySlides fade" key={key}>
+                        <img src={item.IMAGE_LINK}/>
+                      </div>
+                    );
+                  }
+                })}
             </Carousel>
           </div>
           <div className="slide-img"></div>
         </div>
         <div className="right">
           <div className="right-content">
-            {product.map((product, key) => {
+            {product && product.map((product, key) => {
               if (idProduct.id == product.id_product) {
                 return (
                   <h2 onChange={() => setName()} key={key}>
@@ -180,7 +184,7 @@ const ProductDetail = (props) => {
             <div className="dungluong">
               Dung lượng
               <ul>
-                {hardware.map((hardware, key) => {
+                {hardware && hardware.map((hardware, key) => {
                   if (idProduct.id == hardware.ID_HARDWARE_CONFIGURATION) {
                     return (
                       <li key={key}>

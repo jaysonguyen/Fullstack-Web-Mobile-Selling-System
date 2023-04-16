@@ -129,7 +129,10 @@ select {
 .des {
     width: 80%;
     height: 40%;
-    border-color: gray;
+}
+
+.des input {
+    border: 1px solid #cdcdcd;
 }
 
 .fil {
@@ -191,7 +194,6 @@ select {
 }
 
 .imgcontain {
-    height: 40%;
     width: 90%;
     display: flex;
 }
@@ -460,6 +462,7 @@ button.search_btn {
 }
 
 
+.model_number,
 .select_category,
 .addSize_selected,
 .select_brad,
@@ -468,4 +471,66 @@ button.search_btn {
     border: 1px solid #cdcdcd;
     border-radius: 3px;
     padding: 10px;
+
+}
+
+.add_item_btn {
+    border: none;
+    background-color: #fff;
+    margin-left: 3px;
+}
+
+.add_item_btn--icon {
+    font-size: 20px;
+    color: rgb(22, 90, 207);
+    cursor: pointer;
+
+}
+
+.add_hw_container {
+    box-shadow: 0px 0px 5px #cdcdcd;
+    width: 440px;
+    margin-top: 10px;
+    padding: 5px 10px 30px;
+    border-radius: 5px;
+}
+
+.btn_save_container_item {
+    margin-top: 40px;
+    position: relative;
+    left: 250px;
+}
+
+.add_item-detail {
+    border: none;
+    outline: none;
+    padding: 3px 10px;
+    float: right;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+.insert_color_container--item {
+    box-shadow: 0px 0px 5px #cdcdcd;
+    width: 400px;
+    margin-top: 10px;
+    padding: 5px 10px 30px;
+    border-radius: 5px;
+}
+
+.des {
+    border: 1px solid #cdcdcd;
+}
+
+.btnadd_color {
+    position: relative;
+    right: 30px;
+}
+
+.add_color_selected {
+    color: #fff;
+}
+
+.btn_add_hw {
+    padding: 5px 40px;
 }

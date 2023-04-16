@@ -8,7 +8,6 @@ import {
 import "./Nav.css";
 import logo from "./logonew.png";
 
-
 const Nav = (props) => {
   const navigate = useNavigate();
   let sessionData = sessionStorage.getItem("account");
@@ -21,58 +20,57 @@ const Nav = (props) => {
 
   return (
     <div>
-    <header>
-      <NavLink to="/" className="logo">
-        <i className="ri-home-fill"></i>
-        <img className="logo" src={logo}/>
-      </NavLink>
+      <header>
+        <Link to="/" className="logo">
+          <i className="ri-home-fill"></i>
+          <img className="logo" src={logo} />
+        </Link>
 
-      <ul className="navbar">
-       
-        <li>
-          <NavLink to="/mobile">Điện Thoại</NavLink>
-        </li>
-        <li>
-          <NavLink to="/tablet">Tablet</NavLink>
-        </li>
-        <li>
-          <NavLink to="/watch">Đồng hồ</NavLink>
-        </li>
-        <li>
-          <NavLink to="/sound">Âm thanh</NavLink>
-        </li>
-        <li>
-          <NavLink to="/accessories">Phụ kiện</NavLink>
-        </li>
-        <li>
-          <NavLink to="/promotion">Khuyến mãi</NavLink>
-        </li>
-      </ul>
+        <ul className="navbar">
+          <li>
+            <Link to="/mobile">Điện Thoại</Link>
+          </li>
+          <li>
+            <Link to="/tablet">Tablet</Link>
+          </li>
+          <li>
+            <Link to="/watch">Đồng hồ</Link>
+          </li>
+          <li>
+            <Link to="/sound">Âm thanh</Link>
+          </li>
+          <li>
+            <Link to="/accessories">Phụ kiện</Link>
+          </li>
+          <li>
+            <Link to="/promotion">Khuyến mãi</Link>
+          </li>
+        </ul>
 
-      <div className="main">
-        <a href="">
-          <AiOutlineSearch />
-        </a>
+        <div className="main">
+          <a href="">
+            <AiOutlineSearch />
+          </a>
 
-        <NavLink to="/cart" className="Cart">
-          <AiOutlineShoppingCart />
-        </NavLink>
-        <div className="User">
-          <NavLink to={!data && "/login"} className="user-option">
-            <AiOutlineUser />
-          </NavLink>
-          {data && (
-            <div className="option-hover-user">
-              <button>Tài khoản</button>
-              <button>Đơn hàng</button>
-              <button onClick={() => handleSignOut()}>Đăng xuất</button>
-            </div>
-          )}
+          <Link to="/cart" className="Cart">
+            <AiOutlineShoppingCart />
+          </Link>
+          <div className="User">
+            <Link to={!data && "/login"} className="user-option">
+              <AiOutlineUser />
+            </Link>
+            {data && (
+              <div className="option-hover-user">
+                <button>Tài khoản</button>
+                <button>Đơn hàng</button>
+                <button onClick={() => handleSignOut()}>Đăng xuất</button>
+              </div>
+            )}
+          </div>
+
+          <div className="bx bx-menu" id="menu-icon"></div>
         </div>
-
-        <div className="bx bx-menu" id="menu-icon"></div>
-      </div>
-    </header>
+      </header>
     </div>
   );
 };

@@ -66,7 +66,7 @@ const Body = (props) => {
                 (item) => item.id_type_product === productType.id_product_type
               )
               .map((item) => (
-                <Col key={item.id_product} className="">
+                <div key={item.id_product} className="col_3">
                   <Carousel
                     responsive={responsive} 
                     showDots={true}
@@ -115,7 +115,7 @@ const Body = (props) => {
                       </div>
                     </Link>
                   </Carousel>
-                </Col>
+                </div>
               ))}
           </Row>
         </div>

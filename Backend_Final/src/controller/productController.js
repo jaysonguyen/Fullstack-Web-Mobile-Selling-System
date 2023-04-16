@@ -27,20 +27,26 @@ const getMobile = async (req, res) => {
 const createMobile = async (req, res) => {
   try {
     const {
-      product_name,
-      product_desc,
-      id_type_product,
-      model_no,
-      is_valid,
-      brand,
+      name,
+      desc,
+      id_type,
+      imgSig,
+      colorName,
+      coLorHexa,
+      cpu,
+      storage,
+      price,
     } = req.body;
     const data = await createOneMobile(
-      product_name,
-      product_desc,
-      id_type_product,
-      model_no,
-      is_valid,
-      brand
+      name,
+      desc,
+      id_type,
+      imgSig,
+      colorName,
+      coLorHexa,
+      cpu,
+      storage,
+      price
     );
     if (data) {
       return res.status(201).json({
@@ -106,19 +112,20 @@ const getMobileById = async (req, res) => {
     const id = req.params.id;
     console.log(id);
     const data = await getOneMobile(id);
-    if(data && +data.EC === 1) {
+    if (data && +data.EC === 1) {
       return res.status(200).json({
         EM: data.EM,
         EC: data.EC,
-        DT: data.DT
-      })
-    } if(data && +data.EC != 1) {
+        DT: data.DT,
+      });
+    }
+    if (data && +data.EC != 1) {
       return res.status(500).json({
         EM: data.EM,
         EC: data.EC,
-        DT: data.DT
-      })
-    } 
+        DT: data.DT,
+      });
+    }
   } catch (eror) {
     console.log(error);
     return res.status(500).json({
