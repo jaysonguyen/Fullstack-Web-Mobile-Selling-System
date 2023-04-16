@@ -1,16 +1,16 @@
 .order_container {
   display: flex;
-  width: auto;
+  width: 79%;
   height: auto;
   background-color: #fff;
   overflow: hidden;
   float: right;
 
 }
-.side_bar {
-}
+
 .order_body {
-  padding: 20px 40px;
+  width: 100%;
+  padding: 20px 20px;
   display: flex;
   flex-direction: column;
 }
@@ -60,8 +60,6 @@ a {
 .order_body_func {
   display: flex;
   justify-content: space-between;
-  margin: 40px 0;
-  background-color: #fbfbfc;
   padding: 12px;
   border-radius: 2px;
 }
@@ -85,14 +83,19 @@ i {
   margin-right: 4px;
 }
 .btn {
-  height: 32px;
-  border-radius: 4px;
+  height: 35px;
+  border-radius: 4px !important;
   margin-right: 12px;
-  border: 1px solid #bdc1c7;
-  cursor: pointer;
-  background-color: #fff;
-  transition: all 0.3s linear;
+  border: 1px solid #bdc1c7 !important;
+  cursor: pointer !important;
+  background-color: #fff !important;
+  transition: all 0.3s linear !important;
 }
+.btn a{
+  text-decoration: none ;
+  color: #bdc1c7  ;
+}
+
 .btn:hover {
   color: #1b4680;
   border-color: #1b4680;

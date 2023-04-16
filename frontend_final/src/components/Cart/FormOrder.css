@@ -82,6 +82,7 @@
     float: right;
     margin-right: 200px;
     list-style: none;
+    font-weight: 600;
 }
 
 .step_order li{
@@ -96,7 +97,7 @@
     margin-right: 3px;
     width: 5px;
     height: 5px;
-    padding: 0  5px;
+    padding: 0  2px;
     border-radius: 50%;
     border: 1px solid rgb(37, 201, 84);
 }
@@ -141,4 +142,13 @@
 .infor_image.order {
     width: 60px;
     height: 60px;
+}
+
+.email {
+    height: inherit;
+    background-color: #fff;
+}
+
+.active_paymethod {
+    border: 1px solid #000 !important;
 }

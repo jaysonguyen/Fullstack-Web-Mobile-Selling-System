@@ -1,15 +1,17 @@
 import "./Sidebar.css";
+import "../Home.css";
 import SidebarMenu from "./SidebarMenu.js";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FaBars, FaHome, FaLock, FaMoneyBill, FaUser } from "react-icons/fa";
+import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 import { MdMessage } from "react-icons/md";
-import { BiAnalyse, BiSearch } from "react-icons/bi";
+import { BiAnalyse, BiSearch, BiCategory } from "react-icons/bi";
 import { BiCog } from "react-icons/bi";
 import { AiFillHeart, AiTwotoneFileExclamation } from "react-icons/ai";
 import { BsCartCheck } from "react-icons/bs";
-import OrderManage from "../OrderManage/OrderManage";
+
 const routes = [
   {
     path: "/admin",
@@ -24,39 +26,29 @@ const routes = [
   {
     path: "/admin/ordermanage",
     name: "Quản lí đơn hàng",
-    icon: <MdMessage />,
+    icon: <BsCartCheck />,
   },
   {
-    path: "/admin/customerdemand ",
-    name: "Phân tích nhu cầu khách hàng  ",
+    path: "/admin/analytics",
+    name: "Phân tích nhu cầu cách hàng",
     icon: <BiAnalyse />,
   },
   {
-    path: "/admin/product",
-    name: "Quản lí sản phẩm",
+    path: "/admin/file-manager",
+    name: "Quản lý sản phẩm",
     icon: <AiTwotoneFileExclamation />,
     subRoutes: [
       {
-        path: "/admin/productmanage",
-        name: " Sản phẩm ",
-        icon: <FaUser />,
+        path: "/admin/production",
+        name: "Sản phẩm ",
+        icon: <MdOutlineProductionQuantityLimits />,
       },
       {
         path: "/admin/settings/2fa",
         name: "Loại sản phẩm",
-        icon: <FaLock />,
-      },
-      {
-        path: "/admin/settings/billing",
-        name: "Billing",
-        icon: <FaMoneyBill />,
+        icon: <BiCategory />,
       },
     ],
-  },
-  {
-    path: "/admin/order",
-    name: "Order",
-    icon: <BsCartCheck />,
   },
   {
     path: "/admin/settings",

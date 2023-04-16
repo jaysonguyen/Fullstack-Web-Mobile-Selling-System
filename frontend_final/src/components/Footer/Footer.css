@@ -5,8 +5,10 @@
     line-height: 24px;
     color: #737373;
     clear: both;
-    position: relative;
-    
+  
+ 
+ 
+  text-align: center;
 }
 
 .site-footer hr {

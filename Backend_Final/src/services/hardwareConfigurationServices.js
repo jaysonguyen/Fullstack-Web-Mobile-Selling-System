@@ -4,7 +4,6 @@ const config = require("../config/configDatabase");
 const readHardware = async () => {
   try {
     const poolConnection = await sql.connect(config);
-    console.log("Reading rows from the Table...");
     let data = await poolConnection
       .request()
       .query("select* from hardware_configuration");

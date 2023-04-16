@@ -42,6 +42,7 @@ app.use("/api/type/product", require("./src/routes/producTypeApi"));
 app.use("/api/hardware/", require("./src/routes/hardwareApi"));
 app.use("/api/rating/product", require("./src/routes/productRating"));
 app.use("/api/accessories/", require("./src/routes/accessoriesApi"));
+app.use("/api/order/", require("./src/routes/orderApi"));
 
 
 app.use("/api/customer/", require("./src/routes/customerApi"));
@@ -55,7 +56,7 @@ app.use("/api/slider/", require("./src/routes/sliderApi"));
 // admin
 
 app.use("/api/orderdetail/",require("./src/routes/orderDetailApi"));
-
+app.use("/api/productlist/",require("./src/routes/manageProductApi"));
 
 app.use;
 app.listen(PORT, () => {

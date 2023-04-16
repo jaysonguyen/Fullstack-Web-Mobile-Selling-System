@@ -20,6 +20,7 @@ const Nav = (props) => {
   };
 
   return (
+    <div>
     <header>
       <NavLink to="/" className="logo">
         <i className="ri-home-fill"></i>
@@ -72,6 +73,7 @@ const Nav = (props) => {
         <div className="bx bx-menu" id="menu-icon"></div>
       </div>
     </header>
+    </div>
   );
 };
 

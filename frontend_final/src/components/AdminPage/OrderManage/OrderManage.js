@@ -1,56 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink, json, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { getAllOrder } from "../../../Services/orderDetail";
 import "../Home.css";
-import { DataGrid } from "@mui/x-data-grid";
-import { Hidden } from "@mui/material";
 import { BsFilter } from "react-icons/bs";
 import { MdAttachFile } from "react-icons/md";
 import { TbFileExport } from "react-icons/tb";
-import { MdDeleteOutline } from "react-icons/md";
+import "./OrderManage.css";
 
-//  product list taken from api
-const lists = [
-  {
-    id: "123",
-    title: "Iphone 14 pro max",
-    genre: "Dien thoai nha tao",
-    type: "Apple",
-  },
-];
-//  using material  data grid to show list products in to table
-const columns = [
-  { field: "CUSTOMER_NAME", headerName: "Khách hàng ", flex: 1 },
-  { field: "ID_ORDER", headerName: "Mã đơn hàng ", flex: 1 },
-  { field: "PRODUCT_NAME", headerName: "Sản phẩm  ", flex: 1 },
-  { field: "DATE_ORDER", headerName: "Ngày đặt hàng ", flex: 1 },
-  { field: "METHOD_RECEIVE", headerName: "Phương thức nhận  ", flex: 1 },
-  { field: "ORDER_STATUS", headerName: "Đơn hàng ", flex: 1 },
-  { field: "isPay", headerName: "Thanh toán ", flex: 1 },
-  {
-    field: "action",
-    headerName: "Action",
-    width: 150,
-    renderCell: (params) => {
-      return (
-        <>
-          {/* // the first link using for show detail products */}
-          <Link
-            to={{ pathname: "/list/" + params.row.id }}
-            state={{ list: params.row }}
-          >
-            <button className="productListEdit">Edit</button>
-          </Link>
-          {/* // the second link using for delete product , other function */}
-          <MdDeleteOutline
-            className="productListDelete"
-            onClick={() => handleDelete(params.row.id)}
-          />
-        </>
-      );
-    },
-  },
-];
 const OrderManage = (props) => {
   const [order, setOrder] = useState([]);
 
@@ -66,48 +22,35 @@ const OrderManage = (props) => {
   useEffect(() => {
     fetchOrder();
   }, []);
+
+ 
+  function renderStatus(status) {
+    switch (status) {
+      case "1":
+        return <button className="btn_order_1">Đã giao</button>;
+      case "2":
+        return <button className="btn_order_2">Đang giao </button>;
+      case "3":
+        return <button className="btn_order_3">Chuẩn bị hàng </button>;
+      case "4":
+        return <button className="btn_order_4">Chờ xác nhận </button>;
+
+      default:
+        return null;
+        
+    }
+  }
+
   return (
     <div className="order_container">
       <div className="order_body">
-        <div className="order_header">
-          <h2 className="order_title">Order Detail</h2>
-          <div className="order_header_function">
-            <button className=" btn btn_open_doc">Open Document</button>
-            <button className="btn btn_setup_details">Setup Details</button>
-          </div>
-        </div>
-
-        <p className="order_desc">
-          Here is the order details page of my last project, users can list all
-          order on this page, make notes on them and print these lists in the
-          format they want. At the same time, they can easily access the order
-          they want by making a detailed search.
-        </p>
-        <ul className="order_body_nav">
-          <li>
-            <NavLink to="/all_order" className="active">
-              All Order
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/complated">Complated</NavLink>
-          </li>
-          <li>
-            <NavLink to="/continuing">Continuing</NavLink>
-          </li>
-          <li>
-            <NavLink to="/Restitute">Restitue</NavLink>
-          </li>
-          <li>
-            <NavLink to="/canceled">Canceled</NavLink>
-          </li>
-        </ul>
+        <h5 class="card_title">Danh sách đặt hàng </h5>
         <div className="order_body_func">
           <div className="order_body_func_search">
             {/* icons */}
             <input
               type="text"
-              placeholder="Search for order ID , customer, order status or something"
+              placeholder="Search for customer, order status or something "
             />
           </div>
           <div className="order_body_func_buttons">
@@ -135,20 +78,55 @@ const OrderManage = (props) => {
           </div>
         </div>
 
-        <div className="order_body_table">
-          {order.map((orderitem) => {
-            return (
-              <DataGrid
-          
-                rows={order}
-                disableSelectionOnClick
-                columns={columns}
-                pageSize={10}
-                checkboxSelection
-                getRowId={() => orderitem.ID_ORDER} // get row id  for call api or maybe show the different of each item
-              />
-            );
-          })}
+        <div class="main_wrapper">
+          <div class="card-body">
+            <table id="zero-conf" class="display">
+              <thead>
+                <tr>
+                  <th>STT</th>
+                  <th>Tên khách hàng </th>
+                  <th>Tên sản phẩm</th>
+                  <th>Ngày đặt hàng</th>
+                  <th>Phương thức nhận </th>
+                  <th>Đơn hàng</th>
+                  <th>Thanh toán</th>
+                </tr>
+              </thead>
+              <tbody>
+                {order.map((order) => {
+                  return (
+                    <tr key={order.id}>
+                      <td>{order.id}</td>
+                      <td>{order.CUSTOMER_NAME}</td>
+                      <td>{order.PRODUCT_NAME}</td>
+                      <td>{order.DATE_ORDER}</td>
+                      <td>
+                        {
+                          (order.METHOD_RECEIVE = 1 ? (
+                            <button className="btn_method_2">Giao hàng</button>
+                          ) : (
+                            <button className="btn_method_1">Trực tiếp</button>
+                          ))
+                        }
+                      </td>
+                      <td>{renderStatus(order.ORDER_STATUS)}</td>
+                      <td>
+                        {order.isPay == null ? (
+                          <button className="btn_pay_null">
+                            Chưa thanh toán
+                          </button>
+                        ) : (
+                          <button className="btn_pay_true">
+                            Đã thanh toán
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

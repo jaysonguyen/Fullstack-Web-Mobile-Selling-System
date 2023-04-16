@@ -1,8 +1,8 @@
-import "./Sidebar.css";
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { NavLink } from "react-router-dom";
 import { FaAngleDown } from "react-icons/fa";
+import "./Sidebar.css";
 const menuAnimation = {
   hidden: {
     opacity: 0,

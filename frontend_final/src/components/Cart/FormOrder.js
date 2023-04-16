@@ -9,13 +9,16 @@ import delivery from "./img/deliveryfast.png";
 import { HiMinusSm } from "react-icons/hi";
 import { FcCheckmark } from "react-icons/fc";
 import { getInforByEmailCus } from "../../Services/customerService";
+import { toast } from "react-toastify";
+import { createOrder } from "../../Services/orderServices";
 
-const FormOrder = (props) => {
+const FormOrder = ({ mobileInfor, cart }) => {
   const [showComplete, setShowComplete] = useState(false);
   const [name, setname] = useState("");
   const [phone, setphone] = useState("");
   const [address, setaddress] = useState("");
   const [email, setemail] = useState("");
+  const [paymentMethod, setPayMenthod] = useState(1);
 
   const sessionData = sessionStorage.getItem("account");
   const handleGetInforByEmail = async () => {
@@ -31,13 +34,40 @@ const FormOrder = (props) => {
     }
   };
 
+  const idPro = cart.id.id;
+
+  const handlePayMenthod = (id) => {
+    setPayMenthod(id);
+  };
+
   useEffect(() => {
     handleGetInforByEmail();
+    console.log();
   }, []);
 
-  const handleCompletebtn = () => {
-    let flag = !showComplete;
-    setShowComplete(flag);
+  const handleCompletebtn = async () => {
+    if (name == "") {
+      toast.error("Vui lòng điền tên người đặt");
+    } else if (phone == "") {
+      toast.error("Vui lòng điền số điện thoại");
+    } else if (email == "") {
+      toast.error("Vui lòng điền địa chỉ email");
+    } else if (address == "") {
+      toast.error("Vui lòng điền địa chỉ nhận hàng");
+    } else {
+      let flag = !showComplete;
+      setShowComplete(flag);
+      const dataUSer = await createOrder(
+        paymentMethod,
+        idPro,
+        email,
+        cart.hw,
+        cart.color
+      );
+      toast.success(
+        "Đặt hàng thành công! đơn hàng của bạn sẽ được gửi trong thời gian sớm nhất"
+      );
+    }
   };
 
   return (
@@ -87,39 +117,27 @@ const FormOrder = (props) => {
 
               <ul className="infor_product_body body_value_order border_around">
                 <li className="infor_product_body infor_image order">
-                  <img src="https://shopdunk.com/images/thumbs/0008734_iphone-14-pro-128gb_80.png" />
+                  <img src={mobileInfor.IMAGE_SIG} />
                 </li>
                 <li className="infor_product_body infor_name name_order">
-                  <span>IPhone 14 Pro Max</span>
+                  <span>{mobileInfor.PRODUCT_NAME}</span>
                   <div className="infor_product_order">
-                    <span>Hình thức: Mua thẳng</span>
-                    <span>Cấu hình: 256GB</span>
-                    <span>Màu sắc: GOLD</span>
+                    <span>Thương hiệu: {mobileInfor.BRAND}</span>
+                    <span>Cấu hình: {cart.hw}</span>
+                    <span className="color_container_span">
+                      Màu sắc:{" "}
+                      <span
+                        style={{ backgroundColor: `${cart.color}` }}
+                        className="color_cart_order"
+                      ></span>
+                    </span>
                   </div>
                 </li>
                 <li className="infor_product_body infor_price">
                   <p>
                     {" "}
-                    29.000.000<span>&#8363;</span>
-                  </p>
-                </li>
-              </ul>
-              <ul className="infor_product_body body_value_order border_around">
-                <li className="infor_product_body infor_image order">
-                  <img src="https://shopdunk.com/images/thumbs/0008734_iphone-14-pro-128gb_80.png" />
-                </li>
-                <li className="infor_product_body infor_name name_order">
-                  <span>IPhone 14 Pro Max</span>
-                  <div className="infor_product_order">
-                    <span>Hình thức: Mua thẳng</span>
-                    <span>Cấu hình: 256GB</span>
-                    <span>Màu sắc: GOLD</span>
-                  </div>
-                </li>
-                <li className="infor_product_body infor_price">
-                  <p>
-                    {" "}
-                    29.000.000<span>&#8363;</span>
+                    {mobileInfor.PRICE.toLocaleString("de-De")}
+                    <span>&#8363;</span>
                   </p>
                 </li>
               </ul>
@@ -128,7 +146,12 @@ const FormOrder = (props) => {
                   Chọn phương thức thanh toán
                 </h3>
                 <div className="payment_method_container">
-                  <ul className="infor_product_body body_value_order border_around payment_method_list">
+                  <ul
+                    onClick={() => handlePayMenthod(1)}
+                    className={`infor_product_body body_value_order border_around payment_method_list ${
+                      paymentMethod == 1 ? "active_paymethod" : ""
+                    }`}
+                  >
                     <li className="infor_product_body infor_image order">
                       <img src={logoStore} />
                     </li>
@@ -142,7 +165,12 @@ const FormOrder = (props) => {
                       <p></p>
                     </li>
                   </ul>
-                  <ul className="infor_product_body body_value_order border_around payment_method_list">
+                  <ul
+                    onClick={() => handlePayMenthod(2)}
+                    className={`infor_product_body body_value_order border_around payment_method_list  ${
+                      paymentMethod == 2 ? "active_paymethod" : ""
+                    }`}
+                  >
                     <li className="infor_product_body infor_image order">
                       <img src={mb} />
                     </li>
@@ -191,24 +219,32 @@ const FormOrder = (props) => {
               <div className="infor_order">
                 <div className="infor_user_container">
                   <label>Tên</label>
-                  <input value={name} className="name_user" placeholder="Tên" />
+                  <input
+                    value={name}
+                    onChange={(e) => setname(e.target.value)}
+                    className="name_user"
+                    placeholder="Tên"
+                  />
                   <label>Số điện thoại</label>
                   <input
                     value={phone}
-                    disabled={phone ? "disabled" : ""}
+                    onChange={(e) => setphone(e.target.value)}
+                    disabled={phone && "disabled"}
                     className="phone_number"
                     placeholder="Số điện thoại"
                   />
                   <label>Email</label>
                   <input
                     value={email}
-                    disabled={email ? "disabled" : ""}
+                    onChange={(e) => setemail(e.target.value)}
+                    disabled={email && "disabled"}
                     className="email"
                     placeholder="Email"
                   />
                   <label>Địa chỉ</label>
                   <input
                     value={address}
+                    onChange={(e) => setaddress(e.target.value)}
                     className="address"
                     placeholder="Địa chỉ"
                   />
@@ -217,13 +253,15 @@ const FormOrder = (props) => {
                   <p className="subTotal">
                     Tổng phụ:{" "}
                     <span className="total_price subTotal_price">
-                      29.000.000<span>&#8363;</span>
+                      {mobileInfor.PRICE.toLocaleString("de-De")}
+                      <span>&#8363;</span>
                     </span>
                   </p>
                   <p>
                     Tổng cộng:{" "}
                     <span className="total_price">
-                      29.000.000<span>&#8363;</span>
+                      {mobileInfor.PRICE.toLocaleString("de-De")}
+                      <span>&#8363;</span>
                     </span>
                   </p>
                 </div>

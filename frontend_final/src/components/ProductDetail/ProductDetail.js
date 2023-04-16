@@ -11,6 +11,7 @@ import { getAllMobilePhone } from "../../Services/mobileService";
 import { getAccessory } from "../../Services/accessory";
 import { BsStar, BsStarFill } from "react-icons/bs";
 import { AiOutlineGift } from "react-icons/ai";
+import { toast } from "react-toastify";
 
 const ProductDetail = (props) => {
   const responsive = {
@@ -34,7 +35,6 @@ const ProductDetail = (props) => {
   };
 
   let idProduct = useParams();
-  console.log(idProduct.id);
 
   const [color, setColor] = useState([]);
   const [hardware, setHardware] = useState([]);
@@ -42,20 +42,39 @@ const ProductDetail = (props) => {
   const [product, setProduct] = useState([]);
   const [accessory, setAccessory] = useState([]);
 
+  const [colorPro, setColorPro] = useState("");
+  const [hw, setHw] = useState("");
+
   const fetchAccessory = async () => {
     try {
       let dataproduct = await getAccessory();
-      console.log("data Accessory", dataproduct.DT);
       setAccessory(dataproduct.DT);
     } catch (error) {
       console.log(error);
     }
   };
 
+  let data = {
+    id: idProduct,
+    color: colorPro,
+    hw: hw,
+  };
+
+  const handleBuyBtn = (e) => {
+    e.preventDefault();
+    if (data.color == "") {
+      toast.error("Vui lòng chọn màu sắc");
+    } else if (data.hw == "") {
+      toast.error("Vui lòng chọn cấu hình");
+    } else {
+      sessionStorage.setItem("cart", JSON.stringify(data));
+      toast.success(`Đã thêm sản phẩm với id: ${data.id.id} vào giỏ hàng`);
+    }
+  };
+
   const fetchProduct = async () => {
     try {
       let dataproduct = await getAllMobilePhone();
-
       setProduct(dataproduct.DT);
     } catch (error) {
       console.log(error);
@@ -64,8 +83,8 @@ const ProductDetail = (props) => {
 
   const fetchImage = async () => {
     try {
-      let data = await getImageDetail();
-
+      const data = await getImageDetail();
+      console.log(data.DT);
       setImageDetail(data.DT);
     } catch (error) {
       console.log(error);
@@ -83,7 +102,6 @@ const ProductDetail = (props) => {
   const fetchcolor = async () => {
     try {
       let data = await getColorProduct();
-
       setColor(data.DT);
     } catch (error) {
       console.log(error);
@@ -97,14 +115,14 @@ const ProductDetail = (props) => {
     fetchProduct();
     fetchAccessory();
   }, []);
+  
   return (
-    <div class="body-main">
-      <div class="top">
-        <div class="left">
-          <div class="slideshow-container">
+    <div className="body-main">
+      <div className="top">
+        <div className="left">
+          <div className="slideshow-container">
             <Carousel
               responsive={responsive}
-              showDots={true}
               autoPlaySpeed={5000}
               autoPlay={true}
               infinite={true}
@@ -116,7 +134,7 @@ const ProductDetail = (props) => {
               {imagedetail.map((item, key) => {
                 if (idProduct.id == item.ID_PRODUCT && item.is_valid == true) {
                   return (
-                    <div class="mySlides fade" key={key}>
+                    <div className="mySlides fade" key={key}>
                       <img src={item.IMAGE_LINK} style={{ width: "100%" }} />
                     </div>
                   );
@@ -124,13 +142,17 @@ const ProductDetail = (props) => {
               })}
             </Carousel>
           </div>
-          <div class="slide-img"></div>
+          <div className="slide-img"></div>
         </div>
-        <div class="right">
-          <div class="right-content">
+        <div className="right">
+          <div className="right-content">
             {product.map((product, key) => {
               if (idProduct.id == product.id_product) {
-                return <h2 key={key}>{product.product_name}</h2>;
+                return (
+                  <h2 onChange={() => setName()} key={key}>
+                    {product.product_name}
+                  </h2>
+                );
               }
             })}
             <div className="rating_icon">
@@ -142,12 +164,12 @@ const ProductDetail = (props) => {
               Đánh giá
             </div>
 
-            <div class="gach"></div>
+            <div className="gach"></div>
             {product.map((product, key) => {
               if (idProduct.id == product.id_product) {
                 return (
-                  <div class="gia" key={key}>
-                    <div class="giamoi" id="price">
+                  <div className="gia" key={key}>
+                    <div className="giamoi" id="price">
                       {product.price.toLocaleString("de-DE")}
                       <span>&#8363;</span>
                     </div>
@@ -156,43 +178,50 @@ const ProductDetail = (props) => {
               }
             })}
 
-            <div class="dungluong">
+            <div className="dungluong">
               Dung lượng
               <ul>
                 {hardware.map((hardware, key) => {
                   if (idProduct.id == hardware.ID_HARDWARE_CONFIGURATION) {
                     return (
                       <li key={key}>
-                        <label id="dl1" htmlFor="">
+                        <button
+                          className="storage_select_btn"
+                          onClick={() => setHw(hardware.STORAGE)}
+                          id="dl1"
+                          htmlFor=""
+                        >
                           {hardware.STORAGE}
-                        </label>
+                        </button>
                       </li>
                     );
                   }
                 })}
               </ul>
             </div>
-            <div class="mau">
+            <div className="mau">
               Màu sắc
               <ul>
                 {color.map((color, key) => {
                   if (idProduct.id == color.ID_PRODUCT) {
                     return (
                       <li key={key}>
-                        <span
+                        <button
+                          className="color_select_btn"
+                          onClick={() => setColorPro(color.COLOR_HEXA_CODE)}
                           style={{
                             backgroundColor: `${color.COLOR_HEXA_CODE}`,
                           }}
-                        ></span>
+                        ></button>
                       </li>
                     );
                   }
                 })}
               </ul>
             </div>
-            <div class="chuongtrinh">
-              <div class="km">
-                <p class="p-km">
+            <div className="chuongtrinh">
+              <div className="km">
+                <p className="p-km">
                   {" "}
                   <AiOutlineGift className="gift-icon" /> <b>Khuyến mãi </b>
                 </p>
@@ -203,14 +232,14 @@ const ProductDetail = (props) => {
                   name="fav_language"
                   value="muathang"
                 />
-                  <label for="muathang">Mua thẳng</label>
+                  <label htmlFor="muathang">Mua thẳng</label>
                 <br /> {" "}
                 <input
                   type="radio"
                   id="gop"
                   name="fav_language"
                   value="gop"
-                />  <label for="gop">Trả góp</label>
+                />  <label htmlFor="gop">Trả góp</label>
                 <br /> {" "}
                 <input
                   type="radio"
@@ -219,14 +248,14 @@ const ProductDetail = (props) => {
                   value="baohanh"
                 />
                  {" "}
-                <label for="baohanh">
+                <label htmlFor="baohanh">
                   giá ưu đãi mua kèm bảo hành kim cương
                 </label>
                 <br />
                 <br />
               </div>
-              <div class="uudai">
-                <p class="p-km">
+              <div className="uudai">
+                <p className="p-km">
                   {" "}
                   <AiOutlineGift className="gift-icon" /> <b>Ưu đãi </b>
                 </p>
@@ -236,27 +265,29 @@ const ProductDetail = (props) => {
                 </p>
               </div>
             </div>
-            <div class="mua">
+            <div className="mua">
               <a href="">
-                <button class="btnmua">MUA NGAY</button>
+                <button className="btnmua" onClick={(e) => handleBuyBtn(e)}>
+                  MUA NGAY
+                </button>
               </a>
             </div>
           </div>
         </div>
       </div>
-      <div class="bot">
+      <div className="bot">
         <h2>Gợi ý phụ kiện đi kèm</h2>
-        <div class="contain">
-          <div class="swiper mySwiper">
-            <div class="swiper-wrapper">
+        <div className="contain">
+          <div className="swiper mySwiper">
+            <div className="swiper-wrapper">
               {accessory.map((item, key) => {
                 return (
-                  <div class="swiper-slide" key={key}>
-                    <div class="column">
-                      <div class="card">
-                        <img class="imgPhone" src={item.image_access} />
-                        <p class="NamePhone">{item.ACCESSORY_NAME}</p>
-                        <p class="price">
+                  <div className="swiper-slide" key={key}>
+                    <div className="column">
+                      <div className="card">
+                        <img className="imgPhone" src={item.image_access} />
+                        <p className="NamePhone">{item.ACCESSORY_NAME}</p>
+                        <p className="price">
                           {item.PRICE.toLocaleString("de-De")}
                           <span>&#8363;</span>
                         </p>
@@ -267,7 +298,7 @@ const ProductDetail = (props) => {
               })}
             </div>
           </div>
-          <div class="swiper-pagination"></div>
+          <div className="swiper-pagination"></div>
         </div>
       </div>
 
@@ -281,7 +312,7 @@ const ProductDetail = (props) => {
         </div>
       </div> */}
 
-      <div class="thongtin">
+      <div className="thongtin">
         <h2 style={{ textAlign: "center" }}>Thông Tin</h2>
         <p>
           iPhone 14 Pro Max. Bắt trọn chi tiết ấn tượng với Camera Chính 48MP.
@@ -319,7 +350,7 @@ const ProductDetail = (props) => {
             quốc gia hoặc khu vực.
           </span>
         </p>
-        <button class="readmore" onclick="myFunction()" id="myBtn">
+        <button className="readmore" id="myBtn">
           Xem Thêm
         </button>
       </div>

@@ -11,7 +11,8 @@ import SideBar from "../components/AdminPage/sidebar/Sidebar";
 import Cart from "../components/Cart/Cart";
 import Nav from "../components/Nav/Nav";
 import OrderManage from "../components/AdminPage/OrderManage/OrderManage";
-import ProductManage from "../components/AdminPage/ProductManage/ProductManage";
+import AddProduct from "../components/AdminPage/Production/AddProduct";
+import Production from "../components/AdminPage/Production/Production";
 
 const AppRoutes = (props) => {
   const pathname = window.location.pathname;
@@ -33,9 +34,11 @@ const AppRoutes = (props) => {
         <Route exact path="/product_detail/:id" element={<ProductDetail />} />
         <Route exact path="/mobile" element={<ProductList />} />
         <Route exact path="/admin/ordermanage" element={<OrderManage />} />
-        <Route exact path="/admin/productmanage" element={<ProductManage/>} />
+        
         <Route exact path="/cart" element={<Cart />} />
         <Route exact path="/admin" element={<AdminPage />} />
+        <Route exact path="/admin/product/add" element={<AddProduct />} />
+        <Route exact path="/admin/production" element={<Production />} />
 
         <Route path="*">404 Not Found</Route>
       </Routes>

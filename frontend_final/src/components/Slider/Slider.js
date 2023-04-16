@@ -31,8 +31,12 @@ const Slider = () => {
   }, [slider]);
 
   const fetchSlider = async () => {
-    let data = await readSlider();
-    setSlider(data.DT);
+    try {
+      let data = await readSlider();
+      setSlider(data.DT);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

@@ -4,7 +4,6 @@ const config = require("../config/configDatabase");
 const getAllMobile = async () => {
   try {
     const poolConnection = await sql.connect(config);
-    console.log("Reading rows from the Table...");
     let data = await poolConnection
       .request()
       .query("EXEC sp_get_product_name_price");
@@ -106,9 +105,9 @@ const updateMobile = async (id, name, desc, id_type, is_valid) => {
 const getOneMobile = async (id) => {
   try {
     const poolConnection = await sql.connect(config);
-    const data = await poolConnection.query(
-      `SELECT* FROM PRODUCT WHERE ID_PRODUCT like '${id}'`
-    );
+    const data = await poolConnection
+      .request()
+      .query(`exec get_one_product_infor '${id}'`);
     poolConnection.close();
     if (data) {
       return {
@@ -118,8 +117,8 @@ const getOneMobile = async (id) => {
       };
     } else {
       return {
-        EM: "Get data succcess",
-        EC: 1,
+        EM: "Get data failed",
+        EC: 0,
         DT: [],
       };
     }

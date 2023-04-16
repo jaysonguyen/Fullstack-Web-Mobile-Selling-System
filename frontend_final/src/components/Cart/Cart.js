@@ -1,18 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import "./Cart.css";
 import "bootstrap/dist/css/bootstrap.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BsChevronRight, BsCaretLeft } from "react-icons/bs";
 import { MdDeleteOutline } from "react-icons/md";
 import Carousel from "react-multi-carousel";
 import FormOrder from "./FormOrder";
-
+import { getOne } from "../../Services/mobileService";
+import { toast } from "react-toastify";
 
 const Cart = (props) => {
   const [showCart, setShowCart] = useState(true);
+  const [mobile, setMobile] = useState({});
+  const [isAgree, setIsAgree] = useState(false);
+  const navigate = useNavigate();
 
   const responsive = {
     superLargeDesktop: {
@@ -34,10 +38,44 @@ const Cart = (props) => {
     },
   };
 
-  const handleShowShowCart = () => {
-    let flag = !showCart;
-    setShowCart(flag);
+  const handleSetIsAgree = () => {
+    //let flagAgree = !isAgree;
+    setIsAgree(true);
+    console.log("change");
   };
+
+  const handleShowShowCart = () => {
+    if (isAgree) {
+      let flag = !showCart;
+      setShowCart(flag);
+    } else {
+      toast.error("Vui lòng chọn đồng ý với các điều khoản");
+    }
+  };
+
+  const handleUpdate = () => {
+    navigate(`/product_detail/${id}`)
+  }
+
+  let cart = JSON.parse(sessionStorage.getItem("cart"));
+  const id = cart.id.id;
+
+  const getMobile = async (id) => {
+    let mobileInfor = await getOne(id);
+    setMobile(mobileInfor.DT[0]);
+  };
+
+  const handleDeleteCart = () => {
+    if (cart) {
+      sessionStorage.removeItem("cart");
+    }
+  };
+
+
+  console.log(mobile)
+  useEffect(() => {
+    getMobile(id);
+  }, []);
 
   return (
     <div className="cart_container">
@@ -68,56 +106,44 @@ const Cart = (props) => {
                       </li>
                     </ul>
                     <div className="seperate"></div>
-                    <ul className="infor_product_body body_value_order">
-                      <li className="infor_product_body infor_image order">
-                        <img src="https://shopdunk.com/images/thumbs/0008734_iphone-14-pro-128gb_80.png" />
-                      </li>
-                      <li className="infor_product_body infor_name name_order">
-                        <span>IPhone 14 Pro Max</span>
-                        <div className="infor_product_order">
-                          <span>Hình thức: Mua thẳng</span>
-                          <span>Cấu hình: 256GB</span>
-                          <span>Màu sắc: GOLD</span>
-                          <h6 className="edit_infor_product">Sửa</h6>
-                        </div>
-                      </li>
-                      <li className="infor_product_body infor_price">
-                        <p>
-                          {" "}
-                          29.000.000<span>&#8363;</span>
-                        </p>
-                      </li>
-                      <li className="infor_product_body infor_quantity order">
-                        <p>1</p>
-                        <MdDeleteOutline className="delete--icon" />
-                      </li>
-                    </ul>
+                    {cart && (
+                      <ul className="infor_product_body body_value_order">
+                        <li className="infor_product_body infor_image order">
+                          <img src={mobile.IMAGE_SIG} />
+                        </li>
+                        <li className="infor_product_body infor_name name_order">
+                          <span>{mobile.PRODUCT_NAME}</span>
+                          <div className="infor_product_order">
+                            <span>Hãng: {mobile.BRAND}</span>
+                            <span>Cấu hình: {cart.hw}</span>
+                            <span className="color_container_span">
+                              Màu sắc:{" "}
+                              <span
+                                style={{ backgroundColor: `${cart.color}` }}
+                                className="color_cart_order"
+                              ></span>
+                            </span>
+                            <h6 className="edit_infor_product" onClick={() => handleUpdate()}>Sửa</h6>
+                          </div>
+                        </li>
+                        <li className="infor_product_body infor_price">
+                          <p>
+                            {" "}
+                            {mobile.PRICE &&
+                              mobile.PRICE.toLocaleString("de-DE")}
+                            <span>&#8363;</span>
+                          </p>
+                        </li>
+                        <li className="infor_product_body infor_quantity order">
+                          <p>1</p>
+                          <MdDeleteOutline
+                            onClick={() => handleDeleteCart()}
+                            className="delete--icon"
+                          />
+                        </li>
+                      </ul>
+                    )}
 
-                    <div className="seperate"></div>
-                    <ul className="infor_product_body body_value_order">
-                      <li className="infor_product_body infor_image order">
-                        <img src="https://shopdunk.com/images/thumbs/0008734_iphone-14-pro-128gb_80.png" />
-                      </li>
-                      <li className="infor_product_body infor_name name_order">
-                        <span>IPhone 14 Pro Max</span>
-                        <div className="infor_product_order">
-                          <span>Hình thức: Mua thẳng</span>
-                          <span>Cấu hình: 256GB</span>
-                          <span>Màu sắc: GOLD</span>
-                          <h6 className="edit_infor_product">Sửa</h6>
-                        </div>
-                      </li>
-                      <li className="infor_product_body infor_price">
-                        <p>
-                          {" "}
-                          29.000.000<span>&#8363;</span>
-                        </p>
-                      </li>
-                      <li className="infor_product_body infor_quantity order">
-                        <p>1</p>
-                        <MdDeleteOutline className="delete--icon" />
-                      </li>
-                    </ul>
                     <div className="footer_oder_product">
                       <a className="update_cart_btn">Cập nhật giỏ hàng</a>
                       <a className="buy_continue_btn">Tiếp tục mua sắm</a>
@@ -137,19 +163,24 @@ const Cart = (props) => {
                       <p className="subTotal">
                         Tổng phụ:{" "}
                         <span className="total_price subTotal_price">
-                          29.000.000<span>&#8363;</span>
+                          {mobile.PRICE && mobile.PRICE.toLocaleString("de-DE")}
+                          <span>&#8363;</span>
                         </span>
                       </p>
                       <p>
                         Tổng cộng:{" "}
                         <span className="total_price">
-                          29.000.000<span>&#8363;</span>
+                          {mobile.PRICE && mobile.PRICE.toLocaleString("de-DE")}
+                          <span>&#8363;</span>
                         </span>
                       </p>
                     </div>
                     <div className="seperate"></div>
                     <div className="accept_rule">
-                      <input type="checkbox" />
+                      <input
+                        type="checkbox"
+                        onChange={() => handleSetIsAgree()}
+                      />
                       Tôi đã đọc và đồng ý với
                       <a className="ruleLink">
                         {" "}
@@ -230,7 +261,7 @@ const Cart = (props) => {
             <BsCaretLeft />
             Trở về
           </button>
-          <FormOrder />
+          <FormOrder mobileInfor={mobile} cart={cart}/>
         </>
       )}
     </div>

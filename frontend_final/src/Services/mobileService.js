@@ -16,6 +16,10 @@ const deleteMobilePhone = (id) => {
   return axios.delete("/api/mobile/", {
     ...id,
   });
-}
+};
 
-export { getAllMobilePhone, createMobilePhone, deleteMobilePhone};
+const getOne = (id) => {
+  return axios.get(`/api/product/get/one/${id}`);
+};
+
+export { getAllMobilePhone, createMobilePhone, deleteMobilePhone, getOne };

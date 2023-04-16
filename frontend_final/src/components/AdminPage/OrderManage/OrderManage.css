@@ -1,0 +1,110 @@
+.main_wrapper{
+    background-color: #ffffff;
+    color: #1b1b1b;
+    padding: 20px;
+    box-shadow: 0 2px 3px 0 rgba(25, 35, 48, 0.9);
+    border-radius: 15px;
+}
+.card-body{
+    margin-bottom: 28px;    
+}
+.card_title{
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+.display{
+    width: 100%;
+    display: table;
+    
+}
+tr:hover {background-color: rgba(182, 182, 182,0.2); }
+th,td {
+    height: 60px;
+    padding: 10px;
+    margin: 5px;
+}
+th {
+    border-bottom: 1px solid #1b1b1b;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.btn_method_1,.btn_pay_null {  
+    border: 1px solid #ff7b00 ;
+    background-color:#fff ;
+    color: #ff7b00;;
+    padding: 4px 8px ;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 14px;
+    margin: 10px ;
+}
+.btn_order_1{
+    border: 1px solid #65A6F5 ;
+    background-color:#fff ;
+    color: #65A6F5;
+    padding: 4px 10px ;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 14px;  
+}
+.btn_order_3{
+    border: 1px solid #22243B ;
+    background-color:#fff ;
+    color: #22243B;
+    padding: 4px 10px ;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 14px;  
+}
+.btn_order_2{
+    border: 1px solid #FF7869 ;
+    background-color:#fff ;
+    color: #FF7869;
+    padding: 4px 10px ;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 14px;  
+}
+.btn_order_4{
+    border: 1px solid #FE1C1C ;
+    background-color:#fff ;
+    color: #FE1C1C;
+    padding: 4px 10px ;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 14px;  
+}
+.btn_order_1:hover{
+    background-color: #65A6F5;
+    color: #fff;
+}
+.btn_order_2:hover{
+    background-color: #FF7869;
+    color: #fff;
+}
+.btn_order_3:hover{
+    background-color: #22243B;
+    color: #fff;
+}
+.btn_order_4:hover{
+    background-color: #FE1C1C;
+    color: #fff;
+}
+.btn_method_1:hover, .btn_pay_null:hover{
+    background-color: #ff7b00;
+    color: #fff;
+}
+.btn_method_2,.btn_pay_true {
+    border: 1px solid #50b332 ;
+    background-color:#fff ;
+    color: #50b332;;
+    padding: 4px 10px ;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 14px;  
+}
+.btn_method_2:hover,.btn_pay_true:hover{
+    background-color: #50b332;
+    color: #fff;
+}

@@ -4,7 +4,6 @@ const config = require("../config/configDatabase");
 const readColor = async () => {
   try {
     const poolConnection = await sql.connect(config);
-    console.log("Reading rows from the Table...");
     const data = await poolConnection.request().query("exec sp_get_color");
     poolConnection.close();
     if (data) {
