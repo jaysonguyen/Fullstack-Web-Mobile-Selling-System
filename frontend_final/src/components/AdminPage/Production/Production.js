@@ -84,7 +84,7 @@ const Production = (props) => {
                 </tr>
               </thead>
               <tbody>
-                {products.map((product) => {
+                {products && products.map((product) => {
                   return(
                     <tr key={product.ID_PRODUCT}>
                     <td>{product.ID_PRODUCT}</td>
