@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { gethardWareList, getOneHw } from "../../Services/hardWare";
 import { getImageDetail } from "../../Services/ImageDetail";
 import "react-multi-carousel/lib/styles.css";
-import { getAllMobilePhone } from "../../Services/mobileService";
+import { getAllMobilePhone, getOneMobile } from "../../Services/mobileService";
 import { getAccessory } from "../../Services/accessory";
 import { BsStar, BsStarFill } from "react-icons/bs";
 import { AiOutlineGift } from "react-icons/ai";
@@ -73,8 +73,9 @@ const ProductDetail = (props) => {
 
   const fetchProduct = async () => {
     try {
-      let dataproduct = await getAllMobilePhone();
-      setProduct(dataproduct.DT);
+      let dataproduct = await getOneMobile(idProduct.id);
+      setProduct(dataproduct.DT[0]);
+      console.log(setProduct);
     } catch (error) {
       console.log(error);
     }
@@ -122,35 +123,22 @@ const ProductDetail = (props) => {
       <div className="top">
         <div className="left">
           <div className="slideshow-container22">
-            {product &&
-              product.map((product) => {
-                if (idProduct.id == product.id_product) {
-                  return (
-                    <div className="fade2" key={product.id_product}>
-                      <div className="hinh">
-                        <img
-                          src={product.image_sig}
-                          className="hinhimg"
-                        />
-                      </div>
-                    </div>
-                  );
-                }
-              })}
+            {product && (
+              <div className="fade2">
+                <div className="hinh">
+                  <img src={product.IMAGE_SIG} className="hinhimg" />
+                </div>
+              </div>
+            )}
           </div>
         </div>
         <div className="right">
           <div className="right-content">
-            {product &&
-              product.map((product, key) => {
-                if (idProduct.id == product.id_product) {
-                  return (
-                    <h2 onChange={() => setName()} key={key}  class="proname">
-                      {product.product_name}
-                    </h2>
-                  );
-                }
-              })}
+            {product && (
+              <h2 onChange={() => setName()} class="proname">
+                {product.PRODUCT_NAME}
+              </h2>
+            )}
             <div className="rating_icon">
               <BsStarFill className="star-checked" />
               <BsStarFill className="star-checked" />
@@ -161,18 +149,14 @@ const ProductDetail = (props) => {
             </div>
 
             <div className="gach"></div>
-            {product.map((product, key) => {
-              if (idProduct.id == product.id_product) {
-                return (
-                  <div className="gia" key={key}>
-                    <div className="giamoi" id="price">
-                      {product.price.toLocaleString("de-DE")}
-                      <span>&#8363;</span>
-                    </div>
-                  </div>
-                );
-              }
-            })}
+            {product && (
+              <div className="gia">
+                <div className="giamoi" id="price">
+                  {product.PRICE.toLocaleString("de-DE")}
+                  <span>&#8363;</span>
+                </div>
+              </div>
+            )}
 
             <div className="dungluong">
               Dung lượng

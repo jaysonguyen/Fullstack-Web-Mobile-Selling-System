@@ -68,7 +68,7 @@ const Mobile = (props) => {
       <Nav />
       <Slider />
 
-      {type
+      {type && type
         .filter((item) => item.id_product_type === 1)
         .map((item) => (
           <>
@@ -203,7 +203,7 @@ const Mobile = (props) => {
             
 
             <Row className="row">
-              {mobile.map(
+              {mobile && mobile.map(
                 (mobile) =>
                   mobile.id_type_product === item.id_product_type && (
                     <Col key={mobile.id_product} className="">

@@ -93,7 +93,7 @@ const OrderManage = (props) => {
                 </tr>
               </thead>
               <tbody>
-                {order.map((order) => {
+                {order && order.map((order) => {
                   return (
                     <tr key={order.id}>
                       <td>{order.id}</td>

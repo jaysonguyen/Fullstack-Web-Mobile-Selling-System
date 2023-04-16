@@ -35,8 +35,11 @@ const deleteMobilePhone = (id) => {
   });
 };
 
+const getOneMobile = (id) => {
+  return axios.get(`/api/product/get/one/${id}`);
+};
 const getOne = (id) => {
   return axios.get(`/api/product/get/one/${id}`);
 };
 
-export { getAllMobilePhone, createMobilePhone, deleteMobilePhone, getOne };
+export { getAllMobilePhone, createMobilePhone, deleteMobilePhone, getOneMobile,getOne };
