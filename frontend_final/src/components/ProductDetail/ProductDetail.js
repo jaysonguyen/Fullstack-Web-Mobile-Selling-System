@@ -3,9 +3,8 @@ import { readSlider } from "../../Services/sliderService";
 import "./ProductDetail.css";
 import { getColorProduct } from "../../Services/colorService";
 import { useParams } from "react-router-dom";
-import { gethardWareList } from "../../Services/hardWare";
+import { gethardWareList, getOneHw } from "../../Services/hardWare";
 import { getImageDetail } from "../../Services/ImageDetail";
-import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { getAllMobilePhone } from "../../Services/mobileService";
 import { getAccessory } from "../../Services/accessory";
@@ -34,7 +33,7 @@ const ProductDetail = (props) => {
     },
   };
 
-  let idProduct = useParams();
+  const idProduct = useParams();
 
   const [color, setColor] = useState([]);
   const [hardware, setHardware] = useState([]);
@@ -93,8 +92,10 @@ const ProductDetail = (props) => {
 
   const fectchHardware = async () => {
     try {
-      let data = await gethardWareList();
-      setHardware(data.DT);
+      const data = await getOneHw(idProduct.id);
+      console.log(data);
+      setHardware(data.DT[0]);
+      console.log(hardware);
     } catch (error) {
       console.log(error);
     }
@@ -120,42 +121,23 @@ const ProductDetail = (props) => {
     <div className="body-main">
       <div className="top">
         <div className="left">
-          {/* <div className="slideshow-container">
-            <Carousel
-              responsive={responsive}
-              autoPlaySpeed={5000}
-              autoPlay={true}
-              infinite={true}
-              rewind={true}
-              className="carousel-container"
-              removeArrowOnDeviceType={["tablet", "mobile"]}
-              transitionDuration={500}
-            >
-              {imagedetail &&
-                imagedetail.map((item, key) => {
-                  if (
-                    idProduct.id == item.ID_PRODUCT &&
-                    item.is_valid == true
-                  ) {
-                    return (
-                      <div className="mySlides fade" key={key}>
-                        <img src={item.IMAGE_LINK}/>
+          <div className="slideshow-container22">
+            {product &&
+              product.map((product) => {
+                if (idProduct.id == product.id_product) {
+                  return (
+                    <div className="fade2" key={product.id_product}>
+                      <div className="hinh">
+                        <img
+                          src={product.image_sig}
+                          className="hinhimg"
+                        />
                       </div>
-                    );
-                  }
-                })}
-            </Carousel>
-          </div> */}
-          {product &&
-            product.map((product) => {
-              if (idProduct.id == product.id_product) {
-                return (
-                  <div className="slide-img" key={product.id_product}>
-                    <img src={product.image_sig} style={{width:200,height:300}}/>
-                  </div>
-                );
-              }
-            })}
+                    </div>
+                  );
+                }
+              })}
+          </div>
         </div>
         <div className="right">
           <div className="right-content">
@@ -163,7 +145,7 @@ const ProductDetail = (props) => {
               product.map((product, key) => {
                 if (idProduct.id == product.id_product) {
                   return (
-                    <h2 onChange={() => setName()} key={key}>
+                    <h2 onChange={() => setName()} key={key}  class="proname">
                       {product.product_name}
                     </h2>
                   );
@@ -195,23 +177,18 @@ const ProductDetail = (props) => {
             <div className="dungluong">
               Dung lượng
               <ul>
-                {hardware &&
-                  hardware.map((hardware, key) => {
-                    if (idProduct.id == hardware.ID_HARDWARE_CONFIGURATION) {
-                      return (
-                        <li key={key}>
-                          <button
-                            className="storage_select_btn"
-                            onClick={() => setHw(hardware.STORAGE)}
-                            id="dl1"
-                            htmlFor=""
-                          >
-                            {hardware.STORAGE}
-                          </button>
-                        </li>
-                      );
-                    }
-                  })}
+                {hardware && (
+                  <li>
+                    <button
+                      className="storage_select_btn"
+                      onClick={() => setHw(hardware.STORAGE)}
+                      id="dl1"
+                      htmlFor=""
+                    >
+                      {hardware.STORAGE}
+                    </button>
+                  </li>
+                )}
               </ul>
             </div>
             <div className="mau">
@@ -234,44 +211,9 @@ const ProductDetail = (props) => {
                 })}
               </ul>
             </div>
-            <div className="chuongtrinh">
-              <div className="km">
-                <p className="p-km">
-                  {" "}
-                  <AiOutlineGift className="gift-icon" /> <b>Khuyến mãi </b>
-                </p>
-                 {" "}
-                <input
-                  type="radio"
-                  id="muathang"
-                  name="fav_language"
-                  value="muathang"
-                />
-                  <label htmlFor="muathang">Mua thẳng</label>
-                <br /> {" "}
-                <input
-                  type="radio"
-                  id="gop"
-                  name="fav_language"
-                  value="gop"
-                />  <label htmlFor="gop">Trả góp</label>
-                <br /> {" "}
-                <input
-                  type="radio"
-                  id="baohanh"
-                  name="fav_language"
-                  value="baohanh"
-                />
-                 {" "}
-                <label htmlFor="baohanh">
-                  giá ưu đãi mua kèm bảo hành kim cương
-                </label>
-                <br />
-                <br />
-              </div>
-              <div className="uudai">
-                <p className="p-km">
-                  {" "}
+            <div class="chuongtrinh">
+              <div class="uudai">
+                <p class="p-km">
                   <AiOutlineGift className="gift-icon" /> <b>Ưu đãi </b>
                 </p>
                 <p>Mừng khai trương (duy nhất 25.03 - 26.03 - SL có hạn)</p>
@@ -288,6 +230,87 @@ const ProductDetail = (props) => {
               </a>
             </div>
           </div>
+        </div>
+      </div>
+      <div class="btns">
+        <button type="button" data-menu="thongtin">
+          Thông tin
+        </button>
+        <button type="button" data-menu="TSKT">
+          Thông số kỹ thuật
+        </button>
+        <button type="button" data-menu="CTSP">
+          Chi tiết sản phẩm
+        </button>
+      </div>
+      <div class="allwrps">
+        <div data-menu="thongtin" class="single">
+          <h2>Thông Tin</h2>
+          <p>
+            IPhone 14 Pro Max. Bắt trọn chi tiết ấn tượng với Camera Chính 48MP.
+            Trải nghiệm iPhone theo cách hoàn toàn mới với Dynamic Island và màn
+            hình Luôn Bật. Công nghệ an toàn quan trọng – Phát Hiện Va Chạm thay
+            bạn gọi trợ giúp khi cần kíp <br />
+            <span id="more">
+              Tính năng nổi bật Màn hình Super Retina XDR 6,7 inch với tính năng
+              Luôn Bật và ProMotion Dynamic Island, một cách mới tuyệt diệu để
+              tương tác với iPhone Camera Chính 48MP cho độ phân giải gấp 4 lần
+              Chế độ Điện Ảnh nay đã hỗ trợ 4K Dolby Vision tốc độ lên đến 30
+              fps Chế độ Hành Động để quay video cầm tay mượt mà, ổn định Công
+              nghệ an toàn quan trọng Phát Hiện Va Chạm thay bạn gọi trợ giúp
+              khi cần kíp Thời lượng pin cả ngày và thời gian xem video lên đến
+              29 giờ A16 Bionic, chip điện thoại thông minh tuyệt đỉnh. Mạng di
+              động 5G siêu nhanh Các tính năng về độ bền dẫn đầu như Ceramic
+              Shield và khả năng chống nước iOS 16 đem đến thêm nhiều cách để cá
+              nhân hóa, giao tiếp và chia sẻ Pháp lý SOS Khẩn Cấp sử dụng kết
+              nối mạng di động hoặc Cuộc Gọi Wi-Fi. Màn hình có các góc bo tròn.
+              Khi tính theo hình chữ nhật, kích thước màn hình theo đường chéo
+              là 6,69 inch. Diện tích hiển thị thực tế nhỏ hơn. Thời lượng pin
+              khác nhau tùy theo cách sử dụng và cấu hình; truy cập để biết thêm
+              thông tin. Cần có gói cước dữ liệu. Mạng 5G chỉ khả dụng ở một số
+              thị trường và được cung cấp qua một số nhà mạng. Tốc độ có thể
+              thay đổi tùy địa điểm và nhà mạng.IPhone 14 Pro Max có khả năng
+              chống tia nước, chống nước và chống bụi. Sản phẩm đã qua kiểm
+              nghiệm trong điều kiện phòng thí nghiệm có kiểm soát đạt mức IP68
+              theo tiêu chuẩn IEC 60529 (chống nước ở độ sâu tối đa 6 mét trong
+              vòng tối đa 30 phút). Khả năng chống tia nước, chống nước và chống
+              bụi không phải là các điều kiện vĩnh viễn. Khả năng này có thể
+              giảm do hao mòn thông thường. Không sạc pin khi iPhone đang bị
+              ướt. Vui lòng tham khảo hướng dẫn sử dụng để biết cách lau sạch và
+              làm khô máy. Không bảo hành sản phẩm bị hỏng do thấm chất lỏng.
+              Một số tính năng không khả dụng tại một số quốc gia hoặc khu vực.
+            </span>
+          </p>
+        </div>
+        <div data-menu="TSKT" class="single">
+          <h2>Thông số kỹ thuật</h2>
+          Dung lượng 256GB
+          <br></br>
+          Màn hình 6.1”, OLED, Super Retina XDR Độ phân giải màn hình 2556 x
+          1179 pixel ở 460 ppi
+          <br></br>
+          Camera sau Chính: khẩu độ ƒ / 1,78, Chụp xa: khẩu độ ƒ / 2.8, Hệ thống
+          camera chuyên nghiệp (48MP chính, 12MP siêu rộng và 12MP tele), Siêu
+          rộng: khẩu độ ƒ / 2.2 Camera trước 12MP, khẩu độ ƒ / 1.9
+          <br></br>
+          Pin Phát video lên tới 28 giờ (theo Apple)
+          <br></br>
+          Sạc Sạc không dây MagSafe và Qi
+          <br></br>
+          Kết nối mạng 2 SIM (1 Nano SIM và 1 eSIM hoặc 2 eSIM), hỗ trợ 5G
+          <br></br>
+          Chip Chip A16 Bionic,CPU 6 nhân, GPU 5 lõi, 16-core Neural Engine
+          <br></br>
+          RAM 6GB
+          <br></br>
+          Bảo mật Face ID, Được kích hoạt bởi camera trước TrueDepth để nhận
+          dạng khuôn mặt
+          <br></br>
+          Chống nước IP68 (độ sâu tối đa 6 mét trong tối đa 30 phút) theo tiêu
+          chuẩn IEC 60529
+        </div>
+        <div data-menu="CTSP" class="single">
+          Đánh giá sản phẩm
         </div>
       </div>
       <div className="bot">
@@ -315,59 +338,6 @@ const ProductDetail = (props) => {
           </div>
           <div className="swiper-pagination"></div>
         </div>
-      </div>
-
-      {/* <div className="product-review">
-        <h2> Đánh giá sản phẩm </h2>
-        <div className="container-product-review">
-          <div className="rate">
-            <div className="all-rating-list"></div>
-          </div>
-          <div className="comment"></div>
-        </div>
-      </div> */}
-
-      <div className="thongtin">
-        <h2 style={{ textAlign: "center" }}>Thông Tin</h2>
-        <p>
-          iPhone 14 Pro Max. Bắt trọn chi tiết ấn tượng với Camera Chính 48MP.
-          Trải nghiệm iPhone theo cách hoàn toàn mới với Dynamic Island và màn
-          hình Luôn Bật. Công nghệ an toàn quan trọng – Phát Hiện Va Chạm thay
-          bạn gọi trợ giúp khi cần kíp <br />
-          <span id="dots"></span>
-          <span id="more">
-            Tính năng nổi bật Màn hình Super Retina XDR 6,7 inch với tính năng
-            Luôn Bật và ProMotion Dynamic Island, một cách mới tuyệt diệu để
-            tương tác với iPhone Camera Chính 48MP cho độ phân giải gấp 4 lần
-            Chế độ Điện Ảnh nay đã hỗ trợ 4K Dolby Vision tốc độ lên đến 30 fps
-            Chế độ Hành Động để quay video cầm tay mượt mà, ổn định Công nghệ an
-            toàn quan trọng Phát Hiện Va Chạm thay bạn gọi trợ giúp khi cần kíp
-            Thời lượng pin cả ngày và thời gian xem video lên đến 29 giờ A16
-            Bionic, chip điện thoại thông minh tuyệt đỉnh. Mạng di động 5G siêu
-            nhanh Các tính năng về độ bền dẫn đầu như Ceramic Shield và khả năng
-            chống nước iOS 16 đem đến thêm nhiều cách để cá nhân hóa, giao tiếp
-            và chia sẻ Pháp lý SOS Khẩn Cấp sử dụng kết nối mạng di động hoặc
-            Cuộc Gọi Wi-Fi. Màn hình có các góc bo tròn. Khi tính theo hình chữ
-            nhật, kích thước màn hình theo đường chéo là 6,69 inch. Diện tích
-            hiển thị thực tế nhỏ hơn. Thời lượng pin khác nhau tùy theo cách sử
-            dụng và cấu hình; truy cập để biết thêm thông tin. Cần có gói cước
-            dữ liệu. Mạng 5G chỉ khả dụng ở một số thị trường và được cung cấp
-            qua một số nhà mạng. Tốc độ có thể thay đổi tùy địa điểm và nhà
-            mạng. . iPhone 14 Pro Max có khả năng chống tia nước, chống nước và
-            chống bụi. Sản phẩm đã qua kiểm nghiệm trong điều kiện phòng thí
-            nghiệm có kiểm soát đạt mức IP68 theo tiêu chuẩn IEC 60529 (chống
-            nước ở độ sâu tối đa 6 mét trong vòng tối đa 30 phút). Khả năng
-            chống tia nước, chống nước và chống bụi không phải là các điều kiện
-            vĩnh viễn. Khả năng này có thể giảm do hao mòn thông thường. Không
-            sạc pin khi iPhone đang bị ướt. Vui lòng tham khảo hướng dẫn sử dụng
-            để biết cách lau sạch và làm khô máy. Không bảo hành sản phẩm bị
-            hỏng do thấm chất lỏng. Một số tính năng không khả dụng tại một số
-            quốc gia hoặc khu vực.
-          </span>
-        </p>
-        <button className="readmore" id="myBtn">
-          Xem Thêm
-        </button>
       </div>
     </div>
   );

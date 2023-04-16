@@ -90,6 +90,7 @@ const AddProduct = (props) => {
     } else if (color == "") {
       toast.error("Điền màu sản phẩm");
     } else {
+      console.log(imageSig);
       const data = await createMobilePhone(
         name,
         desc,

@@ -7,9 +7,12 @@
 .container-fluid {
     background-color: #f3f3f4;
 }
-
+.row-margin{
+    width: 100%;
+}
 .row {
-    margin-left: 100px !important;
+    width: 90%;
+    margin-left: 50px !important;
 }
 
 .link_old_page_container {

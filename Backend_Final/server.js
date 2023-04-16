@@ -60,14 +60,8 @@ app.use("/api/productlist/",require("./src/routes/manageProductApi"));
 
 
 app.use(
-  bodyParser.json({
-    limit: "10000mb",
-  })
-);
-
-app.use(
   bodyParser.urlencoded({
-    limit: "100000mb",
+    limit: "1000kb",
     parameterLimit: 1000000,
     extended: true,
   })

@@ -36,7 +36,6 @@ const createOneMobile = async (
   desc,
   id_type,
   imgSig,
-  imageLink,
   colorName,
   coLorHexa,
   cpu,
@@ -46,7 +45,7 @@ const createOneMobile = async (
   try {
     const poolConnection = await sql.connect(config);
     let data = await poolConnection.query(
-      `exec sp_insert_product N'${name}', N'${desc}', ${id_type}, '${productModel}', '${brand}', '${imgSig}', '${imageLink}' ,'${colorName}', '${coLorHexa}', '${cpu}', '${storage}', ${price}`
+      `exec sp_insert_product N'${name}', N'${desc}', ${id_type}, '${imgSig}' ,'${colorName}', '${coLorHexa}', '${cpu}', '${storage}', ${price}`
     );
     poolConnection.close();
     if (data) {

@@ -3,11 +3,31 @@ const {
   addHardware,
   removeHardware,
   editHardware,
+  readOneHw,
 } = require("../services/hardwareConfigurationServices");
 
 const getHardware = async (req, res) => {
   try {
     const data = await readHardware();
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(200).json({
+      EM: "Error from server",
+      EC: -1,
+      DT: "",
+    });
+  }
+};
+
+const getOneHw = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = await readOneHw(id);
     return res.status(200).json({
       EM: data.EM,
       EC: data.EC,
@@ -72,7 +92,8 @@ const deleteHardware = async (req, res) => {
 
 const updateHardware = async (req, res) => {
   try {
-    const { cpu, storage, extension, connect, screen, id_product, price } = req.body;
+    const { cpu, storage, extension, connect, screen, id_product, price } =
+      req.body;
     const id = req.params.id;
     const data = await editHardware(
       id,
@@ -104,4 +125,5 @@ module.exports = {
   createHardware,
   deleteHardware,
   updateHardware,
+  getOneHw,
 };
