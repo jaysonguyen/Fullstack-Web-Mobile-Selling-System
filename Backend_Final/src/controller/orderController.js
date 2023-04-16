@@ -2,8 +2,9 @@ const { addOrder } = require("../services/orderServices");
 
 const createOrder = async (req, res) => {
   try {
-    const { methodRe, idPro, email, hw, color } = req.body;
-    const data = await addOrder(methodRe, idPro, email, hw, color);
+    const { paymentMethod, idPro, email, hw, color } = req.body;
+    console.log(paymentMethod, idPro, email, hw, color )
+    const data = await addOrder(paymentMethod, idPro, email, hw, color);
     return res.status(200).json({
       EM: data.EM,
       EC: data.EC,

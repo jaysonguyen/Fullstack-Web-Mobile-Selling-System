@@ -1,8 +1,8 @@
 import axios from "../setup/axios";
 
-const createOrder = (userData) => {
+const createOrder = (paymentMethod, idPro, email, hw, color) => {
   return axios.post("/api/order/create", {
-    ...userData,
+    paymentMethod, idPro, email, hw, color
   });
 };
 

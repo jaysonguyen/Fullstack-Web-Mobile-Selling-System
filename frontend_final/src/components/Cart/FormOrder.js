@@ -35,6 +35,7 @@ const FormOrder = ({ mobileInfor, cart }) => {
   };
 
   const idPro = cart.id.id;
+  const flag = !showComplete;
 
   const handlePayMenthod = (id) => {
     setPayMenthod(id);
@@ -42,8 +43,7 @@ const FormOrder = ({ mobileInfor, cart }) => {
 
   useEffect(() => {
     handleGetInforByEmail();
-    console.log();
-  }, []);
+  }, [paymentMethod]);
 
   const handleCompletebtn = async () => {
     if (name == "") {
@@ -55,8 +55,6 @@ const FormOrder = ({ mobileInfor, cart }) => {
     } else if (address == "") {
       toast.error("Vui lòng điền địa chỉ nhận hàng");
     } else {
-      let flag = !showComplete;
-      setShowComplete(flag);
       const dataUSer = await createOrder(
         paymentMethod,
         idPro,
@@ -64,9 +62,16 @@ const FormOrder = ({ mobileInfor, cart }) => {
         cart.hw,
         cart.color
       );
-      toast.success(
-        "Đặt hàng thành công! đơn hàng của bạn sẽ được gửi trong thời gian sớm nhất"
-      );
+
+      if (dataUSer && +dataUSer.EC === 1) {
+        toast.success(
+          "Đặt hàng thành công! đơn hàng của bạn sẽ được gửi trong thời gian sớm nhất"
+        );
+        setShowComplete(flag);
+      }
+      if (dataUSer && +dataUSer.EC != 1) {
+        toast.error("Đặt hàng thất bại");
+      }
     }
   };
 

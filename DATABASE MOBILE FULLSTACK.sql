@@ -1101,3 +1101,7 @@ as
 	where hardware_configuration.ID_PRODUCT = @id
 
 exec sp_get_hardware_byId  7
+
+
+select*
+from PRODUCT_TYPE
