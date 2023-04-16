@@ -50,7 +50,7 @@ const Slider = () => {
       removeArrowOnDeviceType={["tablet", "mobile"]}
       transitionDuration={500}
     >
-      {slider.map((item) => {
+      {slider && slider.map((item) => {
         if (item.image_status == true) {
           return (
             <div key={item.id_slider} className="carousel">

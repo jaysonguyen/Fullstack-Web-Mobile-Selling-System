@@ -889,7 +889,7 @@ from product_detail
 alter proc get_one_product_infor @id int
 as
 begin 
-	select*
+	select PRODUCT.ID_PRODUCT, PRODUCT_NAME, PRODUCT_DESC, ID_TYPE_PRODUCT, is_VALID, BRAND, IMAGE_SIG, ID_COLOR, ID_HARDWARE IMPORT_DATE, PRICE
 	from PRODUCT
 	JOIN product_detail on product_detail.ID_PRODUCT = PRODUCT.ID_PRODUCT
 	where PRODUCT.ID_PRODUCT = @id

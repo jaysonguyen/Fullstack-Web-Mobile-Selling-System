@@ -10,7 +10,6 @@ import "react-multi-carousel/lib/styles.css";
 import Slider from "../Slider/Slider";
 
 const Body = (props) => {
-  
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -44,82 +43,216 @@ const Body = (props) => {
       setMobile(mobileData.DT);
       setColor(colorData.DT);
       setType(typeData.DT);
-
     };
 
     fetchData();
 
     return () => {
       console.log("return log");
-    }
+    };
   }, []);
 
   return (
     <div className="body-container">
       <Slider />
-      {type.map((productType) => (
-        <div key={productType.id_product_type}>
-          <h5 className="type-title">{productType.name_product_type}</h5>
-          <Row className="row">
-            {mobile
-              .filter(
-                (item) => item.id_type_product === productType.id_product_type
-              )
-              .map((item) => (
-                <div key={item.id_product} className="col_3">
-                  <Carousel
-                    responsive={responsive} 
-                    showDots={true}
-                    autoPlaySpeed={5000}
-                    autoPlay={true}
-                    infinite={true}
-                    rewind={true}
-                    className="carousel-container"
-                    removeArrowOnDeviceType={["tablet", "mobile"]}
-                    transitionDuration={500}
+      <Row>
+        <h1 className="type_heading">Điện thoại</h1>
+        {mobile.map((item) => {
+          if (item.id_type_product === 1) {
+            return (
+              <Col lg={3} key={item.id_product}>
+                <Link
+                  className="product_link"
+                  to={`/product_detail/${item.id_product}`}
+                >
+                  <div className="card">
+                    <div className="imageProduct">
+                      <img
+                        className="imgPhone"
+                        src={item.image_sig}
+                        alt={item.product_name}
+                      />
+                    </div>
+                    <p className="NamePhone">{item.product_name}</p>
+                    <div className="color-product">
+                      {color
+                        .filter(
+                          (element) => element.ID_PRODUCT === item.id_product
+                        )
+                        .map((element) => (
+                          <div
+                            key={element.COLOR_HEXA_CODE}
+                            className="spot"
+                            style={{
+                              backgroundColor: element.COLOR_HEXA_CODE,
+                            }}
+                          ></div>
+                        ))}
+                    </div>
+                    <div className="price-contain">
+                      <p className="price">
+                        {item.price.toLocaleString("de-DE")}
+                        <span>&#8363;</span>
+                      </p>
+                    </div>
+                    <button className="buyButton">Mua ngay</button>
+                  </div>
+                </Link>
+              </Col>
+            );
+          }
+        })}
+      </Row>
+      <Row>
+        {mobile.map((item) => {
+          if (item.id_type_product === 2) {
+            return (
+              <>
+                <h1 className="type_heading">Máy tính bản</h1>
+                <Col lg={3} key={item.id_product}>
+                  <Link
+                    className="product_link"
+                    to={`/product_detail/${item.id_product}`}
                   >
-                    <Link className="product_link" to={`/product_detail/${item.id_product}`}>
-                      <div className="card">
-                        <div className="imageProduct">
-                          <img
-                            className="imgPhone"
-                            src={item.image_sig}
-                            alt={item.product_name}
-                          />
-                        </div>
-                        <p className="NamePhone">{item.product_name}</p>
-                        <div className="color-product">
-                          {color
-                            .filter(
-                              (element) =>
-                                element.ID_PRODUCT === item.id_product &&
-                                element.COLOR_HEXA_CODE !== "#fff"
-                            )
-                            .map((element) => (
-                              <div
-                                key={element.COLOR_HEXA_CODE}
-                                className="spot"
-                                style={{
-                                  backgroundColor: element.COLOR_HEXA_CODE,
-                                }}
-                              ></div>
-                            ))}
-                        </div>
-                        <div className="price-contain">
-                          <p className="price">
-                            {item.price.toLocaleString("de-DE")}
-                            <span>&#8363;</span>
-                          </p>
-                        </div>
-                        <button className="buyButton">Mua ngay</button>
+                    <div className="card">
+                      <div className="imageProduct">
+                        <img
+                          className="imgPhone"
+                          src={item.image_sig}
+                          alt={item.product_name}
+                        />
                       </div>
-                    </Link>
-                  </Carousel>
-                </div>
-              ))}
-          </Row>
-        </div>
-      ))}
+                      <p className="NamePhone">{item.product_name}</p>
+                      <div className="color-product">
+                        {color
+                          .filter(
+                            (element) => element.ID_PRODUCT === item.id_product
+                          )
+                          .map((element) => (
+                            <div
+                              key={element.COLOR_HEXA_CODE}
+                              className="spot"
+                              style={{
+                                backgroundColor: element.COLOR_HEXA_CODE,
+                              }}
+                            ></div>
+                          ))}
+                      </div>
+                      <div className="price-contain">
+                        <p className="price">
+                          {item.price.toLocaleString("de-DE")}
+                          <span>&#8363;</span>
+                        </p>
+                      </div>
+                      <button className="buyButton">Mua ngay</button>
+                    </div>
+                  </Link>
+                </Col>
+              </>
+            );
+          }
+        })}
+      </Row>
+      <Row>
+        {mobile.map((item) => {
+          if (item.id_type_product === 3) {
+            return (
+              <>
+                <h1 className="type_heading">Laptop</h1>
+                <Col lg={3} key={item.id_product}>
+                  <Link
+                    className="product_link"
+                    to={`/product_detail/${item.id_product}`}
+                  >
+                    <div className="card">
+                      <div className="imageProduct">
+                        <img
+                          className="imgPhone"
+                          src={item.image_sig}
+                          alt={item.product_name}
+                        />
+                      </div>
+                      <p className="NamePhone">{item.product_name}</p>
+                      <div className="color-product">
+                        {color
+                          .filter(
+                            (element) => element.ID_PRODUCT === item.id_product
+                          )
+                          .map((element) => (
+                            <div
+                              key={element.COLOR_HEXA_CODE}
+                              className="spot"
+                              style={{
+                                backgroundColor: element.COLOR_HEXA_CODE,
+                              }}
+                            ></div>
+                          ))}
+                      </div>
+                      <div className="price-contain">
+                        <p className="price">
+                          {item.price.toLocaleString("de-DE")}
+                          <span>&#8363;</span>
+                        </p>
+                      </div>
+                      <button className="buyButton">Mua ngay</button>
+                    </div>
+                  </Link>
+                </Col>
+              </>
+            );
+          }
+        })}
+      </Row>
+      <Row>
+        {mobile.map((item) => {
+          if (item.id_type_product === 4) {
+            return (
+              <>
+                <h1 className="type_heading">Âm thanh</h1>
+                <Col lg={3} key={item.id_product}>
+                  <Link
+                    className="product_link"
+                    to={`/product_detail/${item.id_product}`}
+                  >
+                    <div className="card">
+                      <div className="imageProduct">
+                        <img
+                          className="imgPhone"
+                          src={item.image_sig}
+                          alt={item.product_name}
+                        />
+                      </div>
+                      <p className="NamePhone">{item.product_name}</p>
+                      <div className="color-product">
+                        {color
+                          .filter(
+                            (element) => element.ID_PRODUCT === item.id_product
+                          )
+                          .map((element) => (
+                            <div
+                              key={element.COLOR_HEXA_CODE}
+                              className="spot"
+                              style={{
+                                backgroundColor: element.COLOR_HEXA_CODE,
+                              }}
+                            ></div>
+                          ))}
+                      </div>
+                      <div className="price-contain">
+                        <p className="price">
+                          {item.price.toLocaleString("de-DE")}
+                          <span>&#8363;</span>
+                        </p>
+                      </div>
+                      <button className="buyButton">Mua ngay</button>
+                    </div>
+                  </Link>
+                </Col>
+              </>
+            );
+          }
+        })}
+      </Row>
     </div>
   );
 };
