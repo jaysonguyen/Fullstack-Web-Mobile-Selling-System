@@ -115,12 +115,12 @@ const ProductDetail = (props) => {
     fetchProduct();
     fetchAccessory();
   }, []);
-  
+
   return (
     <div className="body-main">
       <div className="top">
         <div className="left">
-          <div className="slideshow-container">
+          {/* <div className="slideshow-container">
             <Carousel
               responsive={responsive}
               autoPlaySpeed={5000}
@@ -131,30 +131,44 @@ const ProductDetail = (props) => {
               removeArrowOnDeviceType={["tablet", "mobile"]}
               transitionDuration={500}
             >
-              {imagedetail.map((item, key) => {
-                if (idProduct.id == item.ID_PRODUCT && item.is_valid == true) {
-                  return (
-                    <div className="mySlides fade" key={key}>
-                      <img src={item.IMAGE_LINK} style={{ width: "100%" }} />
-                    </div>
-                  );
-                }
-              })}
+              {imagedetail &&
+                imagedetail.map((item, key) => {
+                  if (
+                    idProduct.id == item.ID_PRODUCT &&
+                    item.is_valid == true
+                  ) {
+                    return (
+                      <div className="mySlides fade" key={key}>
+                        <img src={item.IMAGE_LINK}/>
+                      </div>
+                    );
+                  }
+                })}
             </Carousel>
-          </div>
-          <div className="slide-img"></div>
-        </div>
-        <div className="right">
-          <div className="right-content">
-            {product.map((product, key) => {
+          </div> */}
+          {product &&
+            product.map((product) => {
               if (idProduct.id == product.id_product) {
                 return (
-                  <h2 onChange={() => setName()} key={key}>
-                    {product.product_name}
-                  </h2>
+                  <div className="slide-img" key={product.id_product}>
+                    <img src={product.image_sig} style={{width:200,height:300}}/>
+                  </div>
                 );
               }
             })}
+        </div>
+        <div className="right">
+          <div className="right-content">
+            {product &&
+              product.map((product, key) => {
+                if (idProduct.id == product.id_product) {
+                  return (
+                    <h2 onChange={() => setName()} key={key}>
+                      {product.product_name}
+                    </h2>
+                  );
+                }
+              })}
             <div className="rating_icon">
               <BsStarFill className="star-checked" />
               <BsStarFill className="star-checked" />
@@ -181,22 +195,23 @@ const ProductDetail = (props) => {
             <div className="dungluong">
               Dung lượng
               <ul>
-                {hardware.map((hardware, key) => {
-                  if (idProduct.id == hardware.ID_HARDWARE_CONFIGURATION) {
-                    return (
-                      <li key={key}>
-                        <button
-                          className="storage_select_btn"
-                          onClick={() => setHw(hardware.STORAGE)}
-                          id="dl1"
-                          htmlFor=""
-                        >
-                          {hardware.STORAGE}
-                        </button>
-                      </li>
-                    );
-                  }
-                })}
+                {hardware &&
+                  hardware.map((hardware, key) => {
+                    if (idProduct.id == hardware.ID_HARDWARE_CONFIGURATION) {
+                      return (
+                        <li key={key}>
+                          <button
+                            className="storage_select_btn"
+                            onClick={() => setHw(hardware.STORAGE)}
+                            id="dl1"
+                            htmlFor=""
+                          >
+                            {hardware.STORAGE}
+                          </button>
+                        </li>
+                      );
+                    }
+                  })}
               </ul>
             </div>
             <div className="mau">

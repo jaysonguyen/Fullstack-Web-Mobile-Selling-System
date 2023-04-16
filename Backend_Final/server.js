@@ -44,7 +44,6 @@ app.use("/api/rating/product", require("./src/routes/productRating"));
 app.use("/api/accessories/", require("./src/routes/accessoriesApi"));
 app.use("/api/order/", require("./src/routes/orderApi"));
 
-
 app.use("/api/customer/", require("./src/routes/customerApi"));
 
 app.use("/api/staff/", require("./src/routes/StaffApi"));
@@ -55,8 +54,25 @@ app.use("/api/slider/", require("./src/routes/sliderApi"));
 
 // admin
 
+
 app.use("/api/orderdetail/",require("./src/routes/orderDetailApi"));
 app.use("/api/productlist/",require("./src/routes/manageProductApi"));
+
+
+app.use(
+  bodyParser.json({
+    limit: "10000mb",
+  })
+);
+
+app.use(
+  bodyParser.urlencoded({
+    limit: "100000mb",
+    parameterLimit: 1000000,
+    extended: true,
+  })
+);
+
 
 app.use;
 app.listen(PORT, () => {

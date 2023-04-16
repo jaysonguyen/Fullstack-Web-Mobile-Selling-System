@@ -4,10 +4,27 @@ const getAllMobilePhone = () => {
   return axios.get(`/api/product/findall`);
 };
 
-const createMobilePhone = (userData) => {
-  console.log("User data: >>>>>", userData);
-  return axios.post("/api/product/", {
-    ...userData,
+const createMobilePhone = (
+  name,
+  desc,
+  id_type,
+  imgSig,
+  colorName,
+  coLorHexa,
+  cpu,
+  storage,
+  price
+) => {
+  return axios.post("/api/product/create", {
+    name,
+    desc,
+    id_type,
+    imgSig,
+    colorName,
+    coLorHexa,
+    cpu,
+    storage,
+    price,
   });
 };
 

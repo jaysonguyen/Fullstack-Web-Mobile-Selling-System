@@ -189,3 +189,9 @@ header {
 .User:hover .option-hover-user {
     display: block;
 }
+
+
+.logo.active {
+
+    width: 0px;
+}

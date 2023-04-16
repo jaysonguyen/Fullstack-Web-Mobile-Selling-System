@@ -182,12 +182,7 @@ const SideBar = ({ children }) => {
               }
 
               return (
-                <NavLink
-                  to={route.path}
-                  key={index}
-                  className="link"
-                  activeClassName="active"
-                >
+                <NavLink to={route.path} key={index} className="link">
                   <div className="icon">{route.icon}</div>
                   <AnimatePresence>
                     {isOpen && (

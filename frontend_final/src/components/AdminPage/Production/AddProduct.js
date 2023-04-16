@@ -1,36 +1,110 @@
 import React, { useState } from "react";
 import "./AddProduct.css";
+
 import phonerep from "./img/image_phone.jpg";
 import { useNavigate } from "react-router-dom";
 
+import ModalHW from "./ModalHW";
+import { AiOutlinePlusCircle } from "react-icons/ai";
+import { toast } from "react-toastify";
+import { createMobilePhone } from "../../../Services/mobileService";
+
+
 const AddProduct = (props) => {
   const [name, setname] = useState("");
-  const [type, settype] = useState("");
+  const [desc, setdesc] = useState("");
+  const [type, settype] = useState(1);
+  const [modalNum, setmodalNumber] = useState("");
   const [brand, setbrand] = useState("");
   const [hw, sethw] = useState("");
-  const [desc, setdesc] = useState("");
   const [price, setprice] = useState("");
   const [color, setcolor] = useState("");
+  const [colorHex, setcolorHex] = useState("");
   const [imageSig, setImageSig] = useState("");
   const [dateImport, setdateImport] = useState("");
   const [image1, setImage1] = useState("");
   const [image2, setImage2] = useState("");
   const [image3, setImage3] = useState("");
-  const [listImage, setListImage] = useState([]);
 
-  const handleInsertProduct = (e) => {
+  const [cpu, setcpu] = useState("");
+  const [storage, setstorage] = useState("");
+
+  const [showHWModal, setShowHWModal] = useState(false);
+  const [showColorModal, setShowColorModal] = useState(false);
+
+  if (image1 != "" && image2 != "" && image3 != "") {
+    const array = [image1, image2, image3];
+    console.log(array);
+  }
+
+  const handleShowHwModal = () => {
+    let flag = !showHWModal;
+    setShowHWModal(flag);
+  };
+
+  const handleShowColor = () => {
+    let flag = !showColorModal;
+    setShowColorModal(flag);
+  };
+
+  const handleAddHW = (e) => {
     e.preventDefault();
-    console.log(
-      name,
-      type,
-      brand,
-      hw,
-      desc,
-      price,
-      color,
-      imageSig,
-      dateImport
-    );
+    if (storage == "") {
+      toast.error("Thêm bộ nhớ sản phẩm");
+    }
+    if (cpu == "") {
+      toast.error("Thêm cpu sản phẩm");
+    } else {
+      handleShowHwModal();
+      sethw(storage);
+      toast.success("Thêm cấu hình thành công");
+    }
+  };
+
+  const handleAddColor = (e) => {
+    e.preventDefault();
+    if (color != "" && colorHex != "") {
+      handleShowColor();
+      toast.success("Thêm màu thành công");
+    } else {
+      toast.error("Điền thông tin màu");
+    }
+  };
+
+  // proName, proDesc, idType, productModel, brand, imgSig, imageLink, colorName, coLorHexa, cpu, storage, price
+
+  const handleInsertProduct = async (e) => {
+    e.preventDefault();
+    if (name == "") {
+      toast.error("Điền tên sản phẩm");
+    } else if (type == "") {
+      toast.error("Điền loại sản phẩm");
+    } else if (brand == "") {
+      toast.error("Điền thương hiệu sản phẩm");
+    } else if (hw == "") {
+      toast.error("Điền cấu hình sản phẩm");
+    } else if (price == "") {
+      toast.error("Điền giá sản phẩm");
+    } else if (imageSig == "") {
+      toast.error("Điền ảnh sản phẩm");
+    } else if (color == "") {
+      toast.error("Điền màu sản phẩm");
+    } else {
+      const data = await createMobilePhone(
+        name,
+        desc,
+        type,
+        imageSig,
+        color,
+        colorHex,
+        cpu,
+        storage,
+        price
+      );
+      if (data && +data.EC === 1) {
+        toast.success("Thêm sản phẩm thành công");
+      }
+    }
   };
 
   let navigate = useNavigate("/admin/production");
@@ -41,22 +115,22 @@ const AddProduct = (props) => {
 
   return (
     <div>
-      <div class="container">
-        <div class="noidung-contain">
-          <div class="noidung">
+      <div className="container">
+        <div className="noidung-contain">
+          <div className="noidung">
             <div>
               <form action="">
-                <div class="title"></div>
-                <div class="nd-2">
+                <div className="title"></div>
+                <div className="nd-2">
                   <div className="nd-2_container">
-                    <span class="Adproduct">+ Add Product</span>
+                    <span className="Adproduct">+ Thêm sản phẩm</span>
                   </div>
                   <div className="height_flex">
                     <div className="height1"></div>
                     <div className="height2"></div>
                     <div className="height3"></div>
                   </div>
-                  <div class="search">
+                  <div className="search">
                     <input
                       className="input_search"
                       type="text"
@@ -69,9 +143,9 @@ const AddProduct = (props) => {
                     </div>
                   </div>
                 </div>
-                <div class="nd-3">
-                  <div class="productname">
-                    <div class="inp">
+                <div className="nd-3">
+                  <div className="productname">
+                    <div className="inp">
                       Tên sản phẩm <br />
                       <input
                         value={name}
@@ -98,8 +172,13 @@ const AddProduct = (props) => {
                           onChange={(e) => settype(e.target.value)}
                         >
                           <option value="1">Loại 1</option>
-                          <option value="">+Thêm mới</option>
                         </select>
+                        <a className="add_item_btn">
+                          <AiOutlinePlusCircle
+                            className="add_item_btn--icon"
+                            onClick={() => handleShowModal()}
+                          />
+                        </a>
                       </div>
 
                       <div className="fil">
@@ -123,9 +202,48 @@ const AddProduct = (props) => {
                         value={hw}
                         onChange={(e) => sethw(e.target.value)}
                       >
-                        <option value="1">1</option>
-                        <option value="">+Thêm mới</option>
+                        <option value="1">{hw}</option>
                       </select>
+                      <a
+                        className="add_item_btn"
+                        onClick={() => handleShowHwModal()}
+                      >
+                        <AiOutlinePlusCircle className="add_item_btn--icon" />
+                      </a>
+                      {showHWModal && (
+                        <div className="add_hw_container">
+                          <div className="fil">
+                            Bộ nhớ <br />
+                            <input
+                              className="des"
+                              type="text"
+                              name=""
+                              id=""
+                              value={storage}
+                              onChange={(e) => setstorage(e.target.value)}
+                            />
+                          </div>
+                          <div className="fil">
+                            CPU <br />
+                            <input
+                              className="des"
+                              type="text"
+                              name=""
+                              id=""
+                              value={cpu}
+                              onChange={(e) => setcpu(e.target.value)}
+                            />
+                          </div>
+                          <div className="button_save_container btn_save_container_item">
+                            <button
+                              className="btnadd add_item-detail btn_add_hw"
+                              onClick={(e) => handleAddHW(e)}
+                            >
+                              Lưu
+                            </button>
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     <div className="fil">
@@ -289,15 +407,55 @@ const AddProduct = (props) => {
                         <div className="addSize_heading">
                           Màu <br />
                           <select
-                            className="addSize_selected"
+                            className="addSize_selected add_color_selected"
                             name=""
                             id=""
-                            value={color}
-                            onChange={(e) => setcolor(e.target.value)}
+                            style={{
+                              background: colorHex,
+                            }}
                           >
-                            <option value="#0000">#0000</option>
-                            <option value="">+Thêm mới</option>
+                            <option value="#0000">{color}</option>
                           </select>
+                          <span
+                            className="add_item_btn"
+                            onClick={() => handleShowColor()}
+                          >
+                            <AiOutlinePlusCircle className="add_item_btn--icon" />
+                          </span>
+                          {showColorModal && (
+                            <div className="insert_color_container--item">
+                              <div className="fil">
+                                Tên màu <br />
+                                <input
+                                  className="des"
+                                  type="text"
+                                  name=""
+                                  id=""
+                                  value={color}
+                                  onChange={(e) => setcolor(e.target.value)}
+                                />
+                              </div>
+                              <div className="fil">
+                                Mã màu <br />
+                                <input
+                                  className="des"
+                                  type="text"
+                                  name=""
+                                  id=""
+                                  value={colorHex}
+                                  onChange={(e) => setcolorHex(e.target.value)}
+                                />
+                              </div>
+                              <div className="button_save_container btn_save_container_item">
+                                <button
+                                  className="btnadd add_item-detail btnadd_color"
+                                  onClick={(e) => handleAddColor(e)}
+                                >
+                                  Lưu
+                                </button>
+                              </div>
+                            </div>
+                          )}
                         </div>
                       </div>
                       <div className="product_date_container prodate">
@@ -312,21 +470,35 @@ const AddProduct = (props) => {
                         />
                       </div>
                     </div>
+                    <div className="imgInfo">
+                      <div className="addsize">
+                        <div className="addSize_heading">
+                          Mã sản phẩm <br />
+                          <input
+                            className="model_number des"
+                            type="text"
+                            name=""
+                            id=""
+                            value={modalNum}
+                            onChange={(e) => setmodalNumber(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                    </div>
                     <div className="save_container">
                       <div className="set_width"></div>
                       <div>
                         <div className="button_save_container">
-                          <button
-                            className="btn_cancel"
-                            onClick={(e) => handleProductList(e)}
-                          >
-                            Cancel
-                          </button>
+
+                         
+
+                          <button className="btn_cancel"  onClick={(e) => handleProductList(e)}>Hủy</button>
+
                           <button
                             className="btnadd"
                             onClick={(e) => handleInsertProduct(e)}
                           >
-                            Add Product
+                            Thêm sản phẩm
                           </button>
                         </div>
                       </div>
