@@ -57,14 +57,8 @@ app.use("/api/slider/", require("./src/routes/sliderApi"));
 app.use("/api/orderdetail/", require("./src/routes/orderDetailApi"));
 
 app.use(
-  bodyParser.json({
-    limit: "10000mb",
-  })
-);
-
-app.use(
   bodyParser.urlencoded({
-    limit: "100000mb",
+    limit: "1000kb",
     parameterLimit: 1000000,
     extended: true,
   })

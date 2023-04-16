@@ -3,7 +3,7 @@ import { readSlider } from "../../Services/sliderService";
 import "./ProductDetail.css";
 import { getColorProduct } from "../../Services/colorService";
 import { useParams } from "react-router-dom";
-import { gethardWareList } from "../../Services/hardWare";
+import { gethardWareList, getOneHw } from "../../Services/hardWare";
 import { getImageDetail } from "../../Services/ImageDetail";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
@@ -34,7 +34,7 @@ const ProductDetail = (props) => {
     },
   };
 
-  let idProduct = useParams();
+  const idProduct = useParams();
 
   const [color, setColor] = useState([]);
   const [hardware, setHardware] = useState([]);
@@ -92,8 +92,10 @@ const ProductDetail = (props) => {
 
   const fectchHardware = async () => {
     try {
-      let data = await gethardWareList();
-      setHardware(data.DT);
+      const data = await getOneHw(idProduct.id);
+      console.log(data);
+      setHardware(data.DT[0]);
+      console.log(hardware);
     } catch (error) {
       console.log(error);
     }
@@ -138,7 +140,7 @@ const ProductDetail = (props) => {
                   ) {
                     return (
                       <div className="mySlides fade" key={key}>
-                        <img src={item.IMAGE_LINK}/>
+                        <img src={item.IMAGE_LINK} />
                       </div>
                     );
                   }
@@ -149,15 +151,16 @@ const ProductDetail = (props) => {
         </div>
         <div className="right">
           <div className="right-content">
-            {product && product.map((product, key) => {
-              if (idProduct.id == product.id_product) {
-                return (
-                  <h2 onChange={() => setName()} key={key}>
-                    {product.product_name}
-                  </h2>
-                );
-              }
-            })}
+            {product &&
+              product.map((product, key) => {
+                if (idProduct.id == product.id_product) {
+                  return (
+                    <h2 onChange={() => setName()} key={key}>
+                      {product.product_name}
+                    </h2>
+                  );
+                }
+              })}
             <div className="rating_icon">
               <BsStarFill className="star-checked" />
               <BsStarFill className="star-checked" />
@@ -184,22 +187,18 @@ const ProductDetail = (props) => {
             <div className="dungluong">
               Dung lượng
               <ul>
-                {hardware && hardware.map((hardware, key) => {
-                  if (idProduct.id == hardware.ID_HARDWARE_CONFIGURATION) {
-                    return (
-                      <li key={key}>
-                        <button
-                          className="storage_select_btn"
-                          onClick={() => setHw(hardware.STORAGE)}
-                          id="dl1"
-                          htmlFor=""
-                        >
-                          {hardware.STORAGE}
-                        </button>
-                      </li>
-                    );
-                  }
-                })}
+                {hardware && (
+                  <li>
+                    <button
+                      className="storage_select_btn"
+                      onClick={() => setHw(hardware.STORAGE)}
+                      id="dl1"
+                      htmlFor=""
+                    >
+                      {hardware.STORAGE}
+                    </button>
+                  </li>
+                )}
               </ul>
             </div>
             <div className="mau">

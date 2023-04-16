@@ -292,6 +292,9 @@ begin
 end
 
 
+select*
+from product_detail
+
 --INSERT COLOR PRODUCT
 alter PROC sp_insert_product_detail @id_color int, @id_product int, @idHardWare int, @id_image int, @quantity int, @date date, @price int
 as
@@ -319,12 +322,6 @@ select*
 from product
 
 
-update product
-set image_sig = 'https://cdn.shopify.com/s/files/1/0079/5602/products/MacBook_Pro_16-in_Space_Grey_PDP_Image_Position-1__CA-EN_800x.jpg?v=1634610405'
-where id_product = 4
-
-select*
-from hardware_Configuration
 
 exec sp_insert_color 'Sliver Grey macbook', '#ee1e0', 4
 
@@ -351,23 +348,87 @@ exec sp_insert_image 'https://store.storeimages.cdn-apple.com/4668/as-images.app
 
 --END
 
+
+select*
+from image_product
+
+alter table image_product
+drop column image_desc
+
+
+
+--proName, proDesc, idType, productModel, brand, imgSig, colorName, coLorHexa, cpu, storage, price
+
 -- INSERT PRODUCT
+
+exec sp_insert_product 'Iphone 13 Pro', '', 1, 'data:image/png;base64,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', N'Xanh rêu',  '#2e600f', 'A17', '256G', 29000000
 ALTER PROC sp_insert_product
 (
 @product_name nvarchar(1000), 
 @product_desc nvarchar(1000), 
-@id_type_product int, 
-@product_model_no varchar(20), @is_valid bit, @brand nvarchar(100), @IMAGE_SIG TEXT)
+@id_type_product int,  
+
+@IMAGE_SIG TEXT,
+
+@color_name varchar(100), 
+@color_hexa_code varchar(8),
+@CPU nvarchar(100), 
+@STORAGE nvarchar(100),  
+@price int
+)
 as
 begin
 	declare @product_id int;
 	set @product_id = 1;
 	while exists (select ID_PRODUCT from PRODUCT where ID_PRODUCT = @product_id)
 		set @product_id = @product_id + 1 
-		insert into PRODUCT(ID_PRODUCT, PRODUCT_NAME, PRODUCT_DESC, ID_TYPE_PRODUCT, PRODUCT_MODEL_NO, is_valid, BRAND, IMAGE_SIG)
-						values(@product_id, @product_name, @product_desc, @id_type_product, @product_model_no, @is_valid, @brand, @IMAGE_SIG);
-		
+		insert into PRODUCT(ID_PRODUCT, PRODUCT_NAME, PRODUCT_DESC, ID_TYPE_PRODUCT, is_valid, IMAGE_SIG)
+						values(@product_id, @product_name, @product_desc, @id_type_product, 0, @IMAGE_SIG);
+	declare @color_id int;
+	set @color_id = 1;
+	while exists (select ID_COLOR from COLOR where ID_COLOR = @color_id)
+		set @color_id = @color_id + 1 
+		insert into COLOR(ID_COLOR, COLOR_NAME, COLOR_HEXA_CODE, ID_PRODUCT)
+						values(@color_id, @color_name, @color_hexa_code, @product_id);
+	declare @id_hardware_conf int;
+	set @id_hardware_conf = 1;
+	while exists (select ID_HARDWARE_CONFIGURATION from HARDWARE_CONFIGURATION where ID_HARDWARE_CONFIGURATION = @id_hardware_conf)
+		set @id_hardware_conf = @id_hardware_conf + 1
+		insert into HARDWARE_CONFIGURATION(ID_HARDWARE_CONFIGURATION,  CPU, STORAGE, ID_PRODUCT)
+						values(@id_hardware_conf, @CPU, @STORAGE, @product_id);
+	if exists (select* 
+				from PRODUCT_DETAIL
+				where ID_COLOR like @color_id
+				AND ID_PRODUCT LIKE @product_id
+				)
+				RAISERROR('DU LIEU DA TON TAI', 16, 1)
+	else
+		insert into PRODUCT_DETAIL(ID_COLOR, ID_PRODUCT, Import_date, ID_Hardware, price)
+			values (@color_id, @product_id, getdate(), @id_hardware_conf, @price);
+
 end
+
+select*
+from PRODUCT_DETAIL
+
+select*
+from hardware_configuration
+
+update product set image_sig = 'https://shopdunk.com/images/thumbs/0000647_pink_550.png' where id_product = 5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 -- INSERT EMPLOYEE
@@ -793,7 +854,6 @@ begin
 	inner join PRODUCT_ORDER_DETAIL on PRODUCT_ORDER_DETAIL.ID_ORDER = ORDER_PRODUCT.ID_ORDER
 	inner join PRODUCT on PRODUCT_ORDER_DETAIL.ID_PRODUCT = PRODUCT.ID_PRODUCT
 	order by ORDER_PRODUCT.ID_ORDER asc
-	group by CUSTOMER_NAME
 end
 
 exec sp_get_all_infor_order_detail
@@ -1033,4 +1093,11 @@ end
 
 
 
+alter proc sp_get_hardware_byId @id int
+as
+	select CPU, STORAGE, ID_HARDWARE_CONFIGURATION
+	from hardware_configuration
+	left join product on hardware_configuration.ID_PRODUCT = product.ID_Product
+	where hardware_configuration.ID_PRODUCT = @id
 
+exec sp_get_hardware_byId  7

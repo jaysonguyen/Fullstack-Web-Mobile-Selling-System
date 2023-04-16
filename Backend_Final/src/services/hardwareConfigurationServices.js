@@ -31,6 +31,36 @@ const readHardware = async () => {
   }
 };
 
+const readOneHw = async (id) => {
+  try {
+    const poolConnection = await sql.connect(config);
+    let data = await poolConnection
+      .request()
+      .query(`exec sp_get_hardware_byId ${id}`);
+    poolConnection.close();
+    if (data) {
+      return {
+        EM: "Get data success",
+        EC: 1,
+        DT: data.recordset,
+      };
+    } else {
+      return {
+        EM: "Get data failed",
+        EC: 0,
+        DT: [],
+      };
+    }
+  } catch (error) {
+    console.log(error);
+    return {
+      EM: "Get data failed",
+      EC: -1,
+      DT: "",
+    };
+  }
+};
+
 const addHardware = async (
   cpu,
   storage,
@@ -43,7 +73,8 @@ const addHardware = async (
   try {
     const poolConnection = await sql.connect(config);
     const data = await poolConnection.query(
-      `exec sp_insert_hardware_configuration N'${cpu}', N'${storage}', N'${extension}', N'${connect}', N'${screen}', ${id_product}, ${price}`);
+      `exec sp_insert_hardware_configuration N'${cpu}', N'${storage}', N'${extension}', N'${connect}', N'${screen}', ${id_product}, ${price}`
+    );
     poolConnection.close();
     if (data) {
       return {
@@ -111,4 +142,10 @@ const editHardware = async (
   }
 };
 
-module.exports = { readHardware, addHardware, removeHardware, editHardware };
+module.exports = {
+  readHardware,
+  addHardware,
+  removeHardware,
+  editHardware,
+  readOneHw,
+};
