@@ -34,13 +34,13 @@ header {
     align-items: center;
     justify-content: space-between;
     background: transparent;
-    
+
     transition: all .50s ease;
     background-color: rgb(51, 54, 54);
 }
 
 .logo {
-   width: 80px;
+    width: 80px;
 }
 
 .logo i {
@@ -58,6 +58,7 @@ header {
 .navbar {
     display: flex;
     margin: 0;
+    position: relative;
 }
 
 .navbar a {
@@ -169,7 +170,7 @@ header {
 .option-hover-user {
     position: absolute;
     right: 2%;
-    top:70%;
+    top: 70%;
     border: 1px solid #cdcdcd;
     border-radius: 3px;
     width: 200px;
@@ -195,4 +196,25 @@ header {
 .logo.active {
 
     width: 0px;
+}
+
+.logo_brand_GROUP.navbar {
+    color: #fff;
+    text-decoration: none;
+    font-size: 25px;
+    margin-left: 50px;
+}
+
+.search_icon {
+    color: #fff;
+}
+
+.input_feed {
+    position: absolute;
+    bottom: -50px;
+    border: none;
+    outline: none;
+    right: 100px;
+    width: 400px;
+    box-shadow: 0 0 10px #cdcdcd;
 }

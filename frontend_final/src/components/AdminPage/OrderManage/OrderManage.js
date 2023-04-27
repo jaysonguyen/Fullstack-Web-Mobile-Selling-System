@@ -23,7 +23,6 @@ const OrderManage = (props) => {
     fetchOrder();
   }, []);
 
- 
   function renderStatus(status) {
     switch (status) {
       case "1":
@@ -37,7 +36,6 @@ const OrderManage = (props) => {
 
       default:
         return null;
-        
     }
   }
 
@@ -93,37 +91,42 @@ const OrderManage = (props) => {
                 </tr>
               </thead>
               <tbody>
-                {order && order.map((order) => {
-                  return (
-                    <tr key={order.id}>
-                      <td>{order.id}</td>
-                      <td>{order.CUSTOMER_NAME}</td>
-                      <td>{order.PRODUCT_NAME}</td>
-                      <td>{order.DATE_ORDER}</td>
-                      <td>
-                        {
-                          (order.METHOD_RECEIVE = 1 ? (
-                            <button className="btn_method_2">Giao hàng</button>
+                {order &&
+                  order.map((order) => {
+                    return (
+                      <tr key={order.id}>
+                        <td>{order.id}</td>
+                        <td>{order.CUSTOMER_NAME}</td>
+                        <td>{order.PRODUCT_NAME}</td>
+                        <td>{order.DATE_ORDER}</td>
+                        <td>
+                          {
+                            (order.METHOD_RECEIVE == 1 ? (
+                              <button className="btn_method_2">
+                                Giao hàng tại nhà
+                              </button>
+                            ) : (
+                              <button className="btn_method_1">
+                                Nhận tại cửa hàng
+                              </button>
+                            ))
+                          }
+                        </td>
+                        <td>{renderStatus(order.ORDER_STATUS)}</td>
+                        <td>
+                          {order.isPay == 1 ? (
+                            <button className="btn_pay_null">
+                              Chưa thanh toán
+                            </button>
                           ) : (
-                            <button className="btn_method_1">Trực tiếp</button>
-                          ))
-                        }
-                      </td>
-                      <td>{renderStatus(order.ORDER_STATUS)}</td>
-                      <td>
-                        {order.isPay == null ? (
-                          <button className="btn_pay_null">
-                            Chưa thanh toán
-                          </button>
-                        ) : (
-                          <button className="btn_pay_true">
-                            Đã thanh toán
-                          </button>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
+                            <button className="btn_pay_true">
+                              Đã thanh toán
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
           </div>

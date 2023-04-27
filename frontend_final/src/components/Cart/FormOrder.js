@@ -161,7 +161,7 @@ const FormOrder = ({ mobileInfor, cart }) => {
                       <img src={logoStore} />
                     </li>
                     <li className="infor_product_body infor_name name_order">
-                      <span>Thanh toán tại cửa hàng</span>
+                      <span>Nhận máy tại cửa hàng</span>
                       <div className="infor_product_order">
                         <span>Thanh toán và nhận hàng tại cửa hàng</span>
                       </div>
@@ -234,7 +234,7 @@ const FormOrder = ({ mobileInfor, cart }) => {
                   <input
                     value={phone}
                     onChange={(e) => setphone(e.target.value)}
-                    disabled={phone < 10 && "disabled"}
+                    disabled={phone ? "disabled" : ""}
                     className="phone_number"
                     placeholder="Số điện thoại"
                   />
@@ -242,7 +242,7 @@ const FormOrder = ({ mobileInfor, cart }) => {
                   <input
                     value={email}
                     onChange={(e) => setemail(e.target.value)}
-                    disabled={email < 200 && "disabled"}
+                    disabled={email ? "disabled" : ""}
                     className="email"
                     placeholder="Email"
                   />

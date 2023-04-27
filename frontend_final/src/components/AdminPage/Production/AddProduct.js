@@ -116,7 +116,7 @@ const AddProduct = (props) => {
 
   return (
     <div>
-      <div className="container">
+      <div className="container_add_product">
         <div className="noidung-contain">
           <div className="noidung">
             <div>

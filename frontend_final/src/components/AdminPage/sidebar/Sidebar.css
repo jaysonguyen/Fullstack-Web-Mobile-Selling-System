@@ -29,6 +29,7 @@ main {
   height: auto;
   /* overflow-y: auto; */
   overflow: hidden;
+  position: fixed;
 }
 
 
@@ -104,6 +105,7 @@ main {
 .link_text {
   white-space: nowrap;
   font-size: 15px;
+  cursor: pointer;
 
 }
 
@@ -135,4 +137,9 @@ main {
 .menu_container .link {
   padding-left: 20px;
   text-decoration: none;
+}
+
+.logo_brand_GROUP {
+  font-family:fantasy;
+  margin-left: 10px;
 }

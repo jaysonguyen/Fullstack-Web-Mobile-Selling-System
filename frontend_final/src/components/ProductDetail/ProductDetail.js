@@ -303,22 +303,23 @@ const ProductDetail = (props) => {
         <div className="contain">
           <div className="swiper mySwiper">
             <div className="swiper-wrapper">
-              {accessory.map((item, key) => {
-                return (
-                  <div className="swiper-slide" key={key}>
-                    <div className="column">
-                      <div className="card">
-                        <img className="imgPhone" src={item.image_access} />
-                        <p className="NamePhone">{item.ACCESSORY_NAME}</p>
-                        <p className="price">
-                          {item.PRICE && item.PRICE.toLocaleString("de-De")}
-                          <span>&#8363;</span>
-                        </p>
+              {accessory &&
+                accessory.map((item, key) => {
+                  return (
+                    <div className="swiper-slide" key={key}>
+                      <div className="column">
+                        <div className="card">
+                          <img className="imgPhone" src={item.image_access} />
+                          <p className="NamePhone">{item.ACCESSORY_NAME}</p>
+                          <p className="price">
+                            {item.PRICE && item.PRICE.toLocaleString("de-De")}
+                            <span>&#8363;</span>
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
             </div>
           </div>
           <div className="swiper-pagination"></div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import {
   AiOutlineSearch,
@@ -13,17 +13,29 @@ const Nav = (props) => {
   let sessionData = sessionStorage.getItem("account");
   let data = JSON.parse(sessionData);
 
+  const [showSearchFeed, setShowSearch] = useState(false);
+  const [query, setquery] = useState("");
+
   const handleSignOut = () => {
     sessionStorage.removeItem("account");
     navigate("/login");
   };
 
+  const handleShowSeachFeed = () => {
+    let flag = !showSearchFeed;
+    setShowSearch(flag);
+  };
+
+  const handleSearchHP = () => {
+    handleShowSeachFeed;
+  };
+
   return (
     <div>
       <header>
-        <Link to="/" className="logo">
+        <Link to="/" className="logo_brand_GROUP navbar">
           <i className="ri-home-fill"></i>
-          <img className="logo" src={logo} />
+          YOURMOBILE
         </Link>
 
         <ul className="navbar">
@@ -48,9 +60,17 @@ const Nav = (props) => {
         </ul>
 
         <div className="main">
-          <a href="">
-            <AiOutlineSearch />
+          <a onClick={() => handleShowSeachFeed()}>
+            <AiOutlineSearch className="search_icon" />
           </a>
+          {showSearchFeed && (
+            <input
+              className="input_feed"
+              value={query}
+              placeholder="tìm kiếm"
+              onChange={(e) => setquery(e.target.value)}
+            />
+          )}
 
           <Link to="/cart" className="Cart">
             <AiOutlineShoppingCart />

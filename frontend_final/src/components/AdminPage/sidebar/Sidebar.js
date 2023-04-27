@@ -140,9 +140,9 @@ const SideBar = ({ children }) => {
                   initial="hidden"
                   animate="show"
                   exit="hidden"
-                  className="logo"
+                  className="logo logo_brand_GROUP"
                 >
-                  DoSomeCoding
+                  YOURMOBILE
                 </motion.h1>
               )}
             </AnimatePresence>

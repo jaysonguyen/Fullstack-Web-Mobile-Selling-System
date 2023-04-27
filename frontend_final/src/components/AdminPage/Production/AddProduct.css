@@ -1,3 +1,7 @@
+.card_title {
+    font-weight: 700;
+    font-size: 30px;
+}
 .container_body {
     width: 100%;
 }
@@ -295,10 +299,9 @@ input {
     border: 0.5px solid;
 }
 
-.container {
+.container_add_product {
     display: flex;
     width: 80%;
-
 }
 
 .tieude {

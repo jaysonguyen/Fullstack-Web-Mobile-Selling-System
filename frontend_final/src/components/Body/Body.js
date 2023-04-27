@@ -57,58 +57,10 @@ const Body = (props) => {
       <Slider />
       <Row>
         <h1 className="type_heading">Điện thoại</h1>
-        {mobile.map((item) => {
-          if (item.id_type_product === 1) {
-            return (
-              <Col lg={3} key={item.id_product}>
-                <Link
-                  className="product_link"
-                  to={`/product_detail/${item.id_product}`}
-                >
-                  <div className="card">
-                    <div className="imageProduct">
-                      <img
-                        className="imgPhone"
-                        src={item.image_sig}
-                        alt={item.product_name}
-                      />
-                    </div>
-                    <p className="NamePhone">{item.product_name}</p>
-                    <div className="color-product">
-                      {color
-                        .filter(
-                          (element) => element.ID_PRODUCT === item.id_product
-                        )
-                        .map((element) => (
-                          <div
-                            key={element.COLOR_HEXA_CODE}
-                            className="spot"
-                            style={{
-                              backgroundColor: element.COLOR_HEXA_CODE,
-                            }}
-                          ></div>
-                        ))}
-                    </div>
-                    <div className="price-contain">
-                      <p className="price">
-                        {item.price.toLocaleString("de-DE")}
-                        <span>&#8363;</span>
-                      </p>
-                    </div>
-                    <button className="buyButton">Mua ngay</button>
-                  </div>
-                </Link>
-              </Col>
-            );
-          }
-        })}
-      </Row>
-      <Row>
-        {mobile.map((item) => {
-          if (item.id_type_product === 2) {
-            return (
-              <>
-                <h1 className="type_heading">Máy tính bản</h1>
+        {mobile &&
+          mobile.map((item) => {
+            if (item.id_type_product === 1) {
+              return (
                 <Col lg={3} key={item.id_product}>
                   <Link
                     className="product_link"
@@ -148,60 +100,113 @@ const Body = (props) => {
                     </div>
                   </Link>
                 </Col>
-              </>
-            );
-          }
-        })}
+              );
+            }
+          })}
       </Row>
       <Row>
-        {mobile.map((item) => {
-          if (item.id_type_product === 3) {
-            return (
-              <>
-                <h1 className="type_heading">Laptop</h1>
-                <Col lg={3} key={item.id_product}>
-                  <Link
-                    className="product_link"
-                    to={`/product_detail/${item.id_product}`}
-                  >
-                    <div className="card">
-                      <div className="imageProduct">
-                        <img
-                          className="imgPhone"
-                          src={item.image_sig}
-                          alt={item.product_name}
-                        />
+        {mobile &&
+          mobile.map((item) => {
+            if (item.id_type_product === 2) {
+              return (
+                <>
+                  <h1 className="type_heading">Máy tính bản</h1>
+                  <Col lg={3} key={item.id_product}>
+                    <Link
+                      className="product_link"
+                      to={`/product_detail/${item.id_product}`}
+                    >
+                      <div className="card">
+                        <div className="imageProduct">
+                          <img
+                            className="imgPhone"
+                            src={item.image_sig}
+                            alt={item.product_name}
+                          />
+                        </div>
+                        <p className="NamePhone">{item.product_name}</p>
+                        <div className="color-product">
+                          {color
+                            .filter(
+                              (element) =>
+                                element.ID_PRODUCT === item.id_product
+                            )
+                            .map((element) => (
+                              <div
+                                key={element.COLOR_HEXA_CODE}
+                                className="spot"
+                                style={{
+                                  backgroundColor: element.COLOR_HEXA_CODE,
+                                }}
+                              ></div>
+                            ))}
+                        </div>
+                        <div className="price-contain">
+                          <p className="price">
+                            {item.price.toLocaleString("de-DE")}
+                            <span>&#8363;</span>
+                          </p>
+                        </div>
+                        <button className="buyButton">Mua ngay</button>
                       </div>
-                      <p className="NamePhone">{item.product_name}</p>
-                      <div className="color-product">
-                        {color
-                          .filter(
-                            (element) => element.ID_PRODUCT === item.id_product
-                          )
-                          .map((element) => (
-                            <div
-                              key={element.COLOR_HEXA_CODE}
-                              className="spot"
-                              style={{
-                                backgroundColor: element.COLOR_HEXA_CODE,
-                              }}
-                            ></div>
-                          ))}
+                    </Link>
+                  </Col>
+                </>
+              );
+            }
+          })}
+      </Row>
+      <Row>
+        {mobile &&
+          mobile.map((item) => {
+            if (item.id_type_product === 3) {
+              return (
+                <>
+                  <h1 className="type_heading">Laptop</h1>
+                  <Col lg={3} key={item.id_product}>
+                    <Link
+                      className="product_link"
+                      to={`/product_detail/${item.id_product}`}
+                    >
+                      <div className="card">
+                        <div className="imageProduct">
+                          <img
+                            className="imgPhone"
+                            src={item.image_sig}
+                            alt={item.product_name}
+                          />
+                        </div>
+                        <p className="NamePhone">{item.product_name}</p>
+                        <div className="color-product">
+                          {color
+                            .filter(
+                              (element) =>
+                                element.ID_PRODUCT === item.id_product
+                            )
+                            .map((element) => (
+                              <div
+                                key={element.COLOR_HEXA_CODE}
+                                className="spot"
+                                style={{
+                                  backgroundColor: element.COLOR_HEXA_CODE,
+                                }}
+                              ></div>
+                            ))}
+                        </div>
+                        <div className="price-contain">
+                          <p className="price">
+                            {item.price.toLocaleString("de-DE")}
+                            <span>&#8363;</span>
+                          </p>
+                        </div>
+                        <button className="buyButton">Mua ngay</button>
                       </div>
-                      <div className="price-contain">
-                        <p className="price">
-                          {item.price.toLocaleString("de-DE")}
-                          <span>&#8363;</span>
-                        </p>
-                      </div>
-                      <button className="buyButton">Mua ngay</button>
-                    </div>
-                  </Link>
-                </Col>
-              </>
-            );
-          }
-        })}
+                    </Link>
+                  </Col>
+                </>
+              );
+            }
+          })}
       </Row>
       <Row>
         {mobile.map((item) => {
@@ -224,7 +229,7 @@ const Body = (props) => {
                       </div>
                       <p className="NamePhone">{item.product_name}</p>
                       <div className="color-product">
-                        {color
+                        {color && color
                           .filter(
                             (element) => element.ID_PRODUCT === item.id_product
                           )
@@ -240,7 +245,7 @@ const Body = (props) => {
                       </div>
                       <div className="price-contain">
                         <p className="price">
-                          {item.price.toLocaleString("de-DE")}
+                          {item.price && item.price.toLocaleString("de-DE")}
                           <span>&#8363;</span>
                         </p>
                       </div>

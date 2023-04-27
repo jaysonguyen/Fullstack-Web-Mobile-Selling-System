@@ -371,4 +371,5 @@ section .main_btn:hover i {
 .type_heading {
     font-weight: 700;
     font-size: 30px;
+    color: #000;
 }
