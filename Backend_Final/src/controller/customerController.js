@@ -4,6 +4,7 @@ const {
   getInforLoginCustomer,
   checkLogin,
   getCustomerbyEmail,
+  updatePass,
 } = require("../services/customerServices");
 
 const createCustomer = async (req, res) => {
@@ -14,13 +15,15 @@ const createCustomer = async (req, res) => {
       date_of_birth,
       customer_password,
       email,
+      cusAddress,
     } = req.body;
     const data = await createNewCustomer(
       customer_name,
       phone_number,
       date_of_birth,
       customer_password,
-      email
+      email,
+      cusAddress
     );
     if (data && +data.EC == 1) {
       return res.status(201).json({
@@ -105,7 +108,7 @@ const loginCustomer = async (req, res) => {
 
 const getCusByEmail = async (req, res) => {
   try {
-    const email = req.params.email
+    const email = req.params.email;
     const data = await getCustomerbyEmail(email);
     if (data && +data.EC == 1) {
       return res.status(200).json({
@@ -127,10 +130,38 @@ const getCusByEmail = async (req, res) => {
   }
 };
 
+const changePass = async (req, res) => {
+  try {
+    const email = req.params.id;
+    const { pass } = req.body;
+    const data = await updatePass(email, pass);
+    if (data && +data.EC == 1) {
+      return res.status(201).json({
+        EM: data.EM,
+        EC: 1,
+        DT: "",
+      });
+    }
+    if (data && +data.EC != 1) {
+      return res.status(201).json({
+        EM: data.EM,
+        EC: data.EC,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      EM: "Create account failed",
+      EC: data.EC,
+    });
+  }
+};
+
 module.exports = {
   createCustomer,
   getAllCustomer,
   getInforLogin,
   loginCustomer,
   getCusByEmail,
+  changePass,
 };

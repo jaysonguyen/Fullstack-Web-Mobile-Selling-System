@@ -45,19 +45,19 @@ app.use("/api/accessories/", require("./src/routes/accessoriesApi"));
 app.use("/api/order/", require("./src/routes/orderApi"));
 
 app.use("/api/customer/", require("./src/routes/customerApi"));
+app.use("/api/cart/", require("./src/routes/cartApi"));
 
 app.use("/api/staff/", require("./src/routes/StaffApi"));
 
 app.use("/api/voucher/", require("./src/routes/voucherApi"));
 
 app.use("/api/slider/", require("./src/routes/sliderApi"));
+app.use("/api/order/", require("./src/routes/orderApi"));
 
 // admin
 
-
-app.use("/api/orderdetail/",require("./src/routes/orderDetailApi"));
-app.use("/api/productlist/",require("./src/routes/manageProductApi"));
-
+app.use("/api/orderdetail/", require("./src/routes/orderDetailApi"));
+app.use("/api/productlist/", require("./src/routes/manageProductApi"));
 
 app.use(
   bodyParser.urlencoded({
@@ -66,7 +66,6 @@ app.use(
     extended: true,
   })
 );
-
 
 app.use;
 app.listen(PORT, () => {

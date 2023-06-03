@@ -37,7 +37,6 @@
 }
 
 .infor_price {
-    transform: translateX(125px);
 }
 
 .infor_user_container input {
@@ -151,4 +150,8 @@
 
 .active_paymethod {
     border: 1px solid #000 !important;
+}
+
+.margin_top_coplete_container {
+    margin-top: 50px;
 }

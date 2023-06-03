@@ -1,4 +1,4 @@
-const sql = require("mssql");
+const sql = require("mssql/msnodesqlv8");
 const config = require("../config/configDatabase");
 const bcrypt = require("bcrypt");
 const salt = bcrypt.genSaltSync(10);
@@ -8,23 +8,19 @@ const hashPassword = (userPassword) => {
   return hashPassword;
 };
 
-const checkEmailExist = async (userEmail) => {
-  let user = await getInforLoginCustomer();
-  user.DT.find((email) => userEmail == email);
-
-  if (user) {
-    return true;
-  }
-
-  return false;
-};
-
-const createNewCustomer = async (name, phoneNumber, dob, password, email) => {
+const createNewCustomer = async (
+  name,
+  phoneNumber,
+  dob,
+  password,
+  email,
+  cusAddress
+) => {
   try {
     let hashPasswordUser = hashPassword(password);
     const poolConnection = await sql.connect(config);
     let data = await poolConnection.query(
-      `exec sp_insert_account_customer '${hashPasswordUser}', N'${name}', '${phoneNumber}', '${dob}', '${email}'`
+      `exec sp_insert_customer N'${name}', '${phoneNumber}', '${dob}', '${email}', '${hashPasswordUser}', N'${cusAddress}'`
     );
     poolConnection.close();
     if (data) {
@@ -47,8 +43,6 @@ const createNewCustomer = async (name, phoneNumber, dob, password, email) => {
     };
   }
 };
-
-//add a new thing
 
 const getCustomerList = async () => {
   try {
@@ -139,15 +133,16 @@ const getInforLoginCustomer = async () => {
 const checkLogin = async (email, password) => {
   try {
     const poolConnection = await sql.connect(config);
-    let data = await poolConnection.request().execute("sp_get_infor_login");
+    let data = await poolConnection.request().query("exec sp_get_infor_login");
     let isCorrectPassword = false;
+    console.log(data);
     poolConnection.close();
-    let flag = false;
     let dataObj = {};
     const dataRe = await data.recordset;
     for (let i in dataRe) {
       if (dataRe[i].email == email) {
         dataObj = await dataRe[i];
+        console.log(dataObj);
         isCorrectPassword = bcrypt.compareSync(password, dataObj.pass);
         if (isCorrectPassword) {
           return {
@@ -169,8 +164,39 @@ const checkLogin = async (email, password) => {
   } catch (error) {
     console.log(error);
     return {
-      EM: "Error from services",
+      EM: "Lỗi dịch vụ",
       EC: -1,
+    };
+  }
+};
+
+const updatePass = async (email, pass) => {
+  try {
+    const poolConnection = await sql.connect(config);
+    let hashPasswordUser = hashPassword(pass);
+    let data = await poolConnection
+      .request()
+      .query(`exec sp_update_password '${email}', '${hashPasswordUser}'`);
+    poolConnection.close();
+    if (data) {
+      return {
+        EM: "Đổi mật khẩu thành công",
+        EC: 1,
+        DT: data.recordset,
+      };
+    } else {
+      return {
+        EM: "Đổi mật khẩu thất bại",
+        EC: 0,
+        DT: [],
+      };
+    }
+  } catch (error) {
+    console.log(error);
+    return {
+      EM: "Lỗi dịch vụ",
+      EC: -1,
+      DT: "",
     };
   }
 };
@@ -181,4 +207,5 @@ module.exports = {
   getInforLoginCustomer,
   checkLogin,
   getCustomerbyEmail,
+  updatePass,
 };

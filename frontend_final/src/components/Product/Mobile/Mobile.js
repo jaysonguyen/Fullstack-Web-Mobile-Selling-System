@@ -65,8 +65,6 @@ const Mobile = (props) => {
 
   return (
     <div className="body-container">
-      <Nav />
-      <Slider />
 
       {type && type
         .filter((item) => item.id_product_type === 1)
@@ -74,7 +72,7 @@ const Mobile = (props) => {
           <>
             <div className="all_sub-category">
              
-              <div className="catagory-list">
+              <div className="category-list">
                 <div className="item-box">
                   <div className="title-item">
                     <a href="#">Tất cả</a>

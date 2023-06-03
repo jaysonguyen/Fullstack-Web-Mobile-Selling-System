@@ -5,7 +5,8 @@ const registerNewUser = (
   phone_number,
   date_of_birth,
   customer_password,
-  email
+  email,
+  cusAddress
 ) => {
   return axios.post(`/api/customer/register`, {
     customer_name,
@@ -13,6 +14,7 @@ const registerNewUser = (
     date_of_birth,
     customer_password,
     email,
+    cusAddress,
   });
 };
 
@@ -28,7 +30,13 @@ const checkInforCusomter = (email, password) => {
 };
 
 const getInforByEmailCus = (email) => {
-  return axios.get(`/api/customer/get/inforby/email/${email}`);
+  return axios.get(`api/customer/get/inforby/email/${email}`);
+};
+
+const changePass = (email, pass) => {
+  return axios.put(`api/customer/change/pass/${email}`, {
+    pass,
+  });
 };
 
 export {
@@ -36,4 +44,5 @@ export {
   getCustomerList,
   checkInforCusomter,
   getInforByEmailCus,
+  changePass,
 };

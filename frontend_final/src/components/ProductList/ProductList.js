@@ -5,10 +5,8 @@ import { Link, NavLink } from "react-router-dom";
 import { getAllMobilePhone } from "../../Services/mobileService";
 import { getColorProduct } from "../../Services/colorService";
 import { getTypeProduct } from "../../Services/typeServices";
-import Slider from "../Slider/Slider";
-import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import Nav from "../Nav/Nav";
+import Footer from "../../components/Footer/Footer";
 import {
   HiOutlineFilter,
   HiOutlineCurrencyDollar,
@@ -19,6 +17,7 @@ import {
   HiEye,
 } from "react-icons/hi";
 import { TbTruckDelivery, TbDiscountCheck } from "react-icons/tb";
+import SliderVideo from "../HomePage/SliderVideo";
 
 const ProductList = (props) => {
   const [mobile, setMobile] = useState([]);
@@ -37,6 +36,7 @@ const ProductList = (props) => {
     };
 
     fetchData();
+    console.log(mobile);
 
     return () => {
       console.log("return log");
@@ -44,135 +44,106 @@ const ProductList = (props) => {
   }, []);
 
   return (
-    <div className="body-container">
-      <Nav />
-      <Slider />
-
-      {type
-        .filter((item) => item.id_product_type === 1)
-        .map((item) => (
-          <>
-            <div className="filter-properties">
-              <h2 className="title">Chọn theo tiêu chí </h2>
-              <div className="filter-feature">
-                <div className="filter-item">
-                  <button className="btn-filter">
-                    <HiOutlineFilter className="icon" />
-                    Bộ lọc{" "}
-                  </button>
-                </div>
-                <div className="filter-item">
-                  <button className="btn-filter">
-                    <TbTruckDelivery className="icon" /> Sẵn sàng{" "}
-                  </button>
-                </div>
-                <div className="filter-item">
-                  <button className="btn-filter">
-                    <HiOutlineCurrencyDollar className="icon" />
-                    Giá
-                  </button>
-                </div>
-                <div className="filter-item">
-                  <button className="btn-filter">
-                    Ổ cứng <HiChevronDown className="icon" />{" "}
-                    <HiQuestionMarkCircle className="icon" />
-                  </button>
-                </div>
-                <div className="filter-item">
-                  <button className="btn-filter">
-                    Nhu cầu sử dụng <HiChevronDown className="icon" />{" "}
-                    <HiQuestionMarkCircle className="icon" />{" "}
-                  </button>
-                </div>
-                <div className="filter-item">
-                  <button className="btn-filter">
-                    Dung lượng RAM <HiChevronDown className="icon" />{" "}
-                    <HiQuestionMarkCircle className="icon" />{" "}
-                  </button>
-                </div>
-                <div className="filter-item">
-                  <button className="btn-filter">
-                    CPU <HiChevronDown className="icon" />{" "}
-                    <HiQuestionMarkCircle className="icon" />{" "}
-                  </button>
-                </div>
-                <div className="filter-item">
-                  <button className="btn-filter">
-                    Kích thước màn hình <HiChevronDown className="icon" />{" "}
-                    <HiQuestionMarkCircle className="icon" />{" "}
-                  </button>
-                </div>
-                <div className="filter-item">
-                  <button className="btn-filter">
-                    Card đồ họa <HiChevronDown className="icon" />{" "}
-                    <HiQuestionMarkCircle className="icon" />{" "}
-                  </button>
-                </div>
-                <div className="filter-item">
-                  <button className="btn-filter">
-                    Tính năng đặc biệt <HiChevronDown className="icon" />{" "}
-                    <HiQuestionMarkCircle className="icon" />{" "}
-                  </button>
-                </div>
-                <div className="filter-item">
-                  <button className="btn-filter">
-                    Độ phân giải <HiChevronDown className="icon" />{" "}
-                    <HiQuestionMarkCircle className="icon" />
-                  </button>
-                </div>
-              </div>
+    <>
+      <SliderVideo />
+      <div className="body-container">
+        <div className="filter-properties">
+          <h2 className="title">Chọn theo tiêu chí </h2>
+          <div className="filter-feature">
+            <div className="filter-item">
+              <button className="btn-filter">
+                <HiOutlineFilter className="icon" />
+                Bộ lọc{" "}
+              </button>
             </div>
-            <div className="sorting-container">
-              <h2 className="title">Sắp xếp theo </h2>
-              <div className="sorting">
-                <div className="filter-item">
-                  <button className="btn-filter">
-                    <HiSortDescending className="icon" />
-                    Giá cao - thấp
-                  </button>
-                </div>
-                <div className="filter-item">
-                  <button className="btn-filter">
-                    <HiSortAscending className="icon" />
-                    Giá thấp - cao
-                  </button>
-                </div>
-                <div className="filter-item">
-                  <button className="btn-filter">
-                    <TbDiscountCheck className="icon" />
-                    Khuyến mãi hot
-                  </button>
-                </div>
-                <div className="filter-item">
-                  <button className="btn-filter">
-                    <HiEye className="icon" />
-                    Xem nhiều
-                  </button>
-                </div>
-              </div>
+            <div className="filter-item">
+              <button className="btn-filter">
+                <TbTruckDelivery className="icon" /> Sẵn sàng{" "}
+              </button>
             </div>
-            <Container fluid>
-            <Row className="row">
-              {mobile.map(
-                (mobile) =>
-                  mobile.id_type_product === item.id_product_type && (
-                    <Col lg = {4} key={mobile.id_product} className="">
-                      <Link to={`/product_detail/${mobile.id_product}`} className="product_link">
-                        <div className="card">
+            <div className="filter-item">
+              <button className="btn-filter">
+                <HiOutlineCurrencyDollar className="icon" />
+                Giá
+              </button>
+            </div>
+            <div className="filter-item">
+              <button className="btn-filter">
+                Ổ cứng <HiChevronDown className="icon" />{" "}
+                <HiQuestionMarkCircle className="icon" />
+              </button>
+            </div>
+            <div className="filter-item">
+              <button className="btn-filter">
+                Nhu cầu sử dụng <HiChevronDown className="icon" />{" "}
+                <HiQuestionMarkCircle className="icon" />{" "}
+              </button>
+            </div>
+            <div className="filter-item">
+              <button className="btn-filter">
+                Dung lượng RAM <HiChevronDown className="icon" />{" "}
+                <HiQuestionMarkCircle className="icon" />{" "}
+              </button>
+            </div>
+            <div className="filter-item">
+              <button className="btn-filter">
+                CPU <HiChevronDown className="icon" />{" "}
+                <HiQuestionMarkCircle className="icon" />{" "}
+              </button>
+            </div>
+            <div className="filter-item">
+              <button className="btn-filter">
+                Kích thước màn hình <HiChevronDown className="icon" />{" "}
+                <HiQuestionMarkCircle className="icon" />{" "}
+              </button>
+            </div>
+            <div className="filter-item">
+              <button className="btn-filter">
+                Card đồ họa <HiChevronDown className="icon" />{" "}
+                <HiQuestionMarkCircle className="icon" />{" "}
+              </button>
+            </div>
+            <div className="filter-item">
+              <button className="btn-filter">
+                Tính năng đặc biệt <HiChevronDown className="icon" />{" "}
+                <HiQuestionMarkCircle className="icon" />{" "}
+              </button>
+            </div>
+            <div className="filter-item">
+              <button className="btn-filter">
+                Độ phân giải <HiChevronDown className="icon" />{" "}
+                <HiQuestionMarkCircle className="icon" />
+              </button>
+            </div>
+          </div>
+        </div>
+        <h3 className="store_heading_homepage">
+          <span>Điện thoại.</span> Chọn Điện thoại phù hợp với bạn.
+        </h3>
+        <Container fluid>
+          <div className="row">
+            {mobile &&
+              mobile.map((item, index) => {
+                if (item.id_type_product == 1) {
+                  return (
+                    <Col lg={3} key={item.id_product}>
+                      <Link
+                        className="product_link"
+                        to={`/product_detail/${item.id_product}`}
+                      >
+                        <div className="product_link_card">
                           <div className="imageProduct">
                             <img
                               className="imgPhone"
-                              src={mobile.image_sig}
-                              alt={mobile.product_name}
+                              src={item.image_sig}
+                              alt={item.product_name}
                             />
                           </div>
-                          <p className="NamePhone">{mobile.product_name}</p>
                           <div className="color-product">
                             {color
                               .filter(
                                 (element) =>
-                                  element.ID_PRODUCT === mobile.id_product &&
-                                  element.COLOR_HEXA_CODE !== "#fff"
+                                  element.ID_PRODUCT === item.id_product
                               )
                               .map((element) => (
                                 <div
@@ -184,24 +155,27 @@ const ProductList = (props) => {
                                 ></div>
                               ))}
                           </div>
+                          <p className="new_product_tag">mới</p>
+                          <p className="NamePhone">{item.product_name}</p>
+                          <p className="product_desc">{item.PRODUCT_DESC}</p>
                           <div className="price-contain">
                             <p className="price">
-                              {mobile.price.toLocaleString("de-DE")}
+                              Từ {item.price.toLocaleString("de-DE")}
                               <span>&#8363;</span>
                             </p>
                           </div>
-                          <button className="buyButton">Mua ngay</button>
+                          <button className="buyButton">Mua</button>
                         </div>
                       </Link>
                     </Col>
-                  )
-              )}
-            </Row>
-            </Container>
-            
-          </>
-        ))}
-    </div>
+                  );
+                }
+              })}
+          </div>
+        </Container>
+        <Footer />
+      </div>
+    </>
   );
 };
 

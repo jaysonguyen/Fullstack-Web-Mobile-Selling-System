@@ -11,67 +11,108 @@ import { FcCheckmark } from "react-icons/fc";
 import { getInforByEmailCus } from "../../Services/customerService";
 import { toast } from "react-toastify";
 import { createOrder } from "../../Services/orderServices";
+import { createOnlinePay } from "../../Services/orderServices";
+import { useNavigate } from "react-router-dom";
+import { rmAll } from "../../Services/cart";
 
-const FormOrder = ({ mobileInfor, cart }) => {
+const FormOrder = ({ mobileInfor, cart, total }) => {
+  const navigate = useNavigate();
   const [showComplete, setShowComplete] = useState(false);
   const [name, setname] = useState("");
   const [phone, setphone] = useState("");
   const [address, setaddress] = useState("");
   const [email, setemail] = useState("");
-  const [paymentMethod, setPayMenthod] = useState(1);
+  const [paymentMethod, setPayMenthod] = useState(0);
+  const [billStatus, setBillStatus] = useState("Chờ");
 
+  const cusToken = localStorage.getItem("customerKey");
   const sessionData = sessionStorage.getItem("account");
   const handleGetInforByEmail = async () => {
-    if (sessionData) {
-      const email = JSON.parse(sessionData).email;
-      const checkEmail = await getInforByEmailCus(email);
-      if (checkEmail && +checkEmail.EC === 1) {
-        setname(checkEmail.DT[0].CUSTOMER_NAME);
-        setphone(checkEmail.DT[0].PHONE_NUMBER);
-        setaddress(checkEmail.DT[0].CUSTOMER_ADDRESS);
-        setemail(checkEmail.DT[0].EMAIL);
+    try {
+      if (sessionData) {
+        const email = JSON.parse(sessionData).email;
+        const checkEmail = await getInforByEmailCus(email);
+        if (checkEmail && +checkEmail.EC === 1) {
+          setname(checkEmail.DT[0].CUSTOMER_NAME);
+          setphone(checkEmail.DT[0].PHONE_NUMBER);
+          setaddress(checkEmail.DT[0].CUSTOMER_ADDRESS);
+          setemail(checkEmail.DT[0].EMAIL);
+        }
       }
+    } catch (error) {
+      console.log(error);
+      toast.error("Đã xảy ra lỗi khi lấy thông tin khách hàng");
     }
   };
 
-  const idPro = cart.id.id;
-  const flag = !showComplete;
+  const handleGoback = () => {
+    navigate("/");
+  };
+
+  const handleDeleteAllCart = async () => {
+    let data = await rmAll(cusToken);
+  };
+
+  useEffect(() => {
+    handleGetInforByEmail();
+  }, [total]);
 
   const handlePayMenthod = (id) => {
     setPayMenthod(id);
   };
 
-  useEffect(() => {
-    handleGetInforByEmail();
-  }, [paymentMethod]);
-
   const handleCompletebtn = async () => {
-    if (name == "") {
-      toast.error("Vui lòng điền tên người đặt");
-    } else if (phone == "") {
-      toast.error("Vui lòng điền số điện thoại");
-    } else if (email == "") {
-      toast.error("Vui lòng điền địa chỉ email");
-    } else if (address == "") {
-      toast.error("Vui lòng điền địa chỉ nhận hàng");
-    } else {
-      const dataUSer = await createOrder(
-        paymentMethod,
-        idPro,
-        email,
-        cart.hw,
-        cart.color
-      );
-
-      if (dataUSer && +dataUSer.EC === 1) {
-        toast.success(
-          "Đặt hàng thành công! đơn hàng của bạn sẽ được gửi trong thời gian sớm nhất"
-        );
-        setShowComplete(flag);
+    try {
+      if (name === "") {
+        toast.error("Vui lòng điền tên người đặt");
+      } else if (phone === "") {
+        toast.error("Vui lòng điền số điện thoại");
+      } else if (email === "") {
+        toast.error("Vui lòng điền địa chỉ email");
+      } else if (address === "") {
+        toast.error("Vui lòng điền địa chỉ nhận hàng");
+      } else {
+        if (paymentMethod === 1) {
+          console.log("Thanh toán chuyển khoản");
+          if (total !== 0) {
+            const data = await createOnlinePay(total);
+            if (data) {
+              location.href = data.DT;
+              const dataUSer = await createOrder(
+                name,
+                phone,
+                email,
+                address,
+                total,
+                paymentMethod,
+                cart
+              );
+              localStorage.setItem("cartID", dataUSer.DT);
+            }
+          }
+        }
+        if (paymentMethod === 0) {
+          const dataUSer = await createOrder(
+            name,
+            phone,
+            email,
+            address,
+            total,
+            paymentMethod,
+            cart
+          );
+          toast.success("Đặt hàng thành công");
+          localStorage.removeItem("cartID");
+          if (dataUSer) {
+            console.log(dataUSer.DT);
+            localStorage.removeItem("customerKey");
+            setShowComplete(true);
+          }
+        }
       }
-      if (dataUSer && +dataUSer.EC != 1) {
-        toast.error("Đặt hàng thất bại");
-      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Đã xảy ra lỗi khi hoàn thành đơn hàng");
     }
   };
 
@@ -79,82 +120,53 @@ const FormOrder = ({ mobileInfor, cart }) => {
     <div className="order_container_form">
       {!showComplete && (
         <Container fluid>
-          <ul className="step_order">
-            <li>
-              <span className="success_icon">
-                <FcCheckmark className="icon" style={{ color: "#000" }} />
-              </span>
-              Giỏ hàng
-            </li>
-            <li>
-              {" "}
-              <span>
-                <HiMinusSm />
-              </span>
-              <span>
-                <HiMinusSm />
-              </span>
-              <span>
-                <HiMinusSm />
-              </span>
-            </li>
-            <li>Thanh toán</li>
-            <li>
-              {" "}
-              <span>
-                <HiMinusSm />
-              </span>
-              <span>
-                <HiMinusSm />
-              </span>
-              <span>
-                <HiMinusSm />
-              </span>
-            </li>
-            <li>Hoàn tất đặt hàng</li>
-          </ul>
           <Row>
             <Col className="item_order" lg={6}>
               <h3 className="order_heading">Tóm tắt đơn đặt</h3>
               <p className="order_desc">
                 Kiểm tra lại sản phẩm và chọn công ty vận chuyển phù hợp với bạn
               </p>
-
-              <ul className="infor_product_body body_value_order border_around">
-                <li className="infor_product_body infor_image order">
-                  <img src={mobileInfor.IMAGE_SIG} />
-                </li>
-                <li className="infor_product_body infor_name name_order">
-                  <span>{mobileInfor.PRODUCT_NAME}</span>
-                  <div className="infor_product_order">
-                    <span>Thương hiệu: {mobileInfor.BRAND}</span>
-                    <span>Cấu hình: {cart.hw}</span>
-                    <span className="color_container_span">
-                      Màu sắc:{" "}
-                      <span
-                        style={{ backgroundColor: `${cart.color}` }}
-                        className="color_cart_order"
-                      ></span>
-                    </span>
-                  </div>
-                </li>
-                <li className="infor_product_body infor_price">
-                  <p>
-                    {" "}
-                    {mobileInfor.PRICE.toLocaleString("de-De")}
-                    <span>&#8363;</span>
-                  </p>
-                </li>
-              </ul>
+              {cart &&
+                cart.map((item) => {
+                  return (
+                    <>
+                      <ul className="infor_product_body body_value_order border_around">
+                        <li className="infor_product_body infor_image order">
+                          <img src={item.imageItem} />
+                        </li>
+                        <li className="infor_product_body infor_name name_order">
+                          <span>{item.nameItem}</span>
+                          <div className="infor_product_order">
+                            <span>Cấu hình: {item.hardware}</span>
+                            <span className="color_container_span">
+                              Màu sắc:{" "}
+                              <span
+                                style={{ backgroundColor: `${item.colorItem}` }}
+                                className="color_cart_order"
+                              ></span>
+                            </span>
+                          </div>
+                        </li>
+                        <li className="infor_product_body infor_price">
+                          <p>
+                            {" "}
+                            {item.priceItem.toLocaleString("de-De")}
+                            <span>&#8363;</span>
+                          </p>
+                        </li>
+                      </ul>
+                    </>
+                  );
+                })}
               <div className="shipping_method">
                 <h3 className="order_heading method_receive">
                   Chọn phương thức thanh toán
                 </h3>
                 <div className="payment_method_container">
                   <ul
-                    onClick={() => handlePayMenthod(1)}
+                    onClick={() => handlePayMenthod(0)}
                     className={`infor_product_body body_value_order border_around payment_method_list ${
-                      paymentMethod == 1 ? "active_paymethod" : ""
+                      paymentMethod == 0 ? "active_paymethod" : ""
                     }`}
                   >
                     <li className="infor_product_body infor_image order">
@@ -171,9 +183,9 @@ const FormOrder = ({ mobileInfor, cart }) => {
                     </li>
                   </ul>
                   <ul
-                    onClick={() => handlePayMenthod(2)}
+                    onClick={() => handlePayMenthod(1)}
                     className={`infor_product_body body_value_order border_around payment_method_list  ${
-                      paymentMethod == 2 ? "active_paymethod" : ""
+                      paymentMethod == 1 ? "active_paymethod" : ""
                     }`}
                   >
                     <li className="infor_product_body infor_image order">
@@ -234,7 +246,6 @@ const FormOrder = ({ mobileInfor, cart }) => {
                   <input
                     value={phone}
                     onChange={(e) => setphone(e.target.value)}
-                    disabled={phone ? "disabled" : ""}
                     className="phone_number"
                     placeholder="Số điện thoại"
                   />
@@ -242,7 +253,6 @@ const FormOrder = ({ mobileInfor, cart }) => {
                   <input
                     value={email}
                     onChange={(e) => setemail(e.target.value)}
-                    disabled={email ? "disabled" : ""}
                     className="email"
                     placeholder="Email"
                   />
@@ -258,14 +268,14 @@ const FormOrder = ({ mobileInfor, cart }) => {
                   <p className="subTotal">
                     Tổng phụ:{" "}
                     <span className="total_price subTotal_price">
-                      {mobileInfor.PRICE.toLocaleString("de-De")}
+                      {total.toLocaleString("de-De")}
                       <span>&#8363;</span>
                     </span>
                   </p>
                   <p>
                     Tổng cộng:{" "}
                     <span className="total_price">
-                      {mobileInfor.PRICE.toLocaleString("de-De")}
+                      {total.toLocaleString("de-De")}
                       <span>&#8363;</span>
                     </span>
                   </p>
@@ -294,11 +304,8 @@ const FormOrder = ({ mobileInfor, cart }) => {
             Cảm ơn bạn đã tin tưởng và sử dụng dịch vụ của chúng tôi. Chúc bạn
             thành công và may mắn.
           </p>
-          <button
-            className="view_order_btn"
-            onClick={() => handleCompletebtn()}
-          >
-            Xem thông tin đặt hàng
+          <button className="view_order_btn" onClick={() => handleGoback()}>
+            Trở về trang chủ
           </button>
           <a className="ruleLink formorderrulelink">
             {" "}

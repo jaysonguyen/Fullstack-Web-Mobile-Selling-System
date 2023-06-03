@@ -31,16 +31,15 @@ const Login = (props) => {
         return;
       }
 
-      console.log(email, password);
 
       let response = await checkInforCusomter(email, password);
       if (response && +response.EC === 1) {
         let data = {
-          email: email
-        }
+          email: email,
+        };
         sessionStorage.setItem("account", JSON.stringify(data));
         toast.success(response.EM);
-        navigate("/")
+        navigate("/");
         return;
       }
 
@@ -57,13 +56,17 @@ const Login = (props) => {
   return (
     <>
       <div className="login_container">
+        <h1 className="login_container_heading">
+          Đăng nhập để thanh toán nhanh hơn.
+        </h1>
         <main className="form-signin">
           <form>
-            <h1 className="h3 mb-3 fw-normal">Đăng nhập </h1>
+            <h1 className="h3 mb-3 login_heading">Đăng nhập</h1>
             <div className="input_container">
               <input
                 placeholder="Nhập số điện thoại hoặc email"
                 value={email}
+                className="input_login_container"
                 type="mail"
                 onChange={(e) => setPhoneNumber(e.target.value)}
               />
@@ -71,19 +74,23 @@ const Login = (props) => {
                 placeholder="Nhập mật khẩu"
                 value={password}
                 type="password"
+                className="input_login_container"
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <div className="option_login">
-              <button className="gg-btn">Đăng nhập với Google</button>
-              <button className="fb-btn">Đăng nhập với Facebook</button>
-            </div>
-            <p className="sign-up-link">
-              Bạn chưa có tài khoản? <Link to="/register">Đăng kí </Link>
-            </p>
             <button className="sign-btn" onClick={(e) => handleLogin(e)}>
-              Sign in
+              Đăng nhập
             </button>
+            <Link className="forget_password_container" to="/register">
+              {" "}
+              Bạn đã quên mật khẩu?{" "}
+            </Link>
+            <p className="sign-up-link">
+              Bạn chưa có tài khoản?{" "}
+              <Link className="forget_password_container" to="/register">
+                Đăng kí{" "}
+              </Link>
+            </p>
           </form>
         </main>
       </div>

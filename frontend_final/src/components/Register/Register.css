@@ -1,18 +1,24 @@
 .input_container label {
-    color: #000;
+    color: #6a6a6a;
     align-self: flex-start;
     margin-left: 32px;
     margin-top: 6px;
     margin-bottom: 3px;
     font-size: 14px;
+    font-weight: 700;
 
 }
 
 .have-account-btn {
     margin-top: 10px;
-    color: #000;
+    color: #2b2b2b;
     font-size: 14px;
 
+}
+
+.have-account-btn a {
+    margin-left: 3px;
+    text-decoration: none;
 }
 
 .otp-container {
@@ -70,4 +76,21 @@ form h1 {
     margin-top: 20px;
     font-size: 14px;
     cursor: pointer;
+    text-decoration: none;
+    margin-bottom: 10px;
+}
+
+h1.no_margin {
+    margin-bottom: 0
+}
+
+.login_heading_desc {
+    padding: 0;
+    font-size: 14px;
+}
+
+.otp_signBTn {
+    width: 30%;
+    margin-top: 30px;
+    margin-bottom: 0;
 }

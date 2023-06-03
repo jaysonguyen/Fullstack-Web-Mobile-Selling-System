@@ -20,18 +20,13 @@ const routes = [
   },
   {
     path: "/admin/users",
-    name: "Users",
+    name: "Quản lý khách hàng",
     icon: <FaUser />,
   },
   {
     path: "/admin/ordermanage",
     name: "Quản lí đơn hàng",
     icon: <BsCartCheck />,
-  },
-  {
-    path: "/admin/analytics",
-    name: "Phân tích nhu cầu cách hàng",
-    icon: <BiAnalyse />,
   },
   {
     path: "/admin/file-manager",
@@ -49,34 +44,6 @@ const routes = [
         icon: <BiCategory />,
       },
     ],
-  },
-  {
-    path: "/admin/settings",
-    name: "Settings",
-    icon: <BiCog />,
-    exact: true,
-    subRoutes: [
-      {
-        path: "/admin/settings/profile",
-        name: "Profile ",
-        icon: <FaUser />,
-      },
-      {
-        path: "/admin/settings/2fa",
-        name: "2FA",
-        icon: <FaLock />,
-      },
-      {
-        path: "/admin/settings/billing",
-        name: "Billing",
-        icon: <FaMoneyBill />,
-      },
-    ],
-  },
-  {
-    path: "/admin/saved",
-    name: "Saved",
-    icon: <AiFillHeart />,
   },
 ];
 

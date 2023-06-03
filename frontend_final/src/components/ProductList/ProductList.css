@@ -3,10 +3,10 @@ h2{
     color:black;
 }
 .body-container{
-    background-color: #f3f3f4;
+    background-color: #f5f5f5;
 }
 .title{
-    font-size: 20px;
+    font-size: 20px !important;
     font-weight: 700;
 }
 .sorting-container, .filter-properties{
@@ -52,4 +52,8 @@ h2{
 }
 .product_link{
     text-decoration: none !important;
+}
+
+.heading_product_list {
+    font-size: 25px;
 }

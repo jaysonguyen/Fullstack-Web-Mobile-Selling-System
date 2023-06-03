@@ -1,5 +1,5 @@
 .cart_container {
-    margin-top: 75px;
+    margin-top: 5px;
     padding-bottom: 300px;
     background-color: #f3f3f4;
 }
@@ -7,9 +7,11 @@
 .container-fluid {
     background-color: #f3f3f4;
 }
-.row-margin{
+
+.row-margin {
     width: 100%;
 }
+
 .row {
     width: 90%;
     margin-left: 50px !important;
@@ -90,7 +92,7 @@
 }
 
 .infor_name {
-    flex: 3.5;
+    flex: 3;
 }
 
 .infor_price {
@@ -161,7 +163,7 @@
 }
 
 .accept_rule input {
-   width: 30px;
+    width: 30px;
 }
 
 

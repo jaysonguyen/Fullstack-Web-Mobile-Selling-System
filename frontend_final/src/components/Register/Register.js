@@ -17,6 +17,7 @@ const Register = (props) => {
   const [dob, setDob] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
 
   const [ConfirmPassword, setConfirmPassword] = useState("");
   const [otp, setOpt] = useState("");
@@ -144,7 +145,8 @@ const Register = (props) => {
           phone,
           dob,
           password,
-          email
+          email,
+          address
         );
         if (data && +data.EC == 1) {
           toast.success("Đăng ký thành công");
@@ -160,12 +162,16 @@ const Register = (props) => {
   };
 
   return (
-    <div className="login_container">
+    <div className="">
       <div id="recaptcha-container"></div>
       <main className="form-signin">
         {!showOtp && (
           <form>
-            <h1 className="h3 mb-3 fw-normal">Đăng ký </h1>
+            <h1 className="h3 no_margin login_heading">Tạo tài khoản</h1>
+            <p className="login_heading_desc">
+              Tạo tài khoản để có thể nâng cao trả nghiệm sử dụng dịch vụ của
+              chúng tôi
+            </p>
             <div className="input_container">
               <label>Số điện thoại</label>
               <input
@@ -174,8 +180,8 @@ const Register = (props) => {
                 name="phone"
                 className={
                   objectCheckValid.isValidEmail
-                    ? "form_control"
-                    : "form-control is-invalid"
+                    ? "input_login_container"
+                    : "input_login_container is-invalid"
                 }
                 onChange={(e) => setPhoneNumber(e.target.value)}
               />
@@ -184,25 +190,36 @@ const Register = (props) => {
                 placeholder="Email"
                 value={email}
                 type="email "
+                className="input_login_container"
                 onChange={(e) => setEmail(e.target.value)}
               />
               <label>Họ và tên</label>
               <input
                 placeholder="Họ và tên"
                 value={userName}
+                className="input_login_container"
                 onChange={(e) => setUserName(e.target.value)}
               />
               <label>Ngày sinh</label>
               <input
                 value={dob}
                 type="date"
+                className="input_login_container"
                 onChange={(e) => setDob(e.target.value)}
+              />
+              <label>Địa chỉ</label>
+              <input
+                value={address}
+                placeholder="Địa chỉ"
+                className="input_login_container"
+                onChange={(e) => setAddress(e.target.value)}
               />
               <label>Mật khẩu</label>
               <input
                 placeholder="Mật khẩu"
                 value={password}
                 type="password"
+                className="input_login_container"
                 onChange={(e) => setPassword(e.target.value)}
               />
               <label>Xác nhận Mật khẩu</label>
@@ -210,6 +227,7 @@ const Register = (props) => {
                 placeholder="Xác nhận Mật khẩu"
                 value={ConfirmPassword}
                 type="password"
+                className="input_login_container"
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
 
@@ -236,10 +254,10 @@ const Register = (props) => {
 
         {showOtp && (
           <div className="otp-container">
-            <button className="go-back-btn" onClick={handleGoBack}>
+            {/* <button className="go-back-btn" onClick={handleGoBack}>
               <BiChevronLeftCircle />
-            </button>
-            <h3 className="otp-heading">Xác nhận đăng ký</h3>
+            </button> */}
+            <h3 className="login_heading">Xác nhận đăng ký</h3>
             <h5 className="otp-number">
               Nhập mã OTP được gửi qua số điện thoại
             </h5>
@@ -251,11 +269,8 @@ const Register = (props) => {
               onChange={setOpt}
               value={otp}
             ></OTPInput>
-            <a className="resent-otp" onClick={() => onSignUp()}>
-              Gửi lại
-            </a>
             <button
-              className="sign-btn"
+              className="sign-btn otp_signBTn"
               onClick={(e) => {
                 onOtpVerify(e);
               }}

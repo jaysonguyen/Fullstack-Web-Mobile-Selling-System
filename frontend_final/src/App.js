@@ -10,7 +10,6 @@ const App = () => {
   return (
     <>
       <AppRoutes />
-
       <ToastContainer
         position="bottom-left"
         autoClose={5000}
@@ -23,7 +22,7 @@ const App = () => {
         pauseOnHover
         theme="light"
       />
-      <Footer />
+      {/* <Footer /> */}
     </>
     /* <BrowserRouter>
       <Routes>

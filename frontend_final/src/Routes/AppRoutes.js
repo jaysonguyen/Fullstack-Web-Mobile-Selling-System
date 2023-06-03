@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Link, Outlet } from "react-router-dom";
 import React from "react";
 import Register from "../components/Register/Register";
 import Login from "../components/Login/Login";
-import HomePage from "../components/HomePage/Homepage"
+import HomePage from "../components/HomePage/Homepage";
 import User_Profile from "../components/User_Profile/User_Profile";
 import ProductDetail from "../components/ProductDetail/ProductDetail";
 import ProductList from "../components/ProductList/ProductList";
@@ -13,6 +13,14 @@ import Nav from "../components/Nav/Nav";
 import OrderManage from "../components/AdminPage/OrderManage/OrderManage";
 import AddProduct from "../components/AdminPage/Production/AddProduct";
 import Production from "../components/AdminPage/Production/Production";
+import OrderDone from "../components/Cart/OrderDone";
+import CustomerProfile from "../components/Customer/CustomerProfile";
+import OrderCustomer from "../components/Customer/Order/OrderCustomer";
+import Laptop from "../components/ProductList/Laptop";
+import Tablet from "../components/ProductList/Tablet";
+import Sound from "../components/ProductList/Sound";
+import Access from "../components/ProductList/Access";
+import Watch from "../components/ProductList/Watch";
 
 const AppRoutes = (props) => {
   const pathname = window.location.pathname;
@@ -22,19 +30,26 @@ const AppRoutes = (props) => {
   }
   return (
     <BrowserRouter>
-      
-      {pathname.includes("/admin") ? "" : <Nav/>}
-      {pathname.includes("/admin") ? <SideBar/> : ""}
+      {pathname.includes("/admin") ? "" : <Nav />}
+      {pathname.includes("/admin") ? <SideBar /> : ""}
       <Routes>
         <Route exact path="/" element={<HomePage />} />
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/user_profile" element={<User_Profile />} />
+        <Route exact path="/done/order" element={<OrderDone />} />
+        <Route exact path="/customer/profile" element={<CustomerProfile />} />
+        <Route exact path="/customer/order" element={<OrderCustomer />} />
 
         <Route exact path="/product_detail/:id" element={<ProductDetail />} />
         <Route exact path="/mobile" element={<ProductList />} />
+        <Route exact path="/tablet" element={<Tablet />} />
+        <Route exact path="/latop" element={<Laptop />} />
+        <Route exact path="/sound" element={<Sound />} />
+        <Route exact path="/accessories" element={<Access />} />
+        <Route exact path="/watch" element={<Watch />} />
         <Route exact path="/admin/ordermanage" element={<OrderManage />} />
-        
+
         <Route exact path="/cart" element={<Cart />} />
         <Route exact path="/admin" element={<AdminPage />} />
         <Route exact path="/admin/product/add" element={<AddProduct />} />

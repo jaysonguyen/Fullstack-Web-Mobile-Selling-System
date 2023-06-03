@@ -11,12 +11,18 @@ import Carousel from "react-multi-carousel";
 import FormOrder from "./FormOrder";
 import { getOne } from "../../Services/mobileService";
 import { toast } from "react-toastify";
+import { getCart, rmOne } from "../../Services/cart";
 
 const Cart = (props) => {
   const [showCart, setShowCart] = useState(true);
   const [mobile, setMobile] = useState({});
+  const [product, setProduct] = useState([]);
   const [isAgree, setIsAgree] = useState(false);
   const navigate = useNavigate();
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [newCart, setNewCart] = useState([]);
+  const [rmItem, setItem] = useState([]);
+  let total = 0;
 
   const responsive = {
     superLargeDesktop: {
@@ -38,10 +44,8 @@ const Cart = (props) => {
     },
   };
 
-  const handleSetIsAgree = () => {
-    //let flagAgree = !isAgree;
-    setIsAgree(true);
-    console.log("change");
+  const handleSetIsAgree = (event) => {
+    setIsAgree(event.target.checked);
   };
 
   const handleShowShowCart = () => {
@@ -49,43 +53,45 @@ const Cart = (props) => {
       let flag = !showCart;
       setShowCart(flag);
     } else {
-      toast.error("Vui lòng chọn đồng ý với các điều khoản");
+      toast.error("Vui lòng chọn đồng ý các điều khoản");
     }
   };
 
-  const handleUpdate = () => {
-    navigate(`/product_detail/${id}`)
-  }
-
-  let cart = JSON.parse(sessionStorage.getItem("cart"));
-  const id = cart.id.id;
-
-  const getMobile = async (id) => {
-    let mobileInfor = await getOne(id);
-    setMobile(mobileInfor.DT[0]);
-  };
-
-  const handleDeleteCart = () => {
-    if (cart) {
-      sessionStorage.removeItem("cart");
+  const handleDeleteCart = async (id) => {
+    let data = await rmOne(id);
+    if (data) {
+      setProduct((prevProduct) => prevProduct.filter((item) => item.ID !== id));
+      window.location.reload();
     }
   };
 
+  const fectchCart = async () => {
+    let keyCus = localStorage.getItem("customerKey");
+    let data = await getCart(keyCus);
+    if (data && +data.EC == 1) {
+      setProduct(data.DT);
+    }
+    if (data && +data.EC != 1) {
+      console.log("get data success");
+    }
+  };
 
-  console.log(mobile)
   useEffect(() => {
-    getMobile(id);
+    fectchCart();
   }, []);
+
+  useEffect(() => {
+    let totalPrice = 0;
+    for (let i = 0; i < product.length; i++) {
+      totalPrice += product[i].priceItem;
+    }
+    setTotalPrice(totalPrice);
+  }, [product]);
 
   return (
     <div className="cart_container">
       {showCart && (
         <>
-          <div className="link_old_page_container">
-            <Link className="link_old_page">Trang chủ</Link>
-            <BsChevronRight className="link_left_caret--icon" />
-            <Link className="link_old_page">Giỏ hàng</Link>
-          </div>
           <div className="cart_content">
             <Container fluid>
               <Row className="row-margin">
@@ -106,44 +112,57 @@ const Cart = (props) => {
                       </li>
                     </ul>
                     <div className="seperate"></div>
-                    {cart && (
-                      <ul className="infor_product_body body_value_order">
-                        <li className="infor_product_body infor_image order">
-                          <img src={mobile.IMAGE_SIG} />
-                        </li>
-                        <li className="infor_product_body infor_name name_order">
-                          <span>{mobile.PRODUCT_NAME}</span>
-                          <div className="infor_product_order">
-                            <span>Hãng: {mobile.BRAND}</span>
-                            <span>Cấu hình: {cart.hw}</span>
-                            <span className="color_container_span">
-                              Màu sắc:{" "}
-                              <span
-                                style={{ backgroundColor: `${cart.color}` }}
-                                className="color_cart_order"
-                              ></span>
-                            </span>
-                            <h6 className="edit_infor_product" onClick={() => handleUpdate()}>Sửa</h6>
-                          </div>
-                        </li>
-                        <li className="infor_product_body infor_price">
-                          <p>
-                            {" "}
-                            {mobile.PRICE &&
-                              mobile.PRICE.toLocaleString("de-DE")}
-                            <span>&#8363;</span>
-                          </p>
-                        </li>
-                        <li className="infor_product_body infor_quantity order">
-                          <p>1</p>
-                          <MdDeleteOutline
-                            onClick={() => handleDeleteCart()}
-                            className="delete--icon"
-                          />
-                        </li>
-                      </ul>
-                    )}
-
+                    {product.map((item, key) => {
+                      return (
+                        <>
+                          <ul
+                            key={key}
+                            className="infor_product_body body_value_order"
+                          >
+                            <li className="infor_product_body infor_image order">
+                              <img src={item.imageItem} />
+                            </li>
+                            <li className="infor_product_body infor_name name_order">
+                              <span>{item.nameItem}</span>
+                              <div className="infor_product_order">
+                                <span>Cấu hình: {item.hardware}</span>
+                                <span className="color_container_span">
+                                  Màu sắc:{" "}
+                                  <span
+                                    style={{
+                                      backgroundColor: `${item.colorItem}`,
+                                    }}
+                                    className="color_cart_order"
+                                  ></span>
+                                </span>
+                                <h6
+                                  className="edit_infor_product"
+                                  onClick={() => handleUpdate()}
+                                >
+                                  Sửa
+                                </h6>
+                              </div>
+                            </li>
+                            <li className="infor_product_body infor_price">
+                              <p>
+                                {" "}
+                                {item.priceItem &&
+                                  item.priceItem.toLocaleString("de-DE")}
+                                <span>&#8363;</span>
+                              </p>
+                            </li>
+                            <li className="infor_product_body infor_quantity order">
+                              <p>1</p>
+                              <MdDeleteOutline
+                                id={item.ID}
+                                onClick={(e) => handleDeleteCart(e.target.id)}
+                                className="delete--icon"
+                              />
+                            </li>
+                          </ul>
+                        </>
+                      );
+                    })}
                     <div className="footer_oder_product">
                       <a className="update_cart_btn">Cập nhật giỏ hàng</a>
                       <a className="buy_continue_btn">Tiếp tục mua sắm</a>
@@ -163,14 +182,14 @@ const Cart = (props) => {
                       <p className="subTotal">
                         Tổng phụ:{" "}
                         <span className="total_price subTotal_price">
-                          {mobile.PRICE && mobile.PRICE.toLocaleString("de-DE")}
+                          {totalPrice && totalPrice.toLocaleString("de-DE")}
                           <span>&#8363;</span>
                         </span>
                       </p>
                       <p>
                         Tổng cộng:{" "}
                         <span className="total_price">
-                          {mobile.PRICE && mobile.PRICE.toLocaleString("de-DE")}
+                          {totalPrice && totalPrice.toLocaleString("de-DE")}
                           <span>&#8363;</span>
                         </span>
                       </p>
@@ -179,7 +198,8 @@ const Cart = (props) => {
                     <div className="accept_rule">
                       <input
                         type="checkbox"
-                        onChange={() => handleSetIsAgree()}
+                        checked={isAgree}
+                        onChange={handleSetIsAgree}
                       />
                       Tôi đã đọc và đồng ý với
                       <a className="ruleLink">
@@ -261,7 +281,7 @@ const Cart = (props) => {
             <BsCaretLeft />
             Trở về
           </button>
-          <FormOrder mobileInfor={mobile} cart={cart}/>
+          <FormOrder mobileInfor={mobile} cart={product} total={totalPrice} />
         </>
       )}
     </div>

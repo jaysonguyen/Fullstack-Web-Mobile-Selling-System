@@ -4,7 +4,7 @@ import Production from "./Production/Production";
 const Home = (props) => {
   return (
     <div>
-      <Production />
+
     </div>
   );
 };

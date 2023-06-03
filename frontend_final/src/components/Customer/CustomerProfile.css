@@ -1,0 +1,111 @@
+.customer_profile_container {
+    margin-bottom: 50px;
+}
+
+.profile_image {
+    background: rgb(19, 89, 227);
+    background: linear-gradient(90deg, rgba(19, 89, 227, 1) 0%, rgba(50, 152, 213, 1) 43%);
+    text-align: left;
+    padding-left: 10%;
+    font-size: 40px;
+    height: 200px;
+    color: #fff;
+    font-weight: 700;
+}
+
+.customer_profile {
+    height: 215px;
+}
+
+.no-margin_bot {
+    margin-bottom: 0 !important;
+}
+
+.profile_image_desc {
+    font-size: 14px;
+}
+
+.image_name_user {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: #b2ada2;
+    margin: auto;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 30px;
+    font-weight: 700;
+    transform: translateY(-70px);
+    border: 3px solid #FFF;
+}
+
+
+.user_name_conainer {
+    margin-bottom: 30px;
+    padding-left: 5%;
+}
+
+h1.user_name_email {
+    font-size: 14px;
+    color: #878787;
+}
+
+.user_name_conainer h1 {
+    text-align: left;
+    margin-top: 0;
+}
+
+
+.input_customer_profile_infor {
+    margin: auto;
+    width: 80%;
+}
+
+.input_customer_profile_infor_subcontainer {
+    margin: auto;
+}
+
+.input_infor_customer input {
+    margin-bottom: 10px !important;
+    border: 1px solid #dcdcdc;
+    
+}
+
+.input_infor_customer {
+    position: relative;
+}
+
+.edit_btn {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #535353;
+}
+
+.update_infor_customer {
+    width: 30%;
+    margin-right: 6%;
+    float: right;
+}
+
+.change_password {
+    text-align: right;
+    cursor: pointer;
+    color: #3b424a;
+}
+
+.change_password:hover {
+    opacity: .7;
+}
+
+.input_infor_customer label {
+    margin-bottom: 3px;
+    margin-left: 3px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #545454;
+}

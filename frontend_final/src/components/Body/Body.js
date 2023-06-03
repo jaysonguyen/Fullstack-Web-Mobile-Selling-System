@@ -8,28 +8,15 @@ import { getTypeProduct } from "../../Services/typeServices";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import Slider from "../Slider/Slider";
+import access from "./access.png";
+import airpod from "./airpod.png";
+import applewatch from "./applewatch.png";
+import ipad from "./ipad.png";
+import iphone from "./iphone.png";
+import mac from "./mac.png";
+import airtag from "./airtag.jpg";
 
 const Body = (props) => {
-  const responsive = {
-    superLargeDesktop: {
-      // the naming can be any, depends on you.
-      breakpoint: { max: 4000, min: 3000 },
-      items: 4,
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 4,
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 3,
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 2,
-    },
-  };
-
   const [mobile, setMobile] = useState([]);
   const [color, setColor] = useState([]);
   const [type, setType] = useState([]);
@@ -54,19 +41,59 @@ const Body = (props) => {
 
   return (
     <div className="body-container">
-      <Slider />
+      <h1 className="store_heading_homepage">
+        <span>Cửa hàng.</span> Cách tốt nhất để mua sản phẩm mà bạn yêu thích.
+      </h1>
+      <ul className="type_product_list">
+        <li>
+          <div className="image_type_product_item">
+            <img src={mac} />
+            <h6 className="name_type_product">Laptop</h6>
+          </div>
+        </li>
+        <li>
+          <div className="image_type_product_item">
+            <img src={iphone} />
+            <h6 className="name_type_product">Điện thoại</h6>
+          </div>
+        </li>
+        <li>
+          <div className="image_type_product_item">
+            <img src={ipad} />
+            <h6 className="name_type_product">Máy tính bảng</h6>
+          </div>
+        </li>
+        <li>
+          <div className="image_type_product_item">
+            <img src={applewatch} />
+            <h6 className="name_type_product">Đồng hồ</h6>
+          </div>
+        </li>
+        <li>
+          <div className="image_type_product_item">
+            <img src={airpod} />
+            <h6 className="name_type_product">Âm thanh</h6>
+          </div>
+        </li>
+        <li>
+          <div className="image_type_product_item">
+            <img src={access} />
+            <h6 className="name_type_product">Phụ kiện</h6>
+          </div>
+        </li>
+      </ul>
       <Row>
-        <h1 className="type_heading">Điện thoại</h1>
+        <h1 className="type_heading">Điện thoại nào phù hợp với bạn?</h1>
         {mobile &&
-          mobile.map((item) => {
-            if (item.id_type_product === 1) {
+          mobile.map((item, index) => {
+            if (item.id_type_product === 1 && index < 4) {
               return (
                 <Col lg={3} key={item.id_product}>
                   <Link
                     className="product_link"
                     to={`/product_detail/${item.id_product}`}
                   >
-                    <div className="card">
+                    <div className="product_link_card">
                       <div className="imageProduct">
                         <img
                           className="imgPhone"
@@ -74,7 +101,6 @@ const Body = (props) => {
                           alt={item.product_name}
                         />
                       </div>
-                      <p className="NamePhone">{item.product_name}</p>
                       <div className="color-product">
                         {color
                           .filter(
@@ -90,19 +116,38 @@ const Body = (props) => {
                             ></div>
                           ))}
                       </div>
+                      <p className="new_product_tag">mới</p>
+                      <p className="NamePhone">{item.product_name}</p>
+                      <p className="product_desc">{item.PRODUCT_DESC}</p>
                       <div className="price-contain">
                         <p className="price">
-                          {item.price.toLocaleString("de-DE")}
+                          Từ {item.price.toLocaleString("de-DE")}
                           <span>&#8363;</span>
                         </p>
                       </div>
-                      <button className="buyButton">Mua ngay</button>
+                      <button className="buyButton">Mua</button>
                     </div>
                   </Link>
                 </Col>
               );
             }
           })}
+      </Row>
+      <h1 className="type_heading">Phụ kiện nổi bật</h1>
+      <Row>
+        <Col className="airtag_anounment_container" lg={7}>
+          <div className="image_access_anount">
+            <img src={airtag} />
+          </div>
+        </Col>
+        <Col className="airtag_anounment_container name_container_airtag" lg={5}>
+          <div className="name_access_anount">Airtag</div>
+          <div className="desc_access_anount">
+            Gắn một cái vào chìa khóa của bạn. Đặt một cái khác vào ba lô. Nhỡ
+            có thất lạc, chỉ cần dùng ứng dụng Tìm.
+          </div>
+          <a className="buy_link">Mua phụ kiện</a>
+        </Col>
       </Row>
       <Row>
         {mobile &&
@@ -229,19 +274,21 @@ const Body = (props) => {
                       </div>
                       <p className="NamePhone">{item.product_name}</p>
                       <div className="color-product">
-                        {color && color
-                          .filter(
-                            (element) => element.ID_PRODUCT === item.id_product
-                          )
-                          .map((element) => (
-                            <div
-                              key={element.COLOR_HEXA_CODE}
-                              className="spot"
-                              style={{
-                                backgroundColor: element.COLOR_HEXA_CODE,
-                              }}
-                            ></div>
-                          ))}
+                        {color &&
+                          color
+                            .filter(
+                              (element) =>
+                                element.ID_PRODUCT === item.id_product
+                            )
+                            .map((element) => (
+                              <div
+                                key={element.COLOR_HEXA_CODE}
+                                className="spot"
+                                style={{
+                                  backgroundColor: element.COLOR_HEXA_CODE,
+                                }}
+                              ></div>
+                            ))}
                       </div>
                       <div className="price-contain">
                         <p className="price">
